@@ -1,0 +1,3 @@
+- attackers: source is the attacker and target is the defender
+- trades: oriented edges, there could be gifts (check if indegree == outdegree for each node)
+- messages are oriented (source is the sender and target is the receiver)
