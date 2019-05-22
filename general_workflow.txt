@@ -29,3 +29,4 @@ Evolution over time:
 A good question always valid: is the leader of the community the one who talks with other communities
 	or the one who recruits people?
 	# I expect thatthey are different people
+Because we have a ground truth, we have to evaluate the performances of the community detection algorithm!
