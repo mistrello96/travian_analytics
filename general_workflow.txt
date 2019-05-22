@@ -1,28 +1,31 @@
 consider 3 gaphs, each of them aggregates the edges of one type (attacks, messages, trades):
-	from these graph we can compute the number of players during the month. Note, for example, 
+	from these graph we can compute the maximum number of players during the month. Note, for example, 
 		that a player can attack but do not trade: analyze all the graphs and the ids in order to
 		know the correct number
 	in-degree, out-degree for each node in each graph (list of dict in order to aggregate everything(?))
-	for each graph create a "classic" orinted graph (not a multiplex one): the edges will have 2 attributes 
+		aggregate results can surprise us
+	for each graph create a "classic" orinted graph (not a multigraph): the edges will have 2 attributes 
 		(type and number of interactions of that type between the two nodes). We can use this 
-		graphes for the demos
+		graphes for the demos and centrality analysis: please do note that we still keep 3 separeted graphes
 	on the new graphes we can calculate some centrality:
 		attacks - degree-centrality(?)
 		messages - betweennes, PageRank 
 		trades - ?
 	??? consider if clustering distribution can give us some type of insight
 	??? we can try to search some communities lasted for the 30 days: consider messages and trades
+		on the graphes over the 30 days
 
 Evolution over time:
 	find the communities in the first day - consider messages and trades and check if they are 
 		still present in the last day
-		if not: did they attack each other(?)
+		if not: did they attack each other?
 			can we determine when the community has broken?
 			after that, where did they go? did they message some boss in other communities?
 	find how many communities have been present for each day
 	when communities have been determined:
-		were they at war? people of a community attacking people of one another?
+		were they at war to each other? were people of a community attacking people of one another?
 		did they fight back?
 
 A good question always valid: is the leader of the community the one who talks with other communities
 	or the one who recruits people?
+	# I expect thatthey are different people

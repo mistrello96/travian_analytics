@@ -3,6 +3,9 @@ import sys
 
 # Not tested yet, but it should work
 
+# Please, do note that this method overrides the
+# original file
+
 file = sys.argv[1]
 edge_type = sys.argv[2]
 attributes = [a for a in sys.argv[3:]]
