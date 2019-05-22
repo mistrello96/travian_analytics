@@ -29,6 +29,10 @@ Evolution over time:
 		were they at war to each other? were people of a community attacking people of one another? 
 		Are attached coordinate over time(?)? Did they strike a single objective or different ones?
 		did they fight back?
+	look for network growth indicies:
+		1. network segmentation
+		2. graph densification
+		3. diameter shrinkage
 
 A good question always valid: is the leader of the community the one who talks with other communities
 	or the one who recruits people?
