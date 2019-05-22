@@ -5,28 +5,29 @@ consider 3 gaphs, each of them aggregates the edges of one type (attacks, messag
 	in-degree, out-degree for each node in each graph (list of dict in order to aggregate everything(?))
 		aggregate results can surprise us
 	for each graph create a "classic" orinted graph (not a multigraph): the edges will have 2 attributes 
-		(type and number of interactions of that type between the two nodes). We can use this 
+		(type and number of interactions (weight) of that type between the two nodes). We can use this 
 		graphes for the demos and centrality analysis: please do note that we still keep 3 separeted graphes
 	on the new graphes we can calculate some centrality:
-		attacks - degree-centrality(?)
-		messages - betweennes, PageRank 
-		trades - ?
-	??? consider if clustering distribution can give us some type of insight
+		attacks - degree-centrality
+		messages - betweennes, PageRank, degree-centrality
+		trades - same as messages
+	consider if clustering distribution can give us some type of insight (don't think so)
 	??? we can try to search some communities lasted for the 30 days: consider messages and trades
-		on the graphes over the 30 days
-
+		on the graphes over the 30 days (!!!I can't understand what u mean!!!)
+		Calculate the denity of messages and trade for each community
 Evolution over time:
+	find the distribution of activity of each day of the week
 	find the communities in the first day - consider messages and trades and check if they are 
 		still present in the last day
 		if not: did they attack each other?
-			can we determine when the community has broken?
+			can we determine when the community has broken? were there a traior (attached someone inside the community)? Were there a spy / alliance (messages with other communities)?
 			after that, where did they go? did they message some boss in other communities?
 	find how many communities have been present for each day
 	when communities have been determined:
-		were they at war to each other? were people of a community attacking people of one another?
+		were they at war to each other? were people of a community attacking people of one another? Are attached coordinate over time? Did they strike a single objective or fifferent ones?
 		did they fight back?
 
 A good question always valid: is the leader of the community the one who talks with other communities
 	or the one who recruits people?
 	# I expect thatthey are different people
-Because we have a ground truth, we have to evaluate the performances of the community detection algorithm!
+Since we have GT, ve can evaluate performance of different community detection approach
