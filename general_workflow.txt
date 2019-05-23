@@ -12,18 +12,17 @@ consider 3 gaphs, each of them aggregates the edges of one type (attacks, messag
 		messages - betweennes, PageRank
 		trades - same as messages
 	consider if clustering distribution can give us some type of insight (don't think so) (only for messages and trades)
-	??? we can try to search communities using the aggregated graphes, and not the day-by-day graphes
-		Calculate the denity of messages and trade for each community
 
-Evolution over time:
+Analyze communities' centralities and indexes (PageRank, betweenness, closeness, density, degrees, diameter, clustering distribution) 
+
+Evolution over time (using GT):
 	find the distribution of activity of each day of the week
-	find the communities in the first day - consider messages and trades and check if they are 
-		still present in the last day
-		if not: did they attack each other?
-			can we determine when the community has broken? were there a traior (attached someone inside the 
-			community, not sure you can attack someone inside your community, we will find out)? 
-			Were there a spy / alliance (messages with other communities)?
-			after that, where did they go? did they message some boss in other communities?
+	consider the evolution over time of the communities
+		did they attack each other?
+		can we determine when the community has broken? were there a traior (attached someone inside the 
+		community, not sure you can attack someone inside your community, we will find out)? 
+		Were there a spy / alliance (messages with other communities)?
+		after that, where did they go? did they message some boss in other communities?
 	find how many communities have been present for each day
 	when communities have been determined:
 		were they at war to each other? were people of a community attacking people of one another? 
