@@ -1,7 +1,4 @@
-consider 3 gaphs, each of them aggregates the edges of one type (attacks, messages, trades):
-	from these graph we can compute the maximum number of players during the month. Note, for example, 
-		that a player can attack but do not trade: analyze all the graphs and the ids in order to
-		know the correct number
+consider 3 gaphs, each of them aggregates the edges of one type (attacks, messages, trades): [mistri]
 	in-degree, out-degree for each node in each graph (list of dict in order to aggregate everything(?))
 		aggregate results can surprise us
 	for each graph create a "classic" orinted graph (not a multigraph): the edges will have 2 attributes 
@@ -13,7 +10,11 @@ consider 3 gaphs, each of them aggregates the edges of one type (attacks, messag
 		trades - same as messages
 	consider if clustering distribution can give us some type of insight (don't think so) (only for messages and trades)
 
-Analyze communities' centralities and indexes (PageRank, betweenness, closeness, density, degrees, diameter, clustering distribution) 
+from these graph we can compute the maximum number of players during the month. Note, for example, [Papetti?]
+		that a player can attack but do not trade: analyze all the graphs and the ids in order to
+		know the correct number
+
+Analyze communities' centralities and indexes (PageRank, betweenness, closeness, density, degrees, diameter, clustering distribution) [Papetti]
 
 Evolution over time (using GT):
 	find the distribution of activity of each day of the week
