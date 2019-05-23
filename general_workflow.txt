@@ -9,9 +9,9 @@ consider 3 gaphs, each of them aggregates the edges of one type (attacks, messag
 		graphes for the demos and centrality analysis: please do note that we still keep 3 separeted graphes
 	on the new graphes we can calculate some centrality:
 		attacks - degree-centrality
-		messages - betweennes, PageRank, degree-centrality
+		messages - betweennes, PageRank
 		trades - same as messages
-	consider if clustering distribution can give us some type of insight (don't think so)
+	consider if clustering distribution can give us some type of insight (don't think so) (only for messages and trades)
 	??? we can try to search communities using the aggregated graphes, and not the day-by-day graphes
 		Calculate the denity of messages and trade for each community
 
