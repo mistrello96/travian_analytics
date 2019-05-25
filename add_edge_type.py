@@ -7,9 +7,13 @@ import sys
 # original file
 
 file = sys.argv[1]
-edge_type = sys.argv[2]
-attributes = [a for a in sys.argv[3:]]
-
-pd.read_csv(file, header = None, names = attributes)
-df = df.assign(type = edge_type)
+edge_value = sys.argv[2]
+header = sys.argv[3]
+attributes = [a for a in sys.argv[4:]]
+df = pd.DataFrame()
+if header:
+	df = pd.read_csv(file)
+else:
+	df = pd.read_csv(file, header = header, names = attributes)
+df = df.assign(weight = edge_value)
 df.to_csv(file, index = False)
