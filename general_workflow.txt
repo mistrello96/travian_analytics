@@ -13,37 +13,40 @@ consider 3 gaphs, each of them aggregates the edges of one type (attacks, messag
 		trades - same as messages
 	consider if clustering distribution can give us some type of insight (don't think so) (only for messages and trades)
 
-### TODO
-
-degree distribution
-
-are there any spam bot?
-
 from these graph we can compute the maximum number of players during the month. Note, for example, [Papetti?]
 		that a player can attack but do not trade: analyze all the graphs and the ids in order to
 		know the correct number
 
-Analyze communities' centralities and indexes (PageRank, betweenness, closeness, density, degrees, diameter, clustering distribution) [Papetti]
+### TODO
+
+Plot aggregate measures distribution [Papetti]
+
+Are there any spam bot (no community, lots of messages)?
+
+find the distribution of activity of each day of the week
+
+COMMUNITY
+Find how many communities have been present for each day [Mistri]
+Find the biggest and most stable community (maximum cardinality over time vith minimum variance):[Papetti]
+	for each node, for each day, compute centrality (PageRank, closeness (only messages), betweennes(only messages)) and plot mean and sd over time
+	for each day, compute community density, reciprocity and diameter (only messages) and plot mean and sd
+	for each day, for each node, compute messages degree distribution to find the leader and the recrutier. Consider also other measures.
+
+Find relevan communities (at least 10 members) and compute average density and reciprocity over 30 days
 
 Evolution over time (using GT):
-	find the distribution of activity of each day of the week
 	consider the evolution over time of the communities
 		did they attack each other?
-		can we determine when the community has broken? were there a traior (attached someone inside the 
-		community, not sure you can attack someone inside your community, we will find out)? 
-		Were there a spy / alliance (messages with other communities)?
+		can we determine when the community has broken? were there a traior (attached someone inside the community) 
+		Were there a spy / alliance with other community (messages with other communities)?
 		after that, where did they go? did they message some boss in other communities?
-	find how many communities have been present for each day
-	when communities have been determined:
 		were they at war to each other? were people of a community attacking people of one another? 
-		Are attached coordinate over time(?)? Did they strike a single objective or different ones?
-		did they fight back?
+		Are attached coordinate over time? Did they strike a single objective or different ones? did they fight back?
+	
 	look for network growth indicies:
 		1. network segmentation
 		2. graph densification
 		3. diameter shrinkage
 
-A good question always valid: is the leader of the community the one who talks with other communities
-	or the one who recruits people?
-	# I expect thatthey are different people
+COMMUNITY DETECTION?
 Since we have GT, we MUST evaluate performance of different community detection approaches
