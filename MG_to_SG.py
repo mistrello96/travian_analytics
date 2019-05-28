@@ -1,6 +1,5 @@
 import networkx as nx
 import sys
-import statistics as st
 
 file = sys.argv[1]
 

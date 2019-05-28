@@ -7,12 +7,17 @@ consider 3 gaphs, each of them aggregates the edges of one type (attacks, messag
 		(type and number of interactions (weight) of that type between the two nodes). We can use this 
 		graphes for the demos and centrality analysis: please do note that we still keep 3 separeted graphes
 
-### TODO
 	on the new graphes we can calculate some centrality:
-		attacks - degree-centrality
+		attacks - degree-centrality (derived from degree distribution)
 		messages - betweennes, PageRank
 		trades - same as messages
 	consider if clustering distribution can give us some type of insight (don't think so) (only for messages and trades)
+
+### TODO
+
+degree distribution
+
+are there any spam bot?
 
 from these graph we can compute the maximum number of players during the month. Note, for example, [Papetti?]
 		that a player can attack but do not trade: analyze all the graphs and the ids in order to
