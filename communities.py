@@ -95,13 +95,21 @@ if __name__ == "__main__":
 			if len(alliance_members[a]) != t:
 				alliance_members[a].append('')
 
-		# Now, we have two dictionaries:
-		
-		# alliance_members: for each community name (key) we have a list representing the members of the alliances at time t,
-		# if they have no members at time t an empty set is used
-		# key = name of alliance, value = list of sets of node of the ally at time t
-		
-		# nodes_alliance: for each node the alliance is part of at time t, if he is not in any alliance -> value for time t is ''
-		# key = label of node, value = list of alliance he belongs to at time t
-		
-		
+	# Now, we have two dictionaries:
+	
+	# alliance_members: for each community name (key) we have a list representing the members of the alliances at time t,
+	# if they have no members at time t an empty set is used
+	# key = name of alliance, value = list of sets of node of the ally at time t
+	
+	# nodes_alliance: for each node the alliance is part of at time t, if he is not in any alliance -> value for time t is ''
+	# key = label of node, value = list of alliance he belongs to at time t
+	
+	# we save them on files and we elabrate them in other scripts!
+
+	nodes_alliance_file = open("alliances/nodes_alliance.py", 'w')
+	nodes_alliance_file.writelines(["nodes_alliance = ", str(nodes_alliance), '\n'])
+	nodes_alliance_file.close()
+
+	alliance_members_file = open("alliances/alliance_members.py", 'w')
+	alliance_members_file.writelines(["alliance_members = ", str(alliance_members), '\n'])
+	alliance_members_file.close()
