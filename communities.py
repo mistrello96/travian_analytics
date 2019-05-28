@@ -103,3 +103,5 @@ if __name__ == "__main__":
 		
 		# nodes_alliance: for each node the alliance is part of at time t, if he is not in any alliance -> value for time t is ''
 		# key = label of node, value = list of alliance he belongs to at time t
+		
+		
