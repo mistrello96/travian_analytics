@@ -5,4 +5,5 @@ __pycache__/
 alliances/__pycache__/
 
 # png files
+Results/Aggregate/images/
 /datas_paper
