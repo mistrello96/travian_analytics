@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+alliances/__pycache__/
 
 # png files
 /datas_paper
