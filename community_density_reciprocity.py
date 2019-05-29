@@ -7,15 +7,9 @@ import networkx as nx
 path = sys.argv[1]
 save_path = sys.argv[2]
 
-dir_files = []
-for (_, _, filenames) in walk(path):
-    dir_files.extend(filenames)
-    break
-all_files = [path + f for f in dir_files]
-
 for time in range (0, 30):
-	M = nx.read_graphml(all_files[time])
-
+	#M = nx.read_graphml(path + "trades-timestamped-2009-12-" + str(time+1) + ".graphml")
+	M = nx.read_graphml(path + "messages-timestamped-2009-12-" + str(time+1) + ".graphml")
 	for n1, n2, d in M.edges(data=True):
 		d.pop('edgetime', None)
 
@@ -43,4 +37,4 @@ for time in range (0, 30):
 			except:
 				res.loc[len(res)] = [alliance, 0 , 0]
 
-	res.to_csv(save_path + "/trades_community_density_reciprocity" + str(time + 1) + ".csv", index=False)
+	res.to_csv(save_path + "/messages_community_density_reciprocity" + str(time + 1) + ".csv", index=False)
