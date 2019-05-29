@@ -17,16 +17,19 @@ from these graph we can compute the maximum number of players during the month. 
 		that a player can attack but do not trade: analyze all the graphs and the ids in order to
 		know the correct number
 
+Find how many communities have been present for each day [Mistri]
+
 ### TODO
 
 Plot aggregate measures distribution [Papetti]
+
+Outlier degree analysis
 
 Are there any spam bot (no community, lots of messages)?
 
 find the distribution of activity of each day of the week
 
 COMMUNITY
-Find how many communities have been present for each day [Mistri]
 Find the biggest and most stable community (maximum cardinality over time vith minimum variance):[Papetti]
 	for each node, for each day, compute centrality (PageRank, closeness (only messages), betweennes(only messages)) and plot mean and sd over time
 	for each day, compute community density, reciprocity and diameter (only messages) and plot mean and sd
