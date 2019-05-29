@@ -1,6 +1,6 @@
 ### DONE
 
-consider 3 gaphs, each of them aggregates the edges of one type (attacks, messages, trades): [mistri]
+consider 3 gaphs, each of them aggregates the edges of one type (attacks, messages, trades):
 	in-degree, out-degree for each node in each graph
 		aggregate results can surprise us
 	for each graph create a "classic" orinted graph (not a multigraph): the edges will have 2 attributes 
@@ -13,26 +13,30 @@ consider 3 gaphs, each of them aggregates the edges of one type (attacks, messag
 		trades - same as messages
 	consider if clustering distribution can give us some type of insight (don't think so) (only for messages and trades)
 
-from these graph we can compute the maximum number of players during the month. Note, for example, [Papetti?]
+from these graph we can compute the maximum number of players during the month. Note, for example
 		that a player can attack but do not trade: analyze all the graphs and the ids in order to
 		know the correct number
+
+Find how many communities have been present for each day
+
+Find relevan communities (at least 10 members) and compute average density and reciprocity over 30 days
+
 
 ### TODO
 
 Plot aggregate measures distribution [Papetti]
+
+Outlier degree analysis
 
 Are there any spam bot (no community, lots of messages)?
 
 find the distribution of activity of each day of the week
 
 COMMUNITY
-Find how many communities have been present for each day [Mistri]
-Find the biggest and most stable community (maximum cardinality over time vith minimum variance):[Papetti]
+Find the biggest and most stable community (maximum cardinality over time with minimum variance):[Mistri]
 	for each node, for each day, compute centrality (PageRank, closeness (only messages), betweennes(only messages)) and plot mean and sd over time
 	for each day, compute community density, reciprocity and diameter (only messages) and plot mean and sd
 	for each day, for each node, compute messages degree distribution to find the leader and the recrutier. Consider also other measures.
-
-Find relevan communities (at least 10 members) and compute average density and reciprocity over 30 days
 
 Evolution over time (using GT):
 	consider the evolution over time of the communities

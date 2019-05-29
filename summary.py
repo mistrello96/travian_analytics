@@ -1,9 +1,9 @@
 import networkx as nx
 import sys
-import statistics as st
+import numpy as np
 
 file = sys.argv[1]
 
 G = nx.read_graphml(file)
 print(nx.overall_reciprocity(G))
-print(st.mean(nx.average_neighbor_degree(G, weight= "weight").values()))
+print(np.mean(nx.average_neighbor_degree(G, weight= "weight").values()))
