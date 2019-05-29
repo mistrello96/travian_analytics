@@ -2,3 +2,7 @@
 - trades: oriented edges, there could be gifts (check if indegree == outdegree for each node)
 - messages are oriented (source is the sender and target is the receiver)
 - in messages a small percentage of node has some loop message. Since in Travian there is no possibility to send a message to yourself, we decided to remove this links before performing any task. Also 2 node, who only had self loops were eliminated
+
+Nella ricerca della community più stabile e più grande, sono emerse diverse community con una differenza statistica trascurabile. Abbiamo preso la più grande, anche se le differenze statisrìtiche sulla dimensione erano trascurabili.
+
+alliance43
