@@ -3,37 +3,40 @@ import pandas as pd
 import sys
 from os import walk
 import networkx as nx
+from MG_to_SG_function import MG_to_SG
 
 path = sys.argv[1]
 save_path = sys.argv[2]
 
+# iterate over days
 for time in range (0, 30):
+	# read the corrispondent graph
 	#M = nx.read_graphml(path + "trades-timestamped-2009-12-" + str(time+1) + ".graphml")
 	M = nx.read_graphml(path + "messages-timestamped-2009-12-" + str(time+1) + ".graphml")
-	for n1, n2, d in M.edges(data=True):
-		d.pop('edgetime', None)
+	G = MG_to_SG(M)
 
-	G = nx.DiGraph()
-	for u,v,data in M.edges(data=True):
-	    w = data['weight'] if 'weight' in data else 1.0
-	    if G.has_edge(u,v):
-	        G[u][v]['weight'] += w
-	    else:
-	        G.add_edge(u, v, weight=w)
-
+	# create output dataframe
 	res = pd.DataFrame(columns=["alliance_name", "density", "reciprocity"])
 
+	# iterate over alliances
 	for alliance in alliance_members:
+		# extract communities members
 		community = list((alliance_members[alliance][time]))
+		# consider only relevant communities
 		if (len(community) > 9):
+			# extract the induced graph
 			tmp = G.subgraph(community)
+			# create a copy (otherwise G cannot be modified)
 			SG = nx.DiGraph(tmp)
+			# iterate over members
 			for n in community:
+				# add node if not present in the original graph
+				# this could happen if in that day the player was offline
 				if n not in SG.nodes:
 					SG.add_node(n)
+			# compute measures
 			try:
 				res.loc[len(res)] = [alliance, nx.density(SG), nx.overall_reciprocity(SG)]
-
 			except:
 				res.loc[len(res)] = [alliance, 0 , 0]
 

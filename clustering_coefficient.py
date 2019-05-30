@@ -6,10 +6,12 @@ file = sys.argv[1]
 
 G = nx.read_graphml(file)
 
+# compute measure
 clustering = nx.clustering(G, weight = "weight")
 
 data = list()
 
+# create results file
 for n in G.nodes:
 	data.append([n,	clustering[n]])
 

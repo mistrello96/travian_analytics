@@ -6,11 +6,13 @@ file = sys.argv[1]
 
 G = nx.read_graphml(file)
 
+# compute the measures
 betweenness = nx.betweenness_centrality(G, normalized=True, weight="weight")
 pagerank = nx.pagerank(G, weight = "weight")
 
 data = list()
 
+# create results file
 for n in G.nodes:
 	data.append([n,	betweenness[n], pagerank[n]])
 
