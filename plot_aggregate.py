@@ -156,6 +156,10 @@ def plot_degrees_datas_no_outliers(edge_type, color): # for messages and trades
 			plt.savefig("Results/Aggregate/images/degree/{}_total_degree.png".format(edge_type))
 			plt.savefig("Results/Aggregate/images/degree/{}_total_degree.pdf".format(edge_type))
 
+def plot_messages_no_outliers():
+	df = pd.read_csv("Results/Aggregate/{}_degree.csv".format(edge_type))
+
+	
 '''
 plt.figure(1, figsize = (8, 6), dpi = 300)
 plt.yscale("log")
@@ -222,9 +226,10 @@ if __name__ == "__main__":
 	plot_attacks_out_degree()
 	print("attacks total degree")
 	plot_attacks_total_degree()
-	'''
 	print("messages degrees")
 	plot_degrees_datas_no_outliers("messages", "blue")
 	print("trades degrees")
 	plot_degrees_datas_no_outliers("trades", "green")
+	'''
 	# messages out-degree sotto i 2000
+
