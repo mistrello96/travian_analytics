@@ -11,8 +11,7 @@ from os import walk
 
 path = sys.argv[1]
 save_path = sys.argv[2]
-edge_type = sys.argv[3]
-attributes = [a for a in sys.argv[4:]]
+attributes = [a for a in sys.argv[3:]]
 
 dir_files = []
 for (_, _, filenames) in walk(path):
@@ -21,5 +20,4 @@ for (_, _, filenames) in walk(path):
 all_files = [path + f for f in dir_files]
 
 df = pd.concat((pd.read_csv(f, header = None, names = attributes) for f in all_files))
-df = df.assign(type = edge_type)
 df.to_csv(save_path, index = False)

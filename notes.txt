@@ -5,4 +5,4 @@
 
 Nella ricerca della community più stabile e più grande, sono emerse diverse community con una differenza statistica trascurabile. Abbiamo preso la più grande, anche se le differenze statisrìtiche sulla dimensione erano trascurabili.
 
-alliance43
+alliance43 -> non connessa, quindi non ha senso considerare il diametro

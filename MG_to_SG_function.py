@@ -32,5 +32,5 @@ def MG_to_SG (M):
 		    if G.has_edge(u,v):
 		        G[u][v]['weight'] += w
 		    else:
-		        G.add_edge(u, v, weight=w, type = t)
+		        G.add_edge(u, v, weight=w)
 	return G
