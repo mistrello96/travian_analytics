@@ -97,22 +97,21 @@ def plot_attacks_total_degree():
 	plt.yticks(fontsize = 12)
 	plt.xlabel("Total degree", fontsize = 15)
 	plt.ylabel("Probability", fontsize = 15)
-	plt.title("Distribution of total degree in aggregate graph")
+	plt.title("Distribution of attacks total degree in aggregate graph")
 	plt.tight_layout()
 	plt.savefig("Results/Aggregate/images/degree/attacks_total_degree.png")
 	plt.savefig("Results/Aggregate/images/degree/attacks_total_degree.pdf")
 
 	plt.figure(figsize = (8, 6), dpi = 300)
-	no_outliers = df.loc[df["out-degree"] > 300] # removal of outliers
+	no_outliers = df.loc[df["out-degree"] > 3000] # removal of outliers
 	(vs, bins) = np.histogram(no_outliers["edge-count"], bins = 'fd', density = False)
-	normed_vs = [v / len(no_outliers["edge-count"]) for v in vs]
 	for i in range(len(bins) - 1):
 		m = (bins[i] + bins[i + 1]) / 2
-		plt.scatter(m, normed_vs[i], marker = '.', color = "red", s = 10)
+		plt.scatter(m, vs[i], marker = '.', color = "red", s = 10)
 	plt.xticks(fontsize = 12)
 	plt.yticks(fontsize = 12)
 	plt.xlabel("Total degree", fontsize = 15)
-	plt.ylabel("Probability", fontsize = 15)
+	plt.ylabel("Number", fontsize = 15)
 	plt.title("Distribution of total degree in aggregate graph")
 	plt.tight_layout()
 	plt.savefig("Results/Aggregate/images/degree/attacks_total_degree_outliers.png")
@@ -156,60 +155,46 @@ def plot_degrees_datas_no_outliers(edge_type, color): # for messages and trades
 			plt.savefig("Results/Aggregate/images/degree/{}_total_degree.png".format(edge_type))
 			plt.savefig("Results/Aggregate/images/degree/{}_total_degree.pdf".format(edge_type))
 
-def plot_messages_no_outliers():
+def plot_messages_out_degree_strictly_under(value):
+	df = pd.read_csv("Results/Aggregate/messages_degree.csv")
+	plt.figure(figsize = (8, 6), dpi = 300)
+	plt.yscale("log")
+	no_outliers = [x for x in df["out-degree"] if x < value]
+	(vs, bins) = np.histogram(no_outliers, bins = 'fd', density = False)
+	normed_vs = [v / len(no_outliers) for v in vs]
+	for i in range(len(bins) - 1):
+		m = (bins[i] + bins[i + 1]) / 2
+		plt.scatter(m, normed_vs[i], marker = '.', color = "blue", s = 10)
+	plt.xlim(left = -10)
+	plt.xticks(fontsize = 12)
+	plt.yticks(fontsize = 12)
+	plt.xlabel("Out-degree", fontsize = 15)
+	plt.ylabel("Probability", fontsize = 15)
+	plt.title("Distribution of messages out-degree in aggregate graph (values under {})".format(value))
+	plt.tight_layout()
+	plt.savefig("Results/Aggregate/images/degree/messages_out_degree{}.png".format(value))
+	plt.savefig("Results/Aggregate/images/degree/messages_out_degree{}.pdf".format(value))
+
+def jointplot_degrees(edge_type, color):
 	df = pd.read_csv("Results/Aggregate/{}_degree.csv".format(edge_type))
+	g = sns.jointplot(x = "out-degree", y = "in-degree", data = df, color = color, height = 8)
+	g.ax_joint.set_xlabel("Out-degree", fontsize = 15)
+	g.ax_joint.set_ylabel("In-degree", fontsize = 15)
+	g.fig.suptitle("Jointplot {} degree".format(edge_type), fontsize = 20)
+	plt.tight_layout()
+	plt.savefig("Results/Aggregate/images/degree/{}_jointplot.png".format(edge_type))
+	plt.savefig("Results/Aggregate/images/degree/{}_jointplot.pdf".format(edge_type))
 
-	
-'''
-plt.figure(1, figsize = (8, 6), dpi = 300)
-plt.yscale("log")
-(ds, bins, _) = plt.hist(df["clustering_coefficient"], bins = "fd", color = "red") # fd is the same binning strategy used by seaborn
-
-plt.figure(2, figsize = (8, 6), dpi = 300)
-plt.yscale("log")
-#sns.distplot(df["clustering_coefficient"], kde = False)
-#(ds, bins, _) = plt.hist(df["clustering_coefficient"], bins = "fd", color = "red") # fd is the same binning strategy used by seaborn
-#print(len(bins))
-
-for i in range(len(bins) - 1):
-	m = (bins[i] + bins[i + 1]) / 2
-	plt.scatter(m, ds[i], marker = 'x', color = "black")
-plt.xlim([10 ** (-10), max(df["clustering_coefficient"]) + 5 * 10 ** (-5)])
-plt.tight_layout()
-plt.savefig("Results/Aggregate/images/clustering_distribution/attacks.png")
-plt.savefig("Results/Aggregate/images/clustering_distribution/attacks.pdf")
-'''
-'''
-df = pd.read_csv("Results/Aggregate/attacks_degree.csv")
-plt.figure(3, figsize = (8, 6), dpi = 300)
-plt.yscale("log")
-sns.distplot(df["in-degree"], kde = False)
-(ds, bins, _) = plt.hist(df["in-degree"], bins = "fd", color = "red") # fd is the same binning strategy used by seaborn
-print(len(bins))
-for i in range(len(bins) - 1):
-	m = (bins[i] + bins[i + 1]) / 2
-	plt.scatter(m, ds[i], marker = 'x', color = "black")
-plt.xlim([10 ** (-10), max(df["in-degree"]) + 5])
-plt.tight_layout()
-plt.savefig("Results/Aggregate/images/degree/attacks_in_degree.png")
-plt.savefig("Results/Aggregate/images/degree/attacks_in_degree.pdf")
-
-df = pd.read_csv("Results/Aggregate/attacks_degree.csv")
-plt.figure(4, figsize = (8, 6), dpi = 300)
-plt.yscale("log")
-sns.distplot(df["out-degree"], kde = False)
-(ds, bins, _) = plt.hist(df["out-degree"], bins = "fd", color = "red") # fd is the same binning strategy used by seaborn
-print(len(bins))
-for i in range(len(bins) - 1):
-	m = (bins[i] + bins[i + 1]) / 2
-	plt.scatter(m, ds[i], marker = 'x', color = "black")
-plt.xlim([10 ** (-10), max(df["out-degree"]) + 5])
-plt.tight_layout()
-plt.savefig("Results/Aggregate/images/degree/attacks_out_degree.png")
-plt.savefig("Results/Aggregate/images/degree/attacks_out_degree.pdf")
-
-# df.sort_values
-'''
+def custom_jointplot_degrees(edge_type1, parameter1, edge_type2, parameter2, color):
+	df1 = pd.read_csv("Results/Aggregate/{}_degree.csv".format(edge_type1))
+	df2 = pd.read_csv("Results/Aggregate/{}_degree.csv".format(edge_type2))
+	g = sns.jointplot(x = df1[parameter1], y = df2[parameter2], color = color, height = 8)
+	g.ax_joint.set_xlabel("Out-degree", fontsize = 15)
+	g.ax_joint.set_ylabel("In-degree", fontsize = 15)
+	g.fig.suptitle("Jointplot {}-{} vs {}-{} degree".format(edge_type1, parameter1, edge_type2, parameter2), fontsize = 20)
+	plt.tight_layout()
+	plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot.png".format(edge_type1, parameter1, edge_type2, parameter2))
+	plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot.pdf".format(edge_type1, parameter1, edge_type2, parameter2))	
 
 if __name__ == "__main__":
 	'''
@@ -226,10 +211,22 @@ if __name__ == "__main__":
 	plot_attacks_out_degree()
 	print("attacks total degree")
 	plot_attacks_total_degree()
+
 	print("messages degrees")
 	plot_degrees_datas_no_outliers("messages", "blue")
 	print("trades degrees")
 	plot_degrees_datas_no_outliers("trades", "green")
+	print("messages under 2000")
+	plot_messages_out_degree_strictly_under(2001)
+	
+	print("jointplot attacks")
+	jointplot_degrees("attacks", "red")	
+	print("jointplot messages")
+	jointplot_degrees("messages", "blue")
+	print("jointplot trades")
+	jointplot_degrees("trades", "green")	
 	'''
-	# messages out-degree sotto i 2000
-
+	print("messages vs attacks jointplot")
+	custom_jointplot_degrees("messages", "out-degree", "attacks", "out-degree", "purple")
+	print("messages vs trades jointplot")
+	custom_jointplot_degrees("messages", "out-degree", "trades", "out-degree", "orange")
