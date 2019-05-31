@@ -21,6 +21,11 @@ Find how many communities have been present for each day
 
 Find relevan communities (at least 10 members) and compute average density and reciprocity over 30 days
 
+COMMUNITY
+Find the biggest and most stable community (maximum cardinality over time with minimum variance):[Mistri]
+	for each node, for each day, compute centrality (PageRank, closeness (only messages), betweennes(only messages)) and plot mean and sd over time
+	for each day, for each node, compute messages degree distribution to find the leader and the recrutier. Consider also other measures.
+	for each day, compute community density, reciprocity and plot mean and sd
 
 ### TODO
 
@@ -31,12 +36,6 @@ Outlier degree analysis
 Are there any spam bot (no community, lots of messages)?
 
 find the distribution of activity of each day of the week
-
-COMMUNITY
-Find the biggest and most stable community (maximum cardinality over time with minimum variance):[Mistri]
-	for each node, for each day, compute centrality (PageRank, closeness (only messages), betweennes(only messages)) and plot mean and sd over time
-	for each day, for each node, compute messages degree distribution to find the leader and the recrutier. Consider also other measures.
-	for each day, compute community density, reciprocity and plot mean and sd
 
 Evolution over time (using GT):
 	consider the evolution over time of the communities
