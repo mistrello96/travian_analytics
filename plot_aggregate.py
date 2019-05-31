@@ -180,23 +180,45 @@ def jointplot_degrees(edge_type, color):
 	g = sns.jointplot(x = "out-degree", y = "in-degree", data = df, color = color, height = 8)
 	g.ax_joint.set_xlabel("Out-degree", fontsize = 15)
 	g.ax_joint.set_ylabel("In-degree", fontsize = 15)
-	g.fig.suptitle("Jointplot {} degree".format(edge_type), fontsize = 20)
+	#g.fig.suptitle("Jointplot {} degree".format(edge_type), fontsize = 20)
 	plt.tight_layout()
 	plt.savefig("Results/Aggregate/images/degree/{}_jointplot.png".format(edge_type))
 	plt.savefig("Results/Aggregate/images/degree/{}_jointplot.pdf".format(edge_type))
 
-def custom_jointplot_degrees(edge_type1, parameter1, edge_type2, parameter2, color):
+def custom_jointplot_degrees(edge_type1, parameter1, edge_type2, parameter2, xlabel, ylabel, color, x_lim = None, y_lim = None):
 	df1 = pd.read_csv("Results/Aggregate/{}_degree.csv".format(edge_type1))
 	df2 = pd.read_csv("Results/Aggregate/{}_degree.csv".format(edge_type2))
-	node_measure = pd.DataFrame(columns=["node", "in-degree", "out-degree", "edge-count", "closeness", "betweenness", "pagerank"])
-	node_measure.loc[len(node_measure)] = [node, in_degree[node], out_degree[node], edge_count[node], closeness[node], betweenness[node], pagerank[node]] # add row
-	g = sns.jointplot(x = df1[parameter1], y = df2[parameter2], color = color, height = 8)
-	g.ax_joint.set_xlabel("Out-degree", fontsize = 15)
-	g.ax_joint.set_ylabel("In-degree", fontsize = 15)
-	g.fig.suptitle("Jointplot {}-{} vs {}-{} degree".format(edge_type1, parameter1, edge_type2, parameter2), fontsize = 20)
+	marker_x = "_{}".format(edge_type1)
+	marker_y = "_{}".format(edge_type2)
+	df = df1.merge(df2, how = "outer", on = "node", suffixes = (marker_x, marker_y))
+	df.fillna(0)
+	if x_lim != None:
+		df.drop(df[df[parameter1 + marker_x] > x_lim].index, inplace = True)
+	if y_lim != None:
+		df.drop(df[df[parameter2 + marker_y] > y_lim].index, inplace = True)	
+	g = sns.jointplot(x = parameter1 + marker_x, y = parameter2 + marker_y, data = df, color = color, height = 8)
+	g.ax_joint.set_xlabel(xlabel, fontsize = 15)
+	g.ax_joint.set_ylabel(ylabel, fontsize = 15)
+	#if x_lim != None or y_lim != None:
+	#	g.fig.suptitle("{} {} vs {} {}".format(edge_type1, parameter1, edge_type2, parameter2), fontsize = 20)
+	#else: 
+	#	g.fig.suptitle("{} {} vs {} {} with outliers".format(edge_type1, parameter1, edge_type2, parameter2), fontsize = 20)
 	plt.tight_layout()
-	plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot.png".format(edge_type1, parameter1, edge_type2, parameter2))
-	plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot.pdf".format(edge_type1, parameter1, edge_type2, parameter2))	
+	# cambiare com esalvo files altrimenti li sovrascrivo
+	if x_lim == None and y_lim == None:	
+		plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot.png".format(edge_type1, parameter1, edge_type2, parameter2))
+		plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot.pdf".format(edge_type1, parameter1, edge_type2, parameter2))
+		return
+	if x_lim != None and y_lim == None:
+		plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot_xlim_{}.png".format(edge_type1, parameter1, edge_type2, parameter2, x_lim))
+		plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot_xlim_{}.pdf".format(edge_type1, parameter1, edge_type2, parameter2, x_lim))
+		return
+	if y_lim != None and x_lim == None:
+		plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot_ylim_{}.png".format(edge_type1, parameter1, edge_type2, parameter2, y_lim))
+		plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot_ylim_{}.pdf".format(edge_type1, parameter1, edge_type2, parameter2, y_lim))
+		return
+	plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot_xlim_{}_ylim_{}.png".format(edge_type1, parameter1, edge_type2, parameter2, x_lim, y_lim))
+	plt.savefig("Results/Aggregate/images/degree/{}_{}_vs_{}_{}_jointplot_xlim_{}_ylim_{}.pdf".format(edge_type1, parameter1, edge_type2, parameter2, x_lim, y_lim))
 
 if __name__ == "__main__":
 	'''
@@ -220,15 +242,20 @@ if __name__ == "__main__":
 	plot_degrees_datas_no_outliers("trades", "green")
 	print("messages under 2000")
 	plot_messages_out_degree_strictly_under(2001)
-	
+	'''
 	print("jointplot attacks")
 	jointplot_degrees("attacks", "red")	
 	print("jointplot messages")
 	jointplot_degrees("messages", "blue")
 	print("jointplot trades")
 	jointplot_degrees("trades", "green")	
-	'''
+	#zoom jointplot attacks, 500 indegree e 3000 outdegree
+
 	print("messages vs attacks jointplot")
-	custom_jointplot_degrees("messages", "out-degree", "attacks", "out-degree", "purple")
+	custom_jointplot_degrees("messages", "out-degree", "attacks", "out-degree", "Messages out-degree", "Attacks out-degree", "purple")
 	print("messages vs trades jointplot")
-	custom_jointplot_degrees("messages", "out-degree", "trades", "out-degree", "orange")
+	custom_jointplot_degrees("messages", "out-degree", "trades", "out-degree", "Messages out-degree", "Trades out-degree", "orange")
+	print("messages vs attacks jointplot no outliers")
+	custom_jointplot_degrees("messages", "out-degree", "attacks", "out-degree", "Messages out-degree", "Attacks out-degree", "purple", 2000, 10000)
+	print("messages vs trades jointplot no outliers")
+	custom_jointplot_degrees("messages", "out-degree", "trades", "out-degree", "Messages out-degree", "Trades out-degree", "orange", 2000, 500)
