@@ -27,15 +27,15 @@ Find the biggest and most stable community (maximum cardinality over time with m
 	for each day, for each node, compute messages degree distribution to find the leader and the recrutier. Consider also other measures.
 	for each day, compute community density, reciprocity and plot mean and sd
 
+find the distribution of activity of each day
+
 ### TODO
 
 Plot aggregate measures distribution [Papetti]
 
-Outlier degree analysis
-
 Are there any spam bot (no community, lots of messages)?
 
-find the distribution of activity of each day of the week
+### FUTURE
 
 Evolution over time (using GT):
 	consider the evolution over time of the communities
@@ -45,11 +45,3 @@ Evolution over time (using GT):
 		after that, where did they go? did they message some boss in other communities?
 		were they at war to each other? were people of a community attacking people of one another? 
 		Are attached coordinate over time? Did they strike a single objective or different ones? did they fight back?
-	
-	look for network growth indicies:
-		1. network segmentation
-		2. graph densification
-		3. diameter shrinkage
-
-COMMUNITY DETECTION?
-Since we have GT, we MUST evaluate performance of different community detection approaches

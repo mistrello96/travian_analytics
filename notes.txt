@@ -6,3 +6,12 @@
 Nella ricerca della community più stabile e più grande, sono emerse diverse community con una differenza statistica trascurabile. Abbiamo preso la più grande, anche se le differenze statisrìtiche sulla dimensione erano trascurabili.
 
 alliance43 -> non connessa, quindi non ha senso considerare il diametro
+
+###
+look for network growth indicies:
+	1. network segmentation
+	2. graph densification
+	3. diameter shrinkage
+
+Abbiamo considerato la possibilità di verificare la dinamica di crescita della rete nei 30 giorni, per verificare fenomeni quale la densificazioni della rete e la riduzione del dimetro.
+Ci siamo però resi conto che la rete utilizzata risulta essere puramente incrementale: i vari timeslice risultano essere privi di relazione con i timeslice precedenti, e una rappresentazione che aggiunga gli archi al timeslice precedente avrebbe portato ad un incremento costante delle due minure sopracitate, non essendoci possibilità di rimozione dei collegamenti
