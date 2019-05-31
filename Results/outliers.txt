@@ -4,6 +4,6 @@ attackers	-> 	in degree 		mean = 143 	sd = 269	soglia = 950
 messages 	-> 	in degree 		mean = 123 	sd = 190	soglia = 693
 				out degree		mean = 123	sd = 495	soglia = 1608
 				edgecount 		mean = 287	sd = 653	soglia = 2246
-messages 	-> 	in degree 		mean = 102	sd = 210	soglia = 732
+trades	 	-> 	in degree 		mean = 102	sd = 210	soglia = 732
 				out degree		mean = 102	sd = 197	soglia = 693
 				edgecount 		mean = 204	sd = 396	soglia = 1392
