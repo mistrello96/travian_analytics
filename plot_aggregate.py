@@ -188,6 +188,8 @@ def jointplot_degrees(edge_type, color):
 def custom_jointplot_degrees(edge_type1, parameter1, edge_type2, parameter2, color):
 	df1 = pd.read_csv("Results/Aggregate/{}_degree.csv".format(edge_type1))
 	df2 = pd.read_csv("Results/Aggregate/{}_degree.csv".format(edge_type2))
+	node_measure = pd.DataFrame(columns=["node", "in-degree", "out-degree", "edge-count", "closeness", "betweenness", "pagerank"])
+	node_measure.loc[len(node_measure)] = [node, in_degree[node], out_degree[node], edge_count[node], closeness[node], betweenness[node], pagerank[node]] # add row
 	g = sns.jointplot(x = df1[parameter1], y = df2[parameter2], color = color, height = 8)
 	g.ax_joint.set_xlabel("Out-degree", fontsize = 15)
 	g.ax_joint.set_ylabel("In-degree", fontsize = 15)
