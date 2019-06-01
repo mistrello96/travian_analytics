@@ -191,7 +191,7 @@ def jointplot_degrees(edge_type, color):
 	plt.savefig("Results/Aggregate/images/degree/pdf/jointplot/{}_jointplot.pdf".format(edge_type))
 	plt.close()
 
-def joinplot_degrees_no_outliers(edge_type, color, x_lim, y_lim):
+def jointplot_degrees_no_outliers(edge_type, color, x_lim, y_lim):
 	df = pd.read_csv("Results/Aggregate/{}_degree.csv".format(edge_type))
 	df.drop(df[df["out-degree"] > x_lim].index, inplace = True)
 	df.drop(df[df["in-degree"] > y_lim].index, inplace = True)
@@ -240,6 +240,38 @@ def custom_jointplot_degrees(edge_type1, parameter1, edge_type2, parameter2, xla
 	plt.savefig("Results/Aggregate/images/degree/pdf/jointplot/{}_{}_vs_{}_{}_jointplot_xlim_{}_ylim_{}.pdf".format(edge_type1, parameter1, edge_type2, parameter2, x_lim, y_lim))
 	plt.close()
 
+def plot_distribution_centrality(edge_type, measure, color):
+	df = pd.read_csv("Results/Aggregate/{}_centrality.csv".format(edge_type))
+	plt.figure(figsize = (8, 6), dpi = 300)
+	plt.yscale("log")	
+	(vs, bins) = np.histogram(df[measure], bins = 'fd', density = False)
+	normed_vs = [v / len(df[measure]) for v in vs]
+	for i in range(len(bins) - 1):
+		m = (bins[i] + bins[i + 1]) / 2
+		plt.scatter(m, normed_vs[i], marker = '.', color = color, s = 10)
+	plt.xlim(left = 10 ** (-10))
+	plt.xticks(fontsize = 12)
+	plt.yticks(fontsize = 12)
+	plt.xlabel(measure[0].upper() + measure[1:], fontsize = 15)
+	plt.ylabel("Probability", fontsize = 15)
+	plt.title("Distribution of {}' {}".format(edge_type, measure[0].upper() + measure[1:]))
+	plt.tight_layout()
+	plt.savefig("Results/Aggregate/images/centralities/png/{}_{}.png".format(edge_type, measure))
+	plt.savefig("Results/Aggregate/images/centralities/pdf/{}_{}.pdf".format(edge_type, measure))
+	plt.close()
+
+def jointplot_centralities(edge_type, color):
+	df = pd.read_csv("Results/Aggregate/{}_centrality.csv".format(edge_type))
+	g = sns.jointplot(x = "betweenness", y = "PageRank", data = df, color = color, height = 8) # kind = "hex"
+	g.ax_joint.set_xlabel("Betweenness", fontsize = 15)
+	g.ax_joint.set_ylabel("PageRank", fontsize = 15)
+	#g.fig.suptitle("Jointplot {} degree".format(edge_type), fontsize = 20)
+	plt.tight_layout()
+	plt.savefig("Results/Aggregate/images/centralities/png/{}_jointplot.png".format(edge_type))
+	plt.savefig("Results/Aggregate/images/centralities/pdf/{}_jointplot.pdf".format(edge_type))
+	plt.close()
+
+
 if __name__ == "__main__":
 	print("clustering attacks")
 	plot_clustering("attacks", "red")
@@ -269,9 +301,9 @@ if __name__ == "__main__":
 	print("jointplot trades")
 	jointplot_degrees("trades", "green")	
 	print("jointplot attacks no outliers")
-	joinplot_degrees_no_outliers("attacks", "red", 3749, 950)
+	jointplot_degrees_no_outliers("attacks", "red", 3749, 950)
 	print("jointplot messages no outliers")
-	joinplot_degrees_no_outliers("messages", "blue", 1608, 693)
+	jointplot_degrees_no_outliers("messages", "blue", 1608, 693)
 
 	print("messages vs attacks jointplot")
 	custom_jointplot_degrees("messages", "out-degree", "attacks", "out-degree", "Messages out-degree", "Attacks out-degree", "purple")
@@ -281,3 +313,16 @@ if __name__ == "__main__":
 	custom_jointplot_degrees("messages", "out-degree", "attacks", "out-degree", "Messages out-degree", "Attacks out-degree", "purple", 1608, 3749)
 	print("messages vs trades jointplot no outliers")
 	custom_jointplot_degrees("messages", "out-degree", "trades", "out-degree", "Messages out-degree", "Trades out-degree", "orange", 1608, 693)
+
+	print("attacks centrality")
+	plot_distribution_centrality("attacks", "PageRank", "red")
+	print("messages centralities")
+	plot_distribution_centrality("messages", "PageRank", "blue")
+	plot_distribution_centrality("messages", "betweenness", "blue")
+	print("trades centralities")
+	plot_distribution_centrality("trades", "PageRank", "green")
+	plot_distribution_centrality("trades", "betweenness", "green")
+	
+	print("jointplots centralities")
+	jointplot_centralities("messages", "blue")
+	jointplot_centralities("trades", "green")
