@@ -26,3 +26,8 @@ print(sorted_by_mean[-1])
 
 # extract the name of the most relevant community
 print([k for k,v in alliance_measures.items() if v == sorted_by_mean[-1]][0])
+print([k for k,v in alliance_measures.items() if v == sorted_by_mean[-2]][0])
+print([k for k,v in alliance_measures.items() if v == sorted_by_mean[-3]][0])
+print([k for k,v in alliance_measures.items() if v == sorted_by_mean[-4]][0])
+print([k for k,v in alliance_measures.items() if v == sorted_by_mean[-5]][0])
+print([k for k,v in alliance_measures.items() if v == sorted_by_mean[-6]][0])

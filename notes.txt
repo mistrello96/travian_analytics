@@ -15,3 +15,11 @@ look for network growth indicies:
 
 Abbiamo considerato la possibilità di verificare la dinamica di crescita della rete nei 30 giorni, per verificare fenomeni quale la densificazioni della rete e la riduzione del dimetro.
 Ci siamo però resi conto che la rete utilizzata risulta essere puramente incrementale: i vari timeslice risultano essere privi di relazione con i timeslice precedenti, e una rappresentazione che aggiunga gli archi al timeslice precedente avrebbe portato ad un incremento costante delle due minure sopracitate, non essendoci possibilità di rimozione dei collegamenti
+
+3 biggest community
+alliance43
+alliance103
+alliance38
+alliance44
+alliance73
+alliance5
