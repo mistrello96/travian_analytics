@@ -4,7 +4,7 @@ import pandas as pd
 if __name__ == "__main__":
 	df = pd.read_csv("Results/Community_over_time/community_distribution.csv")
 	_, axes = plt.subplots(nrows = 3, ncols = 1, sharex = True, figsize = (8, 6), dpi = 300)
-	plt.subplots_adjust(left = 0.1, right = 0.97, hspace = 0.2)
+	plt.subplots_adjust(left = 0.1, right = 0.97, hspace = 0.25)
 	plt.suptitle("Evolution of number of communities over the days", fontsize = 20)
 	plt.xlim(0.8, 30.5)
 	plt.xticks(range(1, 31), fontsize = 12)

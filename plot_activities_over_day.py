@@ -95,7 +95,7 @@ if __name__ == "__main__":
 	plt.yticks(fontsize = 12)
 	plt.xlabel("Day", fontsize = 15)
 	plt.ylabel("Number", fontsize = 15)
-	plt.title("Number of the activities for each day")
+	plt.title("Number of the players performing an actvity for each day")
 	plt.legend()
 	plt.tight_layout()
 	plt.savefig("Results/Activity/images/png/player_each_activity_each_day.png")
