@@ -4,8 +4,11 @@ __pycache__/
 *$py.class
 alliances/__pycache__/
 
-# png files
+# images
 Results/Aggregate/images/
 Results/Activity/images/
 Results/Community_over_time/images/
+Results/Community_density_reciprocity/Messages/images/
+Results/Community_density_reciprocity/Trades/images/
+
 /datas_paper
