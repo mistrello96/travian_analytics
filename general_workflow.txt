@@ -29,19 +29,27 @@ Find the biggest and most stable community (maximum cardinality over time with m
 
 find the distribution of activity of each day
 
-### TODO
-
 Plot aggregate measures distribution [Papetti]
 
-Are there any spam bot (no community, lots of messages)?
+Are there any spam bot (no community, lots of messages)? Are dere any side villages?
+
+consider the evolution over time of the communities
+	did they attack each other?
+	were there a traior (attached someone inside the community) 
+	Were there a spy / alliance with other community (messages with other communities)?
+	Are the comunication between different communities made between some "ambassador"?
+
+Controlla cambi casacca per vedere se accademia-main
+
+### TODO
+
+Isolare comunicazioni inter comunity
 
 ### FUTURE
 
 Evolution over time (using GT):
 	consider the evolution over time of the communities
-		did they attack each other?
-		can we determine when the community has broken? were there a traior (attached someone inside the community) 
-		Were there a spy / alliance with other community (messages with other communities)?
+		can we determine when the community has broken?
 		after that, where did they go? did they message some boss in other communities?
 		were they at war to each other? were people of a community attacking people of one another? 
 		Are attached coordinate over time? Did they strike a single objective or different ones? did they fight back?

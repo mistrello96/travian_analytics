@@ -7,7 +7,7 @@ from MG_to_SG_function import MG_to_SG
 
 path = sys.argv[1]
 save_path = sys.argv[2]
-
+zeros = pd.DataFrame(columns=["day", "zero_percentage"])
 # iterate over days
 for time in range (0, 30):
 	# read the corrispondent graph
@@ -17,13 +17,15 @@ for time in range (0, 30):
 
 	# create output dataframe
 	res = pd.DataFrame(columns=["alliance_name", "density", "reciprocity"])
-
 	# iterate over alliances
+	counter_density = 0
+	counter_community = 0
 	for alliance in alliance_members:
 		# extract communities members
 		community = list((alliance_members[alliance][time]))
 		# consider only relevant communities
 		if (len(community) > 9):
+			counter_community += 1
 			# extract the induced graph
 			tmp = G.subgraph(community)
 			# create a copy (otherwise G cannot be modified)
@@ -38,6 +40,8 @@ for time in range (0, 30):
 			try:
 				res.loc[len(res)] = [alliance, nx.density(SG), nx.overall_reciprocity(SG)]
 			except:
+				counter_density += 1
 				res.loc[len(res)] = [alliance, 0 , 0]
-
+	zeros.loc[len(zeros)] = [time+1, counter_density / counter_community]
 	res.to_csv(save_path + "/messages_community_density_reciprocity" + str(time + 1) + ".csv", index=False)
+zeros.to_csv(save_path + "/messages_zeroes_percentage.csv", index=False)
