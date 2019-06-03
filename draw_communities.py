@@ -56,7 +56,7 @@ for n in nodelist:
 
 plt.figure(figsize = (10, 10), dpi = 500)
 plt.title("Attacks", fontsize = 30)
-#nx.draw_kamada_kawai(SG, arrowsize=2, arrowstyle= mpatch.ArrowStyle("-|>", head_length=1, head_width=1), with_labels=False, node_size=50, nodelist = nodelist, node_color = colorlist)
-nx.draw_spring(SG, arrowsize=2, arrowstyle= mpatch.ArrowStyle("-|>", head_length=1, head_width=1), with_labels=False, node_size=50, nodelist = nodelist, node_color = colorlist)
+nx.draw_kamada_kawai(SG, arrowsize=2, arrowstyle= mpatch.ArrowStyle("-|>", head_length=1, head_width=1), with_labels=True, node_size=50, nodelist = nodelist, node_color = colorlist)
+#nx.draw_spring(SG, arrowsize=2, arrowstyle= mpatch.ArrowStyle("-|>", head_length=1, head_width=1), with_labels=False, node_size=50, nodelist = nodelist, node_color = colorlist)
 plt.savefig("test.png", dpi=500)
 plt.savefig("test.pdf", dpi=500)
