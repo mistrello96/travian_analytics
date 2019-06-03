@@ -185,7 +185,7 @@ def jointplot_degrees(edge_type, color):
 	g = sns.jointplot(x = "out-degree", y = "in-degree", data = df, color = color, height = 8)
 	g.ax_joint.set_xlabel("Out-degree", fontsize = 15)
 	g.ax_joint.set_ylabel("In-degree", fontsize = 15)
-	#g.fig.suptitle("Jointplot {} degree".format(edge_type), fontsize = 20)
+	# g.fig.suptitle("Jointplot {} degree".format(edge_type), fontsize = 20)
 	plt.tight_layout()
 	plt.savefig("Results/Aggregate/images/degree/png/jointplot/{}_jointplot.png".format(edge_type))
 	plt.savefig("Results/Aggregate/images/degree/pdf/jointplot/{}_jointplot.pdf".format(edge_type))
