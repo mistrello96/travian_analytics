@@ -41,9 +41,13 @@ consider the evolution over time of the communities
 
 Controlla cambi casacca per vedere se accademia-main
 
+Isolare comunicazioni inter comunity
+
+Are attached coordinate over time? Did they strike a single objective or different ones?
+
 ### TODO
 
-Isolare comunicazioni inter comunity
+distribuzione di attività oraria aggregata
 
 ### FUTURE
 
@@ -52,4 +56,4 @@ Evolution over time (using GT):
 		can we determine when the community has broken?
 		after that, where did they go? did they message some boss in other communities?
 		were they at war to each other? were people of a community attacking people of one another? 
-		Are attached coordinate over time? Did they strike a single objective or different ones? did they fight back?
+		were there some sub-communities in the community?

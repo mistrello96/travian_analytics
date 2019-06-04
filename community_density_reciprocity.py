@@ -37,11 +37,20 @@ for time in range (0, 30):
 				if n not in SG.nodes:
 					SG.add_node(n)
 			# compute measures
+			density = 0
 			try:
-				res.loc[len(res)] = [alliance, nx.density(SG), nx.overall_reciprocity(SG)]
+				density = nx.density(SG)
 			except:
+				pass
+			reciprocity = 0
+			try:
+				reciprocity = nx.overall_reciprocity(SG)
+			except:
+				pass
+
+			res.loc[len(res)] = [alliance, density, reciprocity]
+			if density == 0:
 				counter_density += 1
-				res.loc[len(res)] = [alliance, 0 , 0]
 	zeros.loc[len(zeros)] = [time+1, counter_density / counter_community]
 	res.to_csv(save_path + "/messages_community_density_reciprocity" + str(time + 1) + ".csv", index=False)
 zeros.to_csv(save_path + "/messages_zeroes_percentage.csv", index=False)
