@@ -24,4 +24,4 @@ Results/Community_draw/
 *.bbl
 *.bib
 *.run.xml
-*.pdf
+Report/header.pdf

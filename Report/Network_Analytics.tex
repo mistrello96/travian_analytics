@@ -39,7 +39,106 @@ Il valore della reciprocità media esprime quanto nel grafo siano presente coppi
 	\label{tab:summary}
 \end{table}
 
+\subsection{Analisi del grado}
+In Figura \ref{fig:degree} sono riportate le distribuzioni di in-degree, out-degree e grado complessivo dei vari layer della rete. Dalle distribuzioni sono stati rimossi quei nodi considerati outlier (i.e. quei nodi che si discostavano oltre 3 volte la deviazione standard dei dati fittati con una distribuzione normale). I dati mostrano una distribuzione standard, con un elevato numero di nodi con grado contenuto e una percentuale minoritaria di nodi con alto grado \todo{riscrivere}.\\
+\todo{vogliamo inserire anche i grafici degli outliers???}
+\begin{figure}[p!]
+	\begin{tabular}{ccc}
+		\subfloat[Attacks in degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/attacks_in_degree}} &
+		\subfloat[Attacks out degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/attacks_out_degree}} &
+		\subfloat[Attacks total degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/attacks_total_degree}}\\
+		\subfloat[Messages in degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/messages_in_degree}} &
+		\subfloat[Messages out degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/messages_out_degree}} &
+		\subfloat[Messages total degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/messages_total_degree}}\\
+		\subfloat[Trades in degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/trades_in_degree}} &
+		\subfloat[Trades out degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/trades_out_degree}} &
+		\subfloat[Trades total degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/trades_total_degree}}
+	\end{tabular}
+	\caption{In-degree, out-degree e grado complessivo dei vari layer della rete.}
+	\label{fig:degree}
+\end{figure}
+ 
+Sono stati inoltre realizzati dei \textit{jointplot}, per mettere in relazione grado in ingresso ed in uscita dei nodi sui differenti layer, e i risultati sono riportati in Figura \ref{{fig:join_degree}}. Dai grafici emerge come, per quanto concerne le aggressioni, un elevato numero di attacchi compiuti corrisponde ad un basso numero di attacchi subiti, e viceversa.\\
+Per gli scambi la situazione è diametralmente opposta, con un grafico che si distribuisce principalmente sulla diagonale, dove il numero di trade in uscita è pari a quello in entrata.\\
+Il grafico dei messaggi risulta essere più variegato, con tendenze a ricevere più messaggi di quelli inviati, ma non emerge un chiaro comportamento come nei due casi precedenti
+\begin{figure}
+	\subfloat[Jointplot attacchi.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/attacks_jointplot_no_outliers}
+	}
+	\hfill
+	\subfloat[Jointplot messaggi.]{%
+	\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/messages_jointplot_no_outliers}
+	}
+	\hfill
+	\subfloat[Jointplot trade.]{%
+	\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/trades_jointplot}
+	}
+	\caption{Jointplot che pongono in relazione in-degree e out-degree del layer specificato.}
+	\label{fig:join_degree}
+\end{figure}
+
+In ultimo, sono stati generati i \textit{jointplot} che pongono in relazione gli out-degree di messaggi e attacchi o trade, rispettivamente in Figura \ref{subfig:joint_m_a} e \ref{subfig:joint_m_t}. Dal primo grafico si evince come numero di attacchi e numero di messaggi siano solitamente inversamente proporzionali, mentre non vi sembra essere una stretta relazione tra messaggi e scambi commerciali.
+\begin{figure}
+	\subfloat[Jointplot tra messaggi e attacchi.\label{subfig:joint_m_a}]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/messages_out-degree_vs_attacks_out-degree}
+	}
+	\hfill
+	\subfloat[Jointplot tra messaggi e scambi.\label{subfig:joint_m_t}]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/messages_out-degree_vs_trades_out-degree}
+	}
+	\caption{Jointplot che pongono in relazione out-degree dei diversi layer.}
+	\label{fig:join_mixed}
+\end{figure}
+
+\subsection{Misure di centralità}
+
 \section{Analisi delle attività}
+Un'ulteriore analisi condotta sul dataset è stata la distribuzione giornaliera di attività durante il periodo analizzato: ci siamo chiesti se fosse possibile delineare una qualche relazione tra i dati disponibili, in particolare tra numero di giocatori ed attività.\\
+Il numero di giocatori attivi sul server in almeno uno dei tre layer è rappresentato in Figura \ref{fig:playereachday}, dove si può notare un drastico calo al giorno 5.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/Activity/player_each_day}
+	\caption{Numero di giocatori attivi in un dato giorno. rappresentano l'inizio di una nuova settimana.}
+	\label{fig:playereachday}
+\end{figure}
+Come mostrato in Figura \ref{fig:activity_each_day}, complessivamente il numero di azioni eseguite dai giocatori decresce lungo il periodo analizzato, con picchi durante i week-end e le festività. 
+\begin{figure}
+	\subfloat[Numero di archi presenti nei vari layer ad un dato giorno.]{%
+		\includegraphics[width=.45\linewidth]{images/Activity/n_each_activity_each_day}
+	}
+	\hfill
+	\subfloat[Somma del numero di archi presente nei tre layer ad un dato giorno.]{%
+		\includegraphics[width=.45\linewidth]{images/Activity/total_activities_each_day}
+	}
+	\caption{Le linee rosse verticali nel grafico di destra rappresentano l'inizio di una nuova settimana. Si può apprezzare un andamento complessivamente decrescente, soprattutto in corrispondenza del week-end e di festività.}
+	\label{fig:activity_each_day}
+\end{figure}
+In Figura \ref{fig:activity_players} è possibile osservare la relazione tra numero di giocatori e attività eseguite. Come ci aspettavamo, l'andamento delle due curve risulta essere appaiato, e mantiene il trend decrescente individuato dai grafici in Figura \ref{fig:activity_each_day} e \ref{fig:playereachday}.
+\begin{figure}
+	\subfloat[Numero di giocatori che hanno effettuato almeno un'azione nel layer specificato ad un dato giorno.]{%
+		\includegraphics[width=.45\linewidth]{images/Activity/player_each_activity_each_day}
+	}
+	\hfill
+	\subfloat[Andamento nei 30 giorni del numero di giocatori e delle attività totali.]{%
+		\includegraphics[width=.45\linewidth]{images/Activity/players_vs_activities_each_day}
+	}
+	\caption{L'andamento conferma il trend decrescente evidenziato anche in precedenza.}
+	\label{fig:activity_players}
+\end{figure}
+
+In ultima battuta, abbiamo analizzato quali fossero gli orari dove si concentrasse il maggior numero di attività: in Figura \ref{fig:activity_players} sono riportati i nostri risultati. Notiamo come la maggioranza delle azioni sia eseguita tra le ore 14 e le 22, con un picco introno alle ore 18. L'andamento degli attacchi risulta essere più "liscio", probabilmente per l'elevata attività mattutina dovuta al tentativo di appropriarsi delle risorse accumulate nella notte dagli altri villaggi.\\
+\begin{figure}
+	\subfloat[Numero di attività per layer effettuate nei 30 giorni in una specifica fascia oraria.]{%
+		\includegraphics[width=.45\linewidth]{images/Activity/different_over_hours}
+	}
+	\hfill
+	\subfloat[Numero di attività complessive per fascia oraria.]{%
+		\includegraphics[width=.45\linewidth]{images/Activity/total_over_hours}
+	}
+	\caption{Attività sul server divisa per fascia oraria. Andamento crescente dalle ore 6 alle 18, poi decrescente fino alle 23}
+	\label{fig:activity_players}
+\end{figure}
+
 
 \section{Ricerca di comportamenti sospetti}
 Travian sostiene di aver implementato nel suo strumento di chat un metodo per impedire lo spam di messaggi verso altri utenti: se viene rilevata un grande numero di messaggi in uscita con il medesimo timestamp, il sistema blocca l'accesso del giocatore alla chat per periodi crescenti, fino al completo ban.\\
@@ -49,8 +148,8 @@ La nostra analisi ha confermato l'assenza di figure definibili spammer, ovvero c
 
 \section{Ricerca di villaggi secondari}
 Una pratica comune, seppur vietata dal regolamento di Travian, è quella del cosiddetto \textit{side-village} ovvero un secondo villaggio, parallelo al principale, sfruttato per la produzione di risorse che vengono poi inviate al villaggio principale sotto forma di donazione.\\
-Abbiamo basato la rivelazione di questo comportamento sul rapporto tra tarde in uscita e trade in ingresso: un valore superiore a 5 $\times$ ci ha fatto ritenere il villaggio come sospetto, e degno di più attente analisi da parte degli amministratori.\\
-Dall'analisi sono emersi un totale di 9 villaggi sospetti, in particolare i villaggi con ID 1439, 12362, 9444, 11407, 3004, 10785, 12069, 10029, 7568.\\
+Abbiamo basato la rivelazione di questo comportamento sul rapporto tra tarde in uscita e trade in ingresso: un valore superiore a 5$\times$ ci ha fatto ritenere il villaggio come sospetto, e degno di più attente analisi da parte degli amministratori.\\
+Dall'analisi sono emersi un totale di 10 villaggi sospetti, in particolare i villaggi con ID 1439, 12362, 9444, 11407, 3004, 10785, 12069, 10029, 7568, 1346.\\
 Abbiamo altresì notato come a questi nodi sia associato un bassissimo grado di messaggi in entrata ed in uscita, accrescendo ulteriormente il nostro sospetto della presenza di un comportamento illecito.
 
 \section{Studio delle community}
