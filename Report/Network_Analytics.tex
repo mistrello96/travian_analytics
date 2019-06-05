@@ -1,0 +1,61 @@
+\chapter{Analisi della rete}
+\section{Analisi del dataset}
+Il dataset considerato mostra una evidente distinzione in tre layer:
+\begin{itemize}
+	\item attacks
+	\item messages
+	\item trades
+\end{itemize}
+Ognuno di questi layer è stato analizzato per uin periodo complessivo di 30 giorni, producendo di fatto un differente grafo per ogni giorno e per ogni layer (90 file totali).\\
+Il dataset è reso disponibile in due differenti formati, \texttt{csv} e \texttt{graphml}; essendo stati riscontrati dei problemi di inconsistenza tra i due formati, ed a seguito di indicazioni da parte del \todo{chi sono quelli che lo hanno pubblicato?}, abbiamo deciso di considerare unicamente il formato \texttt{graphml}.\\
+La rete analizzata risulta essere un multi-grafo diretto multi-layer. Considerato il fatto che la maggior parte delle misure di centralità di una rete sono pensate per grafi (e non per multi-grafi), è stato deciso di trasformare la rete in un grafo diretto pesato, dove il peso di un arco tra due nodi rappresentasse il numero di archi che connette i due nodi nel multi-grafo.\\
+Questa scelta ha permesso di ridurre drasticamente i tempi computazionali per le varie analisi che verranno presentate, preservando l'informazione grazie al peso degli archi.\\
+E' stata prodotta una versione aggregata dei 30 giorni per ogni layer, in modo da fornire una visone complessiva della rete e delle relazioni tra i vari nodi.
+Tutte e tre i layer presentano archi orientati e con un timestamp: esso è stato rimosso durante il passaggi a grafo pesato, ma è stato utilizzato per alcune analisi presentate in seguito.\\
+Sono stati anche rilevati dei \textit{sefl-loop} nel layer dei messaggi: dato che in Travian non offre la possibilità di inviare un messaggio a se stessi, abbiamo deciso di rimuovere questi archi, anche considerando il fatto che la loro numerosità non era statisticamente rilevante.
+
+Dall'analisi delle reti aggregate sui 30 giorni, riportata nella Tabella \ref{tab:summary}, notiamo come vi sia una predominanza di attività di attacco tra villaggi, seguita dai messaggi e dagli scambi. Il trand si conferma anche per quanto riguarda il numero di nodi attivi: troviamo un totale di nodi coinvolti in attività di combattimento superiore al numero di quelli che si scambiano messaggi o commerciano. Notiamo inoltre che unendo le tre reti in un unico grafo, otteniamo un numero di nodi superiore rispetto alle 3 reti separate. Ciò indica la presenza di villaggi che sono completamente estranei ad una di queste tre attività (e.g. villaggi che attaccano senza mai commerciare).\\
+\todo{cosa dire del diametro?}
+Il numero medio di vicini ci mostra come, per quanto riguarda gli attacchi, i villaggi tendano a selezionare bersagli preferenziali, concentrando gli attacchi su quei villaggi che hanno già verificato essere proficui. Al contrario, l'elevato valore per quanto riguarda gli scambi evidenzia come il mercato sia "globalizzato", si tende a scambiare la propria merce con chiunque sia in grado di offrire in cambio un compenso ritenuto adeguato, senza la creazione di "scambi ricorrenti".\\
+Il valore della reciprocità media esprime quanto nel grafo siano presente coppie di nodi connesse da archi in entrambi i sensi. E' apprezzabile come questo valore risulti essere estremamente elevato per quanto riguarda gli scambi (in quanto concepiti come vendita bidirezionale) e per i messaggi. Per gli attacchi troviamo un compattamento diametralmente opposto: solo pochi villaggi rispondono agli attacchi. Questo è probabilmente dovuto al fatto che i villaggi attaccati siano solitamente più deboli degli attaccanti, e non sarebbero quindi in grado di portare a termine con successo un attacco nei confronti degli assalitori.
+\begin{table}[h]
+	\centering
+	\caption{Analisi macroscopica dei vari layer del dataset aggregati sui 30 giorni.}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline 
+		Misura & Attacks & Messages & Trades & All \\ 
+		\hline 
+		\# Nodi & 4418 & 3092 & 2648 & 4612 \\ 
+		\hline 
+		\# Archi & 632391 & 380794 & 269483 & 1282668 \\ 
+		\hline 
+		Diametro & 17 & 9 & 10 & / \\ 
+		\hline 
+		Numero medio di vicini & 3.98 & 43.51 & 89.89 & / \\ 
+		\hline 
+		Reciprocità media & 0.039 & 0.704 & 0.938 & / \\ 
+		\hline 
+	\end{tabular} 
+	\label{tab:summary}
+\end{table}
+
+\section{Analisi delle attività}
+
+\section{Ricerca di comportamenti sospetti}
+Travian sostiene di aver implementato nel suo strumento di chat un metodo per impedire lo spam di messaggi verso altri utenti: se viene rilevata un grande numero di messaggi in uscita con il medesimo timestamp, il sistema blocca l'accesso del giocatore alla chat per periodi crescenti, fino al completo ban.\\
+Abbiamo voluto verificare l'efficacia di questo meccanismo, cercando quei nodi con un grande numero di messaggi in uscita a cui non corrispondessero messaggi in ingresso.
+Non sono stati considerati possibili spammer nodi appartenenti ad alleanze con più di 10 membri, in quanto un'attività di questo tipo potrebbe verificarsi per quelle figure che all'interno della community sono solite reclutare nuovi membri.
+La nostra analisi ha confermato l'assenza di figure definibili spammer, ovvero con un rapporto messaggi inviati / messaggi ricevuti superiore a 10$\times$, e con un numero minimo di messaggi in uscita pari a 100.
+
+\section{Ricerca di villaggi secondari}
+Una pratica comune, seppur vietata dal regolamento di Travian, è quella del cosiddetto \textit{side-village} ovvero un secondo villaggio, parallelo al principale, sfruttato per la produzione di risorse che vengono poi inviate al villaggio principale sotto forma di donazione.\\
+Abbiamo basato la rivelazione di questo comportamento sul rapporto tra tarde in uscita e trade in ingresso: un valore superiore a 5 $\times$ ci ha fatto ritenere il villaggio come sospetto, e degno di più attente analisi da parte degli amministratori.\\
+Dall'analisi sono emersi un totale di 9 villaggi sospetti, in particolare i villaggi con ID 1439, 12362, 9444, 11407, 3004, 10785, 12069, 10029, 7568.\\
+Abbiamo altresì notato come a questi nodi sia associato un bassissimo grado di messaggi in entrata ed in uscita, accrescendo ulteriormente il nostro sospetto della presenza di un comportamento illecito.
+
+\section{Studio delle community}
+Il dataset presenta, in aggiunta ai file \texttt{graphml}, un file di testo contenente, giorno per giorno, tutte le alleanze registrate, con i relativi membri.\\
+Al fine di effettuare analisi più approfondite su queste community, si è delineata la necessità di identificare le alleanze nel tempo e tenere traccia dei relativi membri.
+La maggiore difficoltà riscontrata in questa operazione si è rivelata essere l'assegnazione di un nome univoco a queste community; i file di testo forniti contengono infatti esclusivamente gli identificatori dei nodi appartenenti ad una community, senza però stabilire a quale alleanza appartengano.
+Questo è risultato essere un problema passando da un giorno all'altro, in quanto le alleanze non sono rappresentate nel medesimo ordine, e alcune si potrebbero sciogliere o creare nel frattempo.
+\todo{Papetti's trick}
