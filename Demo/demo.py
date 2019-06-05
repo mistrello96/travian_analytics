@@ -2,6 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.graph_objs as go
 
@@ -27,8 +28,7 @@ app.title = 'Travian Demo'
 app.layout = html.Div(children = [
     html.H1(children = 'Travian Network'),
     dcc.Tabs(id = 'tabs', children = [
-        dcc.Tab(label = 'Activities over the days', children=[
-
+        dcc.Tab(label = 'Activities over the days', children = [
             html.Div(
                 dcc.Graph(
                     id = 'actvs_over_days',
@@ -59,8 +59,83 @@ app.layout = html.Div(children = [
                 )
             ),
         ]),
+
+        dcc.Tab(label = 'something', children = [
+            html.Div([dcc.Graph(id = 'jointplot-aggregate')]),
+            html.Div([
+                html.Label('X axis'),
+                dcc.RadioItems(
+                    id = 'agg-x',
+                    options = [
+                        {'label': 'attacks received', 'value': 'attacks in-degree'},
+                        {'label': 'attacks performed', 'value': 'attacks out-degree'},
+                        {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
+                        {'label': 'messages received', 'value': 'messages in-degree'},
+                        {'label': 'messages sent', 'value': 'messages out-degree'},
+                        {'label': 'messages PageRank', 'value': 'messages PageRank'},
+                        {'label': 'messages betweenness', 'value': 'messages betweenness'},
+                        {'label': 'trades received', 'value': 'trades in-degree'},
+                        {'label': 'trades sent', 'value': 'trades out-degree'},
+                        {'label': 'trades PageRank', 'value': 'trades PageRank'},
+                        {'label': 'trades betweenness', 'value': 'trades betweenness'}
+                    ],
+                    value = 'attacks in-degree'
+                ),
+                html.Label('Y axis'),
+                dcc.RadioItems(
+                    id = 'agg-y',
+                    options = [
+                        {'label': 'attacks received', 'value': 'attacks in-degree'},
+                        {'label': 'attacks performed', 'value': 'attacks out-degree'},
+                        {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
+                        {'label': 'messages received', 'value': 'messages in-degree'},
+                        {'label': 'messages sent', 'value': 'messages out-degree'},
+                        {'label': 'messages PageRank', 'value': 'messages PageRank'},
+                        {'label': 'messages betweenness', 'value': 'messages betweenness'},
+                        {'label': 'trades received', 'value': 'trades in-degree'},
+                        {'label': 'trades sent', 'value': 'trades out-degree'},
+                        {'label': 'trades PageRank', 'value': 'trades PageRank'},
+                        {'label': 'trades betweenness', 'value': 'trades betweenness'}
+                    ],
+                    value = 'attacks out-degree'
+                ),
+            ], style = {'columnCount': 2}),
+        ]),
     ])
 ])
+
+@app.callback(
+    Output('jointplot-aggregate', 'figure'),
+    [Input('agg-x', 'value'),
+     Input('agg-y', 'value')])
+def update_aggregate_joinplot(x, y):
+    x = x.split()
+    y = y.split()
+    print(x)
+    print(y)
+
+    dfx = pd.read_csv("../Results/Aggregate/{}_{}.csv".format(x[0], 
+        'degree' if x[1] == 'in-degree' or x[1] == 'out-degree' else 'centrality'))
+    
+    dfy = pd.read_csv("../Results/Aggregate/{}_{}.csv".format(y[0], 
+        'degree' if y[1] == 'in-degree' or y[1] == 'out-degree' else 'centrality'))
+    
+    traces = go.Scatter(x = dfx[x[1]], y = dfy[y[1]],
+        #text = ,
+        mode = 'markers', opacity = 0.2, marker = { 'color': "black", 'size': 10},
+        #name = 
+    )
+
+    return {
+        'data': [traces],
+        'layout': go.Layout(
+            xaxis={'title': x[1][0].upper() + x[1][1:]},
+            yaxis={'title': y[1][0].upper() + y[1][1:]},
+            margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
+            legend={'x': 0, 'y': 1},
+            hovermode='closest'
+        )
+    }
 
 if __name__ == '__main__':
     app.run_server(debug = True)

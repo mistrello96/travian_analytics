@@ -16,7 +16,7 @@ if __name__ == "__main__":
 	plt.title("Total number of activities performed during the observation period throughout the hours")
 	plt.tight_layout()
 	plt.savefig("Results/Activity/images/png/total_over_hours.png")
-	plt.savefig("Results/Activity/images/png/total_over_hours.png")
+	plt.savefig("Results/Activity/images/pdf/total_over_hours.pdf")
 	plt.close()
 
 	plt.figure(figsize = (8, 6), dpi = 300)
@@ -32,5 +32,5 @@ if __name__ == "__main__":
 	plt.legend()
 	plt.tight_layout()
 	plt.savefig("Results/Activity/images/png/different_over_hours.png")
-	plt.savefig("Results/Activity/images/png/different_over_hours.png")
+	plt.savefig("Results/Activity/images/pdf/different_over_hours.pdf")
 	plt.close()
