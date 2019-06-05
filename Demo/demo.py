@@ -38,7 +38,7 @@ app.layout = html.Div(children = [
                                 x = activities[k]['day'],
                                 y = activities[k]['nodes'],
                                 text = ["Day {}".format(d) for d in activities[k]['day']],
-                                mode='lines+markers',
+                                mode ='lines+markers',
                                 opacity = 0.7,
                                 marker = {
                                     'color': "red" if k == 'Attacks' else "blue" if k == "Messages" else "green",
@@ -50,9 +50,10 @@ app.layout = html.Div(children = [
                         ],
                         'layout': go.Layout(
                             title = "Activities over the days",
-                            xaxis = {'title': "Day"},
-                            yaxis = {'title': "Number"},
-                            margin={'l': 50, 'b': 40, 't': 45, 'r': 10},
+                            font = {'size': 14},
+                            xaxis = {'title': "Day", 'showgrid': True, 'showline': True},
+                            yaxis = {'title': "Number", 'showgrid': True},
+                            margin={'l': 80, 'b': 40, 't': 45, 'r': 10},
                             legend={'x': 0.95, 'y': 0.95},
                         )
                     }
@@ -60,46 +61,62 @@ app.layout = html.Div(children = [
             ),
         ]),
 
-        dcc.Tab(label = 'something', children = [
-            html.Div([dcc.Graph(id = 'jointplot-aggregate')]),
+        dcc.Tab(label = 'Centralities jointplot in the aggregate graph', children = [
+            #html.Div([dcc.Graph(id = 'jointplot-aggregate')]),
             html.Div([
-                html.Label('X axis'),
-                dcc.RadioItems(
-                    id = 'agg-x',
-                    options = [
-                        {'label': 'attacks received', 'value': 'attacks in-degree'},
-                        {'label': 'attacks performed', 'value': 'attacks out-degree'},
-                        {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
-                        {'label': 'messages received', 'value': 'messages in-degree'},
-                        {'label': 'messages sent', 'value': 'messages out-degree'},
-                        {'label': 'messages PageRank', 'value': 'messages PageRank'},
-                        {'label': 'messages betweenness', 'value': 'messages betweenness'},
-                        {'label': 'trades received', 'value': 'trades in-degree'},
-                        {'label': 'trades sent', 'value': 'trades out-degree'},
-                        {'label': 'trades PageRank', 'value': 'trades PageRank'},
-                        {'label': 'trades betweenness', 'value': 'trades betweenness'}
-                    ],
-                    value = 'attacks in-degree'
-                ),
-                html.Label('Y axis'),
-                dcc.RadioItems(
-                    id = 'agg-y',
-                    options = [
-                        {'label': 'attacks received', 'value': 'attacks in-degree'},
-                        {'label': 'attacks performed', 'value': 'attacks out-degree'},
-                        {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
-                        {'label': 'messages received', 'value': 'messages in-degree'},
-                        {'label': 'messages sent', 'value': 'messages out-degree'},
-                        {'label': 'messages PageRank', 'value': 'messages PageRank'},
-                        {'label': 'messages betweenness', 'value': 'messages betweenness'},
-                        {'label': 'trades received', 'value': 'trades in-degree'},
-                        {'label': 'trades sent', 'value': 'trades out-degree'},
-                        {'label': 'trades PageRank', 'value': 'trades PageRank'},
-                        {'label': 'trades betweenness', 'value': 'trades betweenness'}
-                    ],
-                    value = 'attacks out-degree'
-                ),
-            ], style = {'columnCount': 2}),
+                html.Div([dcc.Graph(id = 'jointplot-aggregate')], className="six columns"),
+                html.Div([
+                    html.Label('X axis:'),
+                    dcc.RadioItems(
+                        id = 'agg-x',
+                        options = [
+                            {'label': 'attacks received', 'value': 'attacks in-degree'},
+                            {'label': 'attacks performed', 'value': 'attacks out-degree'},
+                            {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
+                            {'label': 'messages received', 'value': 'messages in-degree'},
+                            {'label': 'messages sent', 'value': 'messages out-degree'},
+                            {'label': 'messages PageRank', 'value': 'messages PageRank'},
+                            {'label': 'messages betweenness', 'value': 'messages betweenness'},
+                            {'label': 'trades received', 'value': 'trades in-degree'},
+                            {'label': 'trades sent', 'value': 'trades out-degree'},
+                            {'label': 'trades PageRank', 'value': 'trades PageRank'},
+                            {'label': 'trades betweenness', 'value': 'trades betweenness'}
+                        ],
+                        value = 'attacks in-degree'
+                    ),
+                    html.Label('Y axis:'),
+                    dcc.RadioItems(
+                        id = 'agg-y',
+                        options = [
+                            {'label': 'attacks received', 'value': 'attacks in-degree'},
+                            {'label': 'attacks performed', 'value': 'attacks out-degree'},
+                            {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
+                            {'label': 'messages received', 'value': 'messages in-degree'},
+                            {'label': 'messages sent', 'value': 'messages out-degree'},
+                            {'label': 'messages PageRank', 'value': 'messages PageRank'},
+                            {'label': 'messages betweenness', 'value': 'messages betweenness'},
+                            {'label': 'trades received', 'value': 'trades in-degree'},
+                            {'label': 'trades sent', 'value': 'trades out-degree'},
+                            {'label': 'trades PageRank', 'value': 'trades PageRank'},
+                            {'label': 'trades betweenness', 'value': 'trades betweenness'}
+                        ],
+                        value = 'attacks out-degree'
+                    ),
+                    html.Label('Outliers to not be considered:'),
+                    dcc.Checklist(
+                        id = 'outliers',
+                        options=[
+                            {'label': 'attacks received', 'value': 'a-in'},
+                            {'label': 'attacks performed', 'value': 'a-out'},
+                            {'label': 'messages received', 'value': 'm-in'},
+                            {'label': 'messages sent', 'value': 'm-out'},
+                            {'label': 'trades received', 'value': 't-in'},
+                            {'label': 'trades sent', 'value': 't-out'}
+                        ],
+                        values = []
+                    ),
+                ], className = "six columns"),
+            ], className = "row"),
         ]),
     ])
 ])
@@ -111,8 +128,6 @@ app.layout = html.Div(children = [
 def update_aggregate_joinplot(x, y):
     x = x.split()
     y = y.split()
-    print(x)
-    print(y)
 
     dfx = pd.read_csv("../Results/Aggregate/{}_{}.csv".format(x[0], 
         'degree' if x[1] == 'in-degree' or x[1] == 'out-degree' else 'centrality'))
@@ -120,20 +135,37 @@ def update_aggregate_joinplot(x, y):
     dfy = pd.read_csv("../Results/Aggregate/{}_{}.csv".format(y[0], 
         'degree' if y[1] == 'in-degree' or y[1] == 'out-degree' else 'centrality'))
     
+    colors = {'attacks-attacks': "red",
+              'attacks-messages': "purple",
+              'attacks-trades': "brown",
+              'messages-attacks': "purple",
+              'messages-messages': "blue",
+              'messages-trades': "orange",
+              'trades-attacks': "brown",
+              'trades-messages': "orange",
+              'trades-trades': "green"}
+
+    xtitle = "{} {}".format(x[0][0].upper() + x[0][1:], x[1][0].upper() + x[1][1:])
+    ytitle = "{} {}".format(y[0][0].upper() + y[0][1:], y[1][0].upper() + y[1][1:])
+
     traces = go.Scatter(x = dfx[x[1]], y = dfy[y[1]],
-        #text = ,
-        mode = 'markers', opacity = 0.2, marker = { 'color': "black", 'size': 10},
-        #name = 
+        text = ["x: {}  y: {}".format(xv, yv) for xv, yv in zip(dfx[x[1]], dfy[y[1]])],
+        mode = 'markers', opacity = 0.7, marker = { 'color': colors["{}-{}".format(x[0], y[0])], 'size': 10},
+        hoverinfo = 'text'
+        #name = "player"
     )
 
     return {
         'data': [traces],
         'layout': go.Layout(
-            xaxis={'title': x[1][0].upper() + x[1][1:]},
-            yaxis={'title': y[1][0].upper() + y[1][1:]},
-            margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
-            legend={'x': 0, 'y': 1},
-            hovermode='closest'
+            font = {'size': 14},
+            autosize = False,
+            width = 800,
+            height = 800,
+            xaxis = {'title': xtitle, 'showgrid': True},
+            yaxis = {'title': ytitle, 'showgrid': True},
+            margin = {'l': 80, 'b': 40, 't': 10, 'r': 10},
+            hovermode = 'closest'
         )
     }
 
