@@ -3,9 +3,9 @@
 consider 3 gaphs, each of them aggregates the edges of one type (attacks, messages, trades):
 	in-degree, out-degree for each node in each graph
 		aggregate results can surprise us
-	for each graph create a "classic" orinted graph (not a multigraph): the edges will have 2 attributes 
-		(type and number of interactions (weight) of that type between the two nodes). We can use this 
-		graphes for the demos and centrality analysis: please do note that we still keep 3 separeted graphes
+	for each graph create a "classic" orinted graph (not a multigraph): 
+	the edges will have a new attribuitre weight (number of interactions between the two nodes).
+	We can use this graphes for the demos and centrality analysis: please do note that we still keep 3 separeted graphes
 
 	on the new graphes we can calculate some centrality:
 		attacks - degree-centrality (derived from degree distribution)
