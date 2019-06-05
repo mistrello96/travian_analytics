@@ -291,7 +291,7 @@ if __name__ == "__main__":
 	plot_degrees_datas_no_outliers("messages", "blue")
 	print("trades degrees")
 	plot_degrees_datas_no_outliers("trades", "green")
-	print("messages under 2000")
+	print("messages under 1609")
 	plot_messages_out_degree_strictly_under(1609)
 
 	print("jointplot attacks")
