@@ -15,3 +15,13 @@ Results/Most_relevant_community_analysis/images/
 Results/Community_draw/
 
 /datas_paper
+# report
+*.log
+*.aux
+*.gz
+*.toc
+*.out
+*.bbl
+*.bib
+*.run.xml
+*.pdf
