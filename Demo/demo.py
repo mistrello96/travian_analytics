@@ -2,7 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import pandas as pd
 import plotly.graph_objs as go
 
@@ -106,15 +106,16 @@ app.layout = html.Div(children = [
                     dcc.Checklist(
                         id = 'outliers',
                         options=[
-                            {'label': 'attacks received', 'value': 'a-in'},
-                            {'label': 'attacks performed', 'value': 'a-out'},
-                            {'label': 'messages received', 'value': 'm-in'},
-                            {'label': 'messages sent', 'value': 'm-out'},
-                            {'label': 'trades received', 'value': 't-in'},
-                            {'label': 'trades sent', 'value': 't-out'}
+                            {'label': 'attacks received', 'value': 'attacks in-degree'},
+                            {'label': 'attacks performed', 'value': 'attacks out-degree'},
+                            {'label': 'messages received', 'value': 'messages in-degree'},
+                            {'label': 'messages sent', 'value': 'messages out-degree'},
+                            {'label': 'trades received', 'value': 'trades in-degree'},
+                            {'label': 'trades sent', 'value': 'trades out-degree'}
                         ],
                         values = []
                     ),
+                    html.Button('Select all', id = 'select-all-outliers')
                 ], className = "six columns"),
             ], className = "row"),
         ]),
@@ -124,8 +125,9 @@ app.layout = html.Div(children = [
 @app.callback(
     Output('jointplot-aggregate', 'figure'),
     [Input('agg-x', 'value'),
-     Input('agg-y', 'value')])
-def update_aggregate_joinplot(x, y):
+     Input('agg-y', 'value'),
+     Input('outliers', 'values')])
+def update_aggregate_joinplot(x, y, outliers):
     x = x.split()
     y = y.split()
 
@@ -135,6 +137,26 @@ def update_aggregate_joinplot(x, y):
     dfy = pd.read_csv("../Results/Aggregate/{}_{}.csv".format(y[0], 
         'degree' if y[1] == 'in-degree' or y[1] == 'out-degree' else 'centrality'))
     
+    dfx.columns = dfx.columns.map(lambda x: str(x) + '_x' if x != "node" else "node")
+    dfy.columns = dfy.columns.map(lambda x: str(x) + '_y' if x != "node" else "node")
+    df = dfx.merge(dfy, how = "outer", on = "node")
+    df.fillna(0)
+
+    outliers_lims = {'attacks in-degree': 950,
+                     'attacks out-degree': 3749,
+                     'messages in-degree': 693,
+                     'messages out-degree': 1608,
+                     'trades in-degree': 732,
+                     'trades out-degree': 693}
+
+    for o in outliers:
+        (edge_type, degree_type) = o.split()
+        if edge_type == x[0] or edge_type == y[0]:
+            df_tmp = pd.read_csv("../Results/Aggregate/{}_degree.csv".format(edge_type))
+            outliers_nodes = df_tmp[df_tmp[degree_type] > outliers_lims[o]]["node"]
+            df.drop(df[df["node"].isin(outliers_nodes)].index, inplace = True)
+
+
     colors = {'attacks-attacks': "red",
               'attacks-messages': "purple",
               'attacks-trades': "brown",
@@ -148,11 +170,13 @@ def update_aggregate_joinplot(x, y):
     xtitle = "{} {}".format(x[0][0].upper() + x[0][1:], x[1][0].upper() + x[1][1:])
     ytitle = "{} {}".format(y[0][0].upper() + y[0][1:], y[1][0].upper() + y[1][1:])
 
-    traces = go.Scatter(x = dfx[x[1]], y = dfy[y[1]],
-        text = ["x: {}  y: {}".format(xv, yv) for xv, yv in zip(dfx[x[1]], dfy[y[1]])],
+    xs = "{}_x".format(x[1])
+    ys = "{}_y".format(y[1])
+
+    traces = go.Scatter(x = df[xs], y = df[ys],
+        text = ["id: {} x: {}  y: {}".format(id_node, round(xv, 5), round(yv, 5)) for id_node, xv, yv in zip(df["node"], df[xs], df[ys])],
         mode = 'markers', opacity = 0.7, marker = { 'color': colors["{}-{}".format(x[0], y[0])], 'size': 10},
         hoverinfo = 'text'
-        #name = "player"
     )
 
     return {
@@ -168,6 +192,31 @@ def update_aggregate_joinplot(x, y):
             hovermode = 'closest'
         )
     }
+'''
+@app.callback(
+    Output('outliers', 'values'),
+    [Input('select-all-outliers', 'values')],
+    [State('outliers', 'options'),
+     State('outliers', 'values')])
+def test(selected, options, values):
+    if selected:
+        if selected[0] == 1:
+            return [i['value'] for i in options]
+        else:
+            return values
+    else:
+        return values
+'''
+@app.callback(
+    Output('outliers', 'values'),
+    [Input('select-all-outliers', 'n_clicks')],
+    [State('outliers', 'options'),
+     State('outliers', 'values')])
+def select_all_outliers(n_clicks, options, values):
+    if n_clicks != None:
+        return [i['value'] for i in options]
+    else: 
+        return values
 
 if __name__ == '__main__':
     app.run_server(debug = True)
