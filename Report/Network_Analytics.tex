@@ -2,12 +2,12 @@
 \section{Analisi del dataset}
 Il dataset considerato mostra una evidente distinzione in tre layer:
 \begin{itemize}
-	\item attacks
-	\item messages
-	\item trades
+	\item Attacchi
+	\item Messaggi
+	\item Trade
 \end{itemize}
 Ognuno di questi layer è stato analizzato per uin periodo complessivo di 30 giorni, producendo di fatto un differente grafo per ogni giorno e per ogni layer (90 file totali).\\
-Il dataset è reso disponibile in due differenti formati, \texttt{csv} e \texttt{graphml}; essendo stati riscontrati dei problemi di inconsistenza tra i due formati, ed a seguito di indicazioni da parte del \todo{chi sono quelli che lo hanno pubblicato?}, abbiamo deciso di considerare unicamente il formato \texttt{graphml}.\\
+Il dataset è reso disponibile in due differenti formati, \texttt{csv} e \texttt{graphml}; essendo stati riscontrati dei problemi di inconsistenza tra i due formati, e a seguito di indicazioni da parte del fornitore del dataset, abbiamo deciso di considerare unicamente il formato \texttt{graphml}.\\
 La rete analizzata risulta essere un multi-grafo diretto multi-layer. Considerato il fatto che la maggior parte delle misure di centralità di una rete sono pensate per grafi (e non per multi-grafi), è stato deciso di trasformare la rete in un grafo diretto pesato, dove il peso di un arco tra due nodi rappresentasse il numero di archi che connette i due nodi nel multi-grafo.\\
 Questa scelta ha permesso di ridurre drasticamente i tempi computazionali per le varie analisi che verranno presentate, preservando l'informazione grazie al peso degli archi.\\
 E' stata prodotta una versione aggregata dei 30 giorni per ogni layer, in modo da fornire una visone complessiva della rete e delle relazioni tra i vari nodi.
@@ -15,7 +15,7 @@ Tutte e tre i layer presentano archi orientati e con un timestamp: esso è stato
 Sono stati anche rilevati dei \textit{sefl-loop} nel layer dei messaggi: dato che in Travian non offre la possibilità di inviare un messaggio a se stessi, abbiamo deciso di rimuovere questi archi, anche considerando il fatto che la loro numerosità non era statisticamente rilevante.
 
 Dall'analisi delle reti aggregate sui 30 giorni, riportata nella Tabella \ref{tab:summary}, notiamo come vi sia una predominanza di attività di attacco tra villaggi, seguita dai messaggi e dagli scambi. Il trand si conferma anche per quanto riguarda il numero di nodi attivi: troviamo un totale di nodi coinvolti in attività di combattimento superiore al numero di quelli che si scambiano messaggi o commerciano. Notiamo inoltre che unendo le tre reti in un unico grafo, otteniamo un numero di nodi superiore rispetto alle 3 reti separate. Ciò indica la presenza di villaggi che sono completamente estranei ad una di queste tre attività (e.g. villaggi che attaccano senza mai commerciare).\\
-\todo{cosa dire del diametro?}
+Il diametro della rete, valore rilevante esclusivamente per il layer dei messaggi, indica che il massimo numero di nodi da attraversare per passare l'informazione tra due qualunque nodi è molto contenuto, pari solo a 9.\\
 Il numero medio di vicini ci mostra come, per quanto riguarda gli attacchi, i villaggi tendano a selezionare bersagli preferenziali, concentrando gli attacchi su quei villaggi che hanno già verificato essere proficui. Al contrario, l'elevato valore per quanto riguarda gli scambi evidenzia come il mercato sia "globalizzato", si tende a scambiare la propria merce con chiunque sia in grado di offrire in cambio un compenso ritenuto adeguato, senza la creazione di "scambi ricorrenti".\\
 Il valore della reciprocità media esprime quanto nel grafo siano presente coppie di nodi connesse da archi in entrambi i sensi. E' apprezzabile come questo valore risulti essere estremamente elevato per quanto riguarda gli scambi (in quanto concepiti come vendita bidirezionale) e per i messaggi. Per gli attacchi troviamo un compattamento diametralmente opposto: solo pochi villaggi rispondono agli attacchi. Questo è probabilmente dovuto al fatto che i villaggi attaccati siano solitamente più deboli degli attaccanti, e non sarebbero quindi in grado di portare a termine con successo un attacco nei confronti degli assalitori.
 \begin{table}[h]
@@ -29,7 +29,7 @@ Il valore della reciprocità media esprime quanto nel grafo siano presente coppi
 		\hline 
 		\# Archi & 632391 & 380794 & 269483 & 1282668 \\ 
 		\hline 
-		Diametro & 17 & 9 & 10 & / \\ 
+		Diametro & / & 9 & / & / \\ 
 		\hline 
 		Numero medio di vicini & 3.98 & 43.51 & 89.89 & / \\ 
 		\hline 
@@ -40,8 +40,8 @@ Il valore della reciprocità media esprime quanto nel grafo siano presente coppi
 \end{table}
 
 \subsection{Analisi del grado}
-In Figura \ref{fig:degree} sono riportate le distribuzioni di in-degree, out-degree e grado complessivo dei vari layer della rete. Dalle distribuzioni sono stati rimossi quei nodi considerati outlier (i.e. quei nodi che si discostavano oltre 3 volte la deviazione standard dei dati fittati con una distribuzione normale). I dati mostrano una distribuzione standard, con un elevato numero di nodi con grado contenuto e una percentuale minoritaria di nodi con alto grado \todo{riscrivere}.\\
-\todo{vogliamo inserire anche i grafici degli outliers???}
+\label{subsec:grado}
+In Figura \ref{fig:degree} sono riportate le distribuzioni di in-degree, out-degree e grado complessivo dei vari layer della rete. Dalle distribuzioni sono stati rimossi quei nodi considerati \textit{outlier}, ovvero quei nodi che si discostano oltre 3 volte dalla deviazione standard del \textit{fitting} dei dati con una distribuzione normale (per le distribuzioni di tali nodi, consultare l'Appendice A). I dati mostrano un andamento standard, con un elevato numero di nodi con grado contenuto e una percentuale minoritaria di nodi con alto grado.\\
 \begin{figure}[p!]
 	\begin{tabular}{ccc}
 		\subfloat[Attacks in degree]{\includegraphics[width = 1.5in]{images/Aggregate/Degree/attacks_in_degree}} &
@@ -58,7 +58,7 @@ In Figura \ref{fig:degree} sono riportate le distribuzioni di in-degree, out-deg
 	\label{fig:degree}
 \end{figure}
  
-Sono stati inoltre realizzati dei \textit{jointplot}, per mettere in relazione grado in ingresso ed in uscita dei nodi sui differenti layer, e i risultati sono riportati in Figura \ref{{fig:join_degree}}. Dai grafici emerge come, per quanto concerne le aggressioni, un elevato numero di attacchi compiuti corrisponde ad un basso numero di attacchi subiti, e viceversa.\\
+Sono stati inoltre realizzati dei \textit{jointplot}, per mettere in relazione grado in ingresso ed in uscita dei nodi sui differenti layer, e i risultati sono riportati in Figura \ref{fig:join_degree}. Dai grafici emerge come, per quanto concerne le aggressioni, un elevato numero di attacchi compiuti corrisponde ad un basso numero di attacchi subiti, e viceversa.\\
 Per gli scambi la situazione è diametralmente opposta, con un grafico che si distribuisce principalmente sulla diagonale, dove il numero di trade in uscita è pari a quello in entrata.\\
 Il grafico dei messaggi risulta essere più variegato, con tendenze a ricevere più messaggi di quelli inviati, ma non emerge un chiaro comportamento come nei due casi precedenti
 \begin{figure}
@@ -91,7 +91,70 @@ In ultimo, sono stati generati i \textit{jointplot} che pongono in relazione gli
 \end{figure}
 
 \subsection{Misure di centralità}
+\label{subsec:centrality}
+Per quanto riguarda le misure di centralità, abbiamo deciso di concentrare i nostri approfondimenti esclusivamente sui layer di messaggi e scambi, in quanto sulla rete di attacchi il calcolo di queste misure risulta essere poco sensato (non vi è alcun flusso informativo).\\
+Le misure analizzate per i due layer considerati sono:
+\begin{itemize}
+	\item Betweenness: misura che rappresenta il grado di informazione passante per un dato nodo. Un elevato valore indica un nodo centrale nel flusso informativo / commerciale, con una grande capacità di collegamento tra porzioni della rete.
+	\item PageRank: calcola l'importanza di un nodo grazie al numero di archi entranti e al peso dei nodi che lo referenziano. Fornisce un'informazione pesata e più specifica rispetto al semplice grado in ingresso.
+\end{itemize}
 
+Per il layer dei messaggi, i grafici delle due misure analizzate, riportati in Figura \ref{fig:messages_centrality}, mostrano una predominanza del contatto diretto rispetto al passaggio di informazione secondo una scala di gradi. Un distribuzione dei valori di betweenness concentrata in valori molto bassi, indica la presenza di molti collegamenti alternativi tra due nodi: non si presenta quindi la situazione di un passaggio "forzato" per un determinato nodo. PageRank mostra un andamento simile, non individuando chiaramente dei nodi predominanti sugli altri. Si noti che dal dataset sono stati rimossi tutti i messaggi di \textit{broadcast}, ovvero le comunicazioni inviate dai gestori delle alleanze a tutti i membri di essa: questo ha certamente influenzato una compressione di valori delle due misure precedentemente analizzate.\\ 
+\begin{figure}
+	\subfloat[Centralità Betweenness.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/messages_betweenness}
+	}
+	\hfill
+	\subfloat[Centralità Pagerank.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/messages_PageRank}
+	}
+	\caption{Grafici delle misure di centralità calcolate sul layer dei messaggi.}
+	\label{fig:messages_centrality}
+\end{figure}
+Lo stesso comportamento è mostrato dall'analisi del grafo degli scambi (in Figura \ref{fig:trades_centrality}), con valori della betweenness ancora più compressi rispetto ai messaggi. Ciò è probabilmente dovuto all'assenza di figure di passaggio delle merci: non vi è un "mercante" che acquista beni da un insieme di villaggi per poi rivendere ad altri, ma i giocatori sono liberi di commerciare direttamente tra loro.
+\begin{figure}
+	\subfloat[Centralità Betweenness.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/trades_betweenness}
+	}
+	\hfill
+	\subfloat[Centralità Pagerank.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/trades_PageRank}
+	}
+	\caption{Grafici delle misure di centralità calcolate sul layer dei trade.}
+	\label{fig:trades_centrality}
+\end{figure}
+
+Abbiamo infine generato i jointplot delle due misure analizzate, per individuare possibili correlazioni tra i valori delle due. I risultati, riportati in Figura \ref{fig:joint_centrality}, mostrano come la maggioranza dei nodi si concentri nei pressi dell'origine degli assi, a cui corrispondono bassi valori di entrambe le misure. Sono apprezzabili diversi outliers in entrambi i grafici, che mostrano \todo{indagare su questi outliers}
+\begin{figure}
+	\subfloat[Jointplot messaggi.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/messages_jointplot}
+	}
+	\hfill
+	\subfloat[Jointplot trade.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/trades_jointplot}
+	}
+	\caption{Jointplot delle misure di centralità calcolate rispettivamente sui messaggi e sugli scambi.}
+	\label{fig:joint_centrality}
+\end{figure}
+
+
+\subsection{Coefficiente di clustering medio}
+Un'ulteriore misura analizzata è stata il coefficiente medio di clustering, ovvero la misura della tendenza di un nodo a formare un cricca (i.e. grafo completo). Questo comportamento è solito rilevarsi nelle reti sociali, dove i nodi tendono a formare delle community dense e coese rispetto al resto del grafo. Essendo questa una misura media, bisogna considerare il fatto che la maggior parte dei nodi non facciano parte di alcuna community, e questo influenzi molto il valore medio ottenuto: useremo i risultati di questa analisi come metro di paragone per i successivi studi sulle alleanze. 
+I risultati ottenuti sono riportati in Figura \ref{fig:clustering}: vediamo come nel layer dei messaggi, che possiamo considerare una rete sociale, i valori medi sono decisamente maggiori rispetto alla rete degli scambi, dove i vicini di un nodo non necessariamente sono soliti commerciare tra loro. Ci possiamo altresì aspettare che i nodi del vicinato di x siano più propensi a conoscersi e a comunicare tra loro.
+\ref{fig:messages_centrality}, mostrano 
+\begin{figure}
+	\subfloat[Coefficiente di clustering medio per i messaggi.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Clustering/messages}
+	}
+	\hfill
+	\subfloat[Coefficiente di clustering medio per i trade.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Clustering/trades}
+	}
+	\caption{Grafici delle misure di centralità calcolate sul layer dei messaggi.}
+	\label{fig:clustering}
+\end{figure}
+
+\newpage 
 \section{Analisi delle attività}
 Un'ulteriore analisi condotta sul dataset è stata la distribuzione giornaliera di attività durante il periodo analizzato: ci siamo chiesti se fosse possibile delineare una qualche relazione tra i dati disponibili, in particolare tra numero di giocatori ed attività.\\
 Il numero di giocatori attivi sul server in almeno uno dei tre layer è rappresentato in Figura \ref{fig:playereachday}, dove si può notare un drastico calo al giorno 5.
@@ -158,3 +221,37 @@ Al fine di effettuare analisi più approfondite su queste community, si è delin
 La maggiore difficoltà riscontrata in questa operazione si è rivelata essere l'assegnazione di un nome univoco a queste community; i file di testo forniti contengono infatti esclusivamente gli identificatori dei nodi appartenenti ad una community, senza però stabilire a quale alleanza appartengano.
 Questo è risultato essere un problema passando da un giorno all'altro, in quanto le alleanze non sono rappresentate nel medesimo ordine, e alcune si potrebbero sciogliere o creare nel frattempo.
 \todo{Papetti's trick}
+
+\subsection{Analisi della community principale}
+Per determinare quale fosse l'alleanza principale contenuta nel dataset, abbiamo deciso di utilizzare come metrica la dimensione e la stabilità della community sui 30 giorni. Abbiamo così scelto l'alleanza di dimensione massima e con minore deviazione standard, che si è rivelata essere quella con identificatore 43. Riportiamo inoltre che per le 4 community più grandi la dimensione media e la relativa deviazione standard non mostrano differenze statisticamente significative.\\
+Per l'analisi della community è stato analizzato il layer delle comunicazioni, in quanto abbiamo ritenuto che fosse quello maggiormente significativo per estrarre analisi interessanti dal punto di vista della rete sociale.
+Sono state ripetute le misure di centralità trattate nelle Sezioni \ref{subsec:grado} e \ref{subsec:centrality}, con l'aggiunta del calcolo della closeness, ovvero una misura di quanto un nodo sia vicino al flusso informativo presente nella rete. I risultati sono riportati nelle Figure \ref{fig:comm_mean}  e \ref{fig:comm_nodes}, dove sono riportate le distruzioni delle medie delle misure e i valori per ogni nodo nei 30 giorni. Dalle distribuzioni riportare risulta evidente come vi sia una grande maggioranza di membri all'interno dell'alleanza che risultano essere poco influenti, mentre ad una parte minoritaria dei nodi sono associati valori più elevati.\\
+Un'analisi approfondita mostra come valore i valori di centralità sopra la media siano associati in modo ricorrente agli stessi nodi: essi corrispondono probabilmente alle figure più rilevanti all'interno dell'alleanza, quali il leader, i suoi diretti sottoposti e figure come il reclutatore.
+Emerge quindi una gestione piramidale della community, con pochi membri ai vertici ed una moltitudine di componenti poco rilevanti.
+\begin{figure}
+	\begin{tabular}{cc}
+		\subfloat[Out degree]{\includegraphics[width = .5\textwidth]{images/Most_important_community/distribution/out-degree_distribution}} &
+		\subfloat[Betweenness]{\includegraphics[width = .5\textwidth]{images/Most_important_community/distribution/betweenness_distribution}}\\
+		\subfloat[Closeness]{\includegraphics[width = .5\textwidth]{images/Most_important_community/distribution/closeness_distribution}} &
+		\subfloat[PageRank]{\includegraphics[width = .5\textwidth]{images/Most_important_community/distribution/pagerank_distribution}}
+	\end{tabular}
+	\caption{Out-degree, Betweenness, Closeness e PageRank medio sui 30 giorni.}
+	\label{fig:comm_mean}
+\end{figure}
+\begin{figure}
+	\begin{tabular}{cc}
+		\subfloat[Out degree]{\includegraphics[width = .5\textwidth]{images/Most_important_community/each_node/out-degree_each_node}} &
+		\subfloat[Betweenness]{\includegraphics[width = .5\textwidth]{images/Most_important_community/each_node/betweenness_each_node}}\\
+		\subfloat[Closeness]{\includegraphics[width = .5\textwidth]{images/Most_important_community/each_node/closeness_each_node}} &
+		\subfloat[PageRank]{\includegraphics[width = .5\textwidth]{images/Most_important_community/each_node/pagerank_each_node}}
+	\end{tabular}
+	\caption{Out-degree, Betweenness, Closeness e PageRank di ogni nodo per ognuno dei 30 giorni.}
+	\label{fig:comm_nodes}
+\end{figure}
+
+
+\subsection{Studio della densità e della reciprocità}
+
+\subsection{Evoluzione nel tempo}
+
+\subsection{Interazioni tra le alleanze}
