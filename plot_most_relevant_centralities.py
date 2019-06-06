@@ -20,9 +20,9 @@ def centrality_distribution(centrality):
 		plt.xlabel("{}".format(centrality[0].upper() + centrality[1:]), fontsize = 15)
 	plt.ylabel("Distribution", fontsize = 15)
 	if centrality == "pagerank":
-		plt.title("Distribution of PageRank average over the days")
+		plt.title("Average 30-day PageRank distribution")
 	else:
-		plt.title("Distribution of {} average over the days".format(centrality))
+		plt.title("Average 30-day {} distribution".format(centrality))
 	plt.tight_layout()
 	plt.savefig("Results/Most_relevant_community_analysis/images/png/distribution/{}_distribution.png".format(centrality))
 	plt.savefig("Results/Most_relevant_community_analysis/images/pdf/distribution/{}_distribution.pdf".format(centrality))
@@ -42,9 +42,9 @@ def centraly_of_each_node_each_day(centrality):
 		plt.ylabel("{}".format(centrality[0].upper() + centrality[1:]), fontsize = 15)
 	plt.xlabel("Nodes", fontsize = 15, labelpad = 10)
 	if centrality == "pagerank":
-		plt.title("PageRank of each node")
+		plt.title("PageRank of each node over 30 days")
 	else:
-		plt.title("{} of each node".format(centrality[0].upper() + centrality[1:]), fontsize = 15)
+		plt.title("{} of each node over 30 days".format(centrality[0].upper() + centrality[1:]), fontsize = 15)
 	plt.tight_layout()
 	plt.savefig("Results/Most_relevant_community_analysis/images/png/each_node/{}_each_node.png".format(centrality))
 	plt.savefig("Results/Most_relevant_community_analysis/images/pdf/each_node/{}_each_node.pdf".format(centrality))
