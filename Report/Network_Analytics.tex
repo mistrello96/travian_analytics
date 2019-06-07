@@ -2,22 +2,21 @@
 \section{Analisi del dataset}
 Il dataset considerato mostra una evidente distinzione in tre layer:
 \begin{itemize}
-	\item Attacchi
-	\item Messaggi
-	\item Trade
+	\item Attacchi;
+	\item Messaggi;
+	\item Trade.
 \end{itemize}
-Ognuno di questi layer è stato analizzato per uin periodo complessivo di 30 giorni, producendo di fatto un differente grafo per ogni giorno e per ogni layer (90 file totali).\\
+Ognuno di questi layer è stato analizzato per un periodo complessivo di 30 giorni, producendo di fatto un differente grafo per ogni giorno e per ogni layer (90 grafi totali).\\
 Il dataset è reso disponibile in due differenti formati, \texttt{csv} e \texttt{graphml}; essendo stati riscontrati dei problemi di inconsistenza tra i due formati, e a seguito di indicazioni da parte del fornitore del dataset, abbiamo deciso di considerare unicamente il formato \texttt{graphml}.\\
-La rete analizzata risulta essere un multi-grafo diretto multi-layer. Considerato il fatto che la maggior parte delle misure di centralità di una rete sono pensate per grafi (e non per multi-grafi), è stato deciso di trasformare la rete in un grafo diretto pesato, dove il peso di un arco tra due nodi rappresentasse il numero di archi che connette i due nodi nel multi-grafo.\\
-Questa scelta ha permesso di ridurre drasticamente i tempi computazionali per le varie analisi che verranno presentate, preservando l'informazione grazie al peso degli archi.\\
-E' stata prodotta una versione aggregata dei 30 giorni per ogni layer, in modo da fornire una visone complessiva della rete e delle relazioni tra i vari nodi.
-Tutte e tre i layer presentano archi orientati e con un timestamp: esso è stato rimosso durante il passaggi a grafo pesato, ma è stato utilizzato per alcune analisi presentate in seguito.\\
-Sono stati anche rilevati dei \textit{sefl-loop} nel layer dei messaggi: dato che in Travian non offre la possibilità di inviare un messaggio a se stessi, abbiamo deciso di rimuovere questi archi, anche considerando il fatto che la loro numerosità non era statisticamente rilevante.
+La rete analizzata risulta essere un multi-grafo diretto multi-layer. Considerato il fatto che la maggior parte delle misure di centralità di una rete sono pensate per grafi (e non per multi-grafi), è stato deciso di trasformare la rete in un grafo diretto pesato, dove il peso di un arco tra due nodi rappresentasse il numero di archi che connette i due nodi nel multi-grafo. Questa operazione è stata eseguita per ognuno dei 90 grafi, in modo da mantenere inalterati layer e \textit{timeslice}. Questa scelta ha permesso di ridurre drasticamente i tempi computazionali per le varie analisi che verranno presentate, preservando l'informazione grazie al peso degli archi.\\
+È stata inoltre prodotta per ogni layer una versione aggregata sui 30 giorni, in modo da fornire una visone complessiva della rete e delle relazioni tra i vari nodi.
+Tutti e tre i layer presentano archi orientati e con un \textit{timestamp}: esso è stato rimosso durante il passaggio a grafo pesato, ma è stato utilizzato per alcune analisi presentate in seguito.\\
+Sono stati anche rilevati dei \textit{sefl-loop} nel layer dei messaggi: dato che in Travian non offre la possibilità di inviare un messaggio a se stessi, abbiamo deciso di rimuovere questi archi, anche considerando il fatto che la loro numerosità non era statisticamente rilevante ($0.03\%$).
 
-Dall'analisi delle reti aggregate sui 30 giorni, riportata nella Tabella \ref{tab:summary}, notiamo come vi sia una predominanza di attività di attacco tra villaggi, seguita dai messaggi e dagli scambi. Il trand si conferma anche per quanto riguarda il numero di nodi attivi: troviamo un totale di nodi coinvolti in attività di combattimento superiore al numero di quelli che si scambiano messaggi o commerciano. Notiamo inoltre che unendo le tre reti in un unico grafo, otteniamo un numero di nodi superiore rispetto alle 3 reti separate. Ciò indica la presenza di villaggi che sono completamente estranei ad una di queste tre attività (e.g. villaggi che attaccano senza mai commerciare).\\
-Il diametro della rete, valore rilevante esclusivamente per il layer dei messaggi, indica che il massimo numero di nodi da attraversare per passare l'informazione tra due qualunque nodi è molto contenuto, pari solo a 9.\\
-Il numero medio di vicini ci mostra come, per quanto riguarda gli attacchi, i villaggi tendano a selezionare bersagli preferenziali, concentrando gli attacchi su quei villaggi che hanno già verificato essere proficui. Al contrario, l'elevato valore per quanto riguarda gli scambi evidenzia come il mercato sia "globalizzato", si tende a scambiare la propria merce con chiunque sia in grado di offrire in cambio un compenso ritenuto adeguato, senza la creazione di "scambi ricorrenti".\\
-Il valore della reciprocità media esprime quanto nel grafo siano presente coppie di nodi connesse da archi in entrambi i sensi. E' apprezzabile come questo valore risulti essere estremamente elevato per quanto riguarda gli scambi (in quanto concepiti come vendita bidirezionale) e per i messaggi. Per gli attacchi troviamo un compattamento diametralmente opposto: solo pochi villaggi rispondono agli attacchi. Questo è probabilmente dovuto al fatto che i villaggi attaccati siano solitamente più deboli degli attaccanti, e non sarebbero quindi in grado di portare a termine con successo un attacco nei confronti degli assalitori.
+Dall'analisi delle reti aggregate sui 30 giorni, riportata nella Tabella \ref{tab:summary}, notiamo come vi sia una predominanza di attività di attacco tra giocatori, seguita dai messaggi e dagli scambi. Il trand si conferma anche per quanto riguarda il numero di nodi attivi: troviamo un totale di nodi coinvolti in attività di combattimento superiore al numero di quelli che si scambiano messaggi o commerciano. Notiamo inoltre che unendo le tre reti in un unico grafo, otteniamo un numero di nodi superiore rispetto alle 3 reti separate. Ciò indica la presenza di giocatori che sono completamente estranei ad una di queste tre attività (\textit{e.g.}, soggetti che attaccano senza mai commerciare).\\
+Il diametro della rete, valore rilevante esclusivamente per il layer dei messaggi, indica che il numero massimo di giocatori da cui deve passare l'informazione affinché venga trasmessa tra due qualunque nodi è molto contenuto, pari solo a 9.\\
+Il numero medio di vicini ci mostra come, per quanto riguarda gli attacchi, vi sia la tendenza a selezionare bersagli preferenziali, concentrando gli attacchi verso quei villaggi che hanno già verificato essere proficui. Al contrario, l'elevato valore per quanto riguarda gli scambi evidenzia come il mercato sia “globalizzato”, si tende a scambiare la propria merce con chiunque sia in grado di offrire in cambio un compenso ritenuto adeguato, senza la creazione di  “scambi ricorrenti”.\\
+Il valore della reciprocità media esprime quanto nel grafo siano presenti collegamenti bidirezionali tra nodi. È apprezzabile come questo valore risulti essere estremamente elevato per quanto riguarda gli scambi (in quanto concepiti come vendita bidirezionale) e per i messaggi. Nel grafo degli attacchi troviamo un compattamento diametralmente opposto: solo pochi giocatori rispondono agli attacchi. Questo è probabilmente dovuto al fatto che i villaggi attaccati siano solitamente più deboli degli attaccanti, e non sarebbero quindi in grado di portare a termine con successo un attacco nei confronti degli assalitori.
 \begin{table}[h]
 	\centering
 	\caption{Analisi macroscopica dei vari layer del dataset aggregati sui 30 giorni.}
@@ -111,7 +110,7 @@ Per il layer dei messaggi, i grafici delle due misure analizzate, riportati in F
 	\caption{Grafici delle misure di centralità calcolate sul layer dei messaggi.}
 	\label{fig:messages_centrality}
 \end{figure}
-Lo stesso comportamento è mostrato dall'analisi del grafo degli scambi (in Figura \ref{fig:trades_centrality}), con valori della betweenness ancora più compressi rispetto ai messaggi. Ciò è probabilmente dovuto all'assenza di figure di passaggio delle merci: non vi è un "mercante" che acquista beni da un insieme di villaggi per poi rivendere ad altri, ma i giocatori sono liberi di commerciare direttamente tra loro.
+Lo stesso comportamento è mostrato dall'analisi del grafo degli scambi (in Figura \ref{fig:trades_centrality}), con valori della betweenness ancora più compressi rispetto ai messaggi. Ciò è probabilmente dovuto all'assenza di figure di passaggio delle merci: non vi è un "mercante" che acquista beni da un insieme di giocatori per poi rivendere ad altri, ma i giocatori sono liberi di commerciare direttamente tra loro.
 \begin{figure}
 	\subfloat[Centralità Betweenness.]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/trades_betweenness}
@@ -205,14 +204,14 @@ In ultima battuta, abbiamo analizzato quali fossero gli orari dove si concentras
 
 \section{Ricerca di comportamenti sospetti}
 Travian sostiene di aver implementato nel suo strumento di chat un metodo per impedire lo spam di messaggi verso altri utenti: se viene rilevata un grande numero di messaggi in uscita con il medesimo timestamp, il sistema blocca l'accesso del giocatore alla chat per periodi crescenti, fino al completo ban.\\
-Abbiamo voluto verificare l'efficacia di questo meccanismo, cercando quei nodi con un grande numero di messaggi in uscita a cui non corrispondessero messaggi in ingresso.
-Non sono stati considerati possibili spammer nodi appartenenti ad alleanze con più di 10 membri, in quanto un'attività di questo tipo potrebbe verificarsi per quelle figure che all'interno della community sono solite reclutare nuovi membri.
+Abbiamo voluto verificare l'efficacia di questo meccanismo, cercando quei nodi con un grande numero di messaggi in uscita a cui non corrispondessero un equo numero di messaggi in ingresso.
+Non sono stati considerati possibili spammer nodi appartenenti ad alleanze con più di 10 membri, in quanto i moderatori della comunità sono soliti eliminare utenti con un'attività di questo tipo, considerandoli dannosi per la crescita della stessa.
 La nostra analisi ha confermato l'assenza di figure definibili spammer, ovvero con un rapporto messaggi inviati / messaggi ricevuti superiore a 10$\times$, e con un numero minimo di messaggi in uscita pari a 100.
 
-\section{Ricerca di villaggi secondari}
-Una pratica comune, seppur vietata dal regolamento di Travian, è quella del cosiddetto \textit{side-village} ovvero un secondo villaggio, parallelo al principale, sfruttato per la produzione di risorse che vengono poi inviate al villaggio principale sotto forma di donazione.\\
-Abbiamo basato la rivelazione di questo comportamento sul rapporto tra tarde in uscita e trade in ingresso: un valore superiore a 5$\times$ ci ha fatto ritenere il villaggio come sospetto, e degno di più attente analisi da parte degli amministratori.\\
-Dall'analisi sono emersi un totale di 10 villaggi sospetti, in particolare i villaggi con ID 1439, 12362, 9444, 11407, 3004, 10785, 12069, 10029, 7568, 1346.\\
+\section{Ricerca di \textit{side-villages}}
+Una pratica comune, seppur vietata dal regolamento di Travian, è quella del cosiddetto \textit{side-village} ovvero un secondo profilo, parallelo al principale, sfruttato per la produzione di risorse che vengono poi inviate al profilo principale sotto forma di donazione.\\
+Abbiamo basato la rivelazione di questo comportamento sul rapporto tra tarde in uscita e trade in ingresso: un valore superiore a 5$\times$ ci ha fatto ritenere il comportamento come sospetto, e degno di più attente analisi da parte degli amministratori.\\
+Dall'analisi sono emersi un totale di 10 account sospetti, in particolare i giocatori con ID 1439, 12362, 9444, 11407, 3004, 10785, 12069, 10029, 7568, 1346.\\
 Abbiamo altresì notato come a questi nodi sia associato un bassissimo grado di messaggi in entrata ed in uscita, accrescendo ulteriormente il nostro sospetto della presenza di un comportamento illecito.
 
 \section{Studio delle community}
@@ -221,12 +220,41 @@ Al fine di effettuare analisi più approfondite su queste community, si è delin
 La maggiore difficoltà riscontrata in questa operazione si è rivelata essere l'assegnazione di un nome univoco a queste community; i file di testo forniti contengono infatti esclusivamente gli identificatori dei nodi appartenenti ad una community, senza però stabilire a quale alleanza appartengano.
 Questo è risultato essere un problema passando da un giorno all'altro, in quanto le alleanze non sono rappresentate nel medesimo ordine, e alcune si potrebbero sciogliere o creare nel frattempo.
 \todo{Papetti's trick}
+\todo{dire che le community rilevanti hanno > 9 membri}
+
+\subsection{Studio della densità e della reciprocità delle community}
+\label{sec:density}
+Un parametro indice della coesione sociale presente tra i membri di una comunità è quello della densità, ovvero il numero totale di interazioni instaurate tra i nodi rispetto al massimo valore di interazioni possibili. Associato a questa misura troviamo spesso la reciprocità, vale a dire il numero di legami bidirezionali rispetto al numero di legami totali. \\
+Le due misure sono state calcolate sui layer di messaggi e scambi, in modo da verificare quando stabile fosse la rete di comunicazione e commerci all'interno delle alleanze più rilevanti.
+I risultati, riportati in Figura \ref{fig:images/Community/Density_Reciprocity}, mostrano come il valore di reciprocità di messaggi e trade sia molto inferiore a quelli mostrati dall'analisi dei dati aggregati, riportati in Tabella \ref{tab:summary}. Si tenga però a mente che il grafo analizzato in quella tabella è il risultato della somma dei 30 giorni, mentre l'analisi qui condotta mostra il valore della rete ad ogni istante di tempo, senza considerare gli archi precedenti o successivi.\\
+I bassi valori di densità per quanto riguarda i trade all'interno della rete mostra una tendenza dei membri di una community a commerciare con giocatori esterni, probabilmente per evitare di farsi concorrenza a vicenda. Il valore relativamente basso della reciprocità per questo layer si concretizza in un elevato numero di donazioni, pratica molto diffusa all'interno delle alleanze e che garantisce bonus ai giocatori che superano una certa soglia di beni donati.\\
+Per quanto riguarda i messaggi, conosciamo dai pubblicatori del dataset che non sono presenti i messaggi di \textit{broadcast} all'interno del dataset. Questo tipo di meccanismo, utile per contattare tutti i membri di una community e solitamente usato dai vertici dell'alleanza per comunicazioni importanti, sono stati rimossi in quanto per a grande cardinalità rischiavano di introdurre bias all'interno del grafo. Ciononostante, la densità media del layer dei messaggi è approssimativamente 10$\times$ superiore rispetto all'intera rete, mostrando una più fitta rete di comunicazione tra i vari membri della community.\\
+\begin{figure}
+	\subfloat[Densità di messaggi e scambi delle community più rilevanti.]{%
+		\includegraphics[width=.45\linewidth]{images/Community/Density_Reciprocity/msg_vs_trades_density}
+	}
+	\hfill
+	\subfloat[Reciprocità di messaggi e scambi delle community più rilevanti.]{%
+		\includegraphics[width=.45\linewidth]{images/Community/Density_Reciprocity/msg_vs_trades_reciprocity}
+	}
+	\caption{Andamento di densità e reciprocità delle community più rilevanti-}
+	\label{fig:density_reciprocity}
+\end{figure}
+
+Un'ulteriore analisi compiuta sulle community è il numero di esse che risulta assente (ovvero con densità pari a 0) in uno dei due layer analizzate. Il grafico ottenuto, riportato in Figura \ref{fig:densityzeroper}, mostra come quasi 1 community su 4 sia inattiva a livello degli scambi, mentre i membri circa 1 su 10 non comunicano tra loro all'interno di una giornata. I picchi di inattività, inoltre, corrispondono ad apici negativi nei valori di densità e reciprocità nei grafici in Figura \ref{fig:density_reciprocity}. Ciò e perfettamente ragionevole, in quanto una community con densità zero influisce negativamente sul valore medio della misure per le alleanze.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/Community/Density_Reciprocity/density_zero_per}
+	\caption{Rapporto tra numero di community rilevanti con densità pari a 0 rispetto al numero totale di community rilevanti.}
+	\label{fig:densityzeroper}
+\end{figure}
+
 
 \subsection{Analisi della community principale}
-Per determinare quale fosse l'alleanza principale contenuta nel dataset, abbiamo deciso di utilizzare come metrica la dimensione e la stabilità della community sui 30 giorni. Abbiamo così scelto l'alleanza di dimensione massima e con minore deviazione standard, che si è rivelata essere quella con identificatore 43. Riportiamo inoltre che per le 4 community più grandi la dimensione media e la relativa deviazione standard non mostrano differenze statisticamente significative.\\
+Per determinare quale fosse l'alleanza principale (la più rilevante) contenuta nel dataset, abbiamo deciso di utilizzare come metrica la dimensione e la stabilità della community sui 30 giorni. Abbiamo così scelto l'alleanza di dimensione massima e con minore deviazione standard, che si è rivelata essere quella con identificatore 43. Riportiamo inoltre che per le 4 community più grandi la dimensione media e la relativa deviazione standard non mostrano differenze statisticamente significative.\\
 Per l'analisi della community è stato analizzato il layer delle comunicazioni, in quanto abbiamo ritenuto che fosse quello maggiormente significativo per estrarre analisi interessanti dal punto di vista della rete sociale.
 Sono state ripetute le misure di centralità trattate nelle Sezioni \ref{subsec:grado} e \ref{subsec:centrality}, con l'aggiunta del calcolo della closeness, ovvero una misura di quanto un nodo sia vicino al flusso informativo presente nella rete. I risultati sono riportati nelle Figure \ref{fig:comm_mean}  e \ref{fig:comm_nodes}, dove sono riportate le distruzioni delle medie delle misure e i valori per ogni nodo nei 30 giorni. Dalle distribuzioni riportare risulta evidente come vi sia una grande maggioranza di membri all'interno dell'alleanza che risultano essere poco influenti, mentre ad una parte minoritaria dei nodi sono associati valori più elevati.\\
-Un'analisi approfondita mostra come valore i valori di centralità sopra la media siano associati in modo ricorrente agli stessi nodi: essi corrispondono probabilmente alle figure più rilevanti all'interno dell'alleanza, quali il leader, i suoi diretti sottoposti e figure come il reclutatore.
+Un'analisi approfondita mostra come i valori di centralità sopra la media siano associati in modo ricorrente agli stessi nodi: essi corrispondono probabilmente alle figure più rilevanti all'interno dell'alleanza, quali il leader, i suoi diretti sottoposti e figure come il reclutatore.
 Emerge quindi una gestione piramidale della community, con pochi membri ai vertici ed una moltitudine di componenti poco rilevanti.
 \begin{figure}
 	\begin{tabular}{cc}
@@ -249,8 +277,19 @@ Emerge quindi una gestione piramidale della community, con pochi membri ai verti
 	\label{fig:comm_nodes}
 \end{figure}
 
-
-\subsection{Studio della densità e della reciprocità}
+Abbiamo poi analizzato i valori di densità e di reciprocità di questa community e li abbiamo confrontati con i valori medi ottenuti nella Sezione \ref{sec:density}, cercando di stabilire se vi fossero differenze rilevanti.
+\todo{aggiungere i grafici anche con layer trades e parlare di cosa si deduce}
+\begin{figure}
+	\subfloat[Densità di messaggi e scambi delle community più rilevanti.]{%
+		\includegraphics[width=.45\linewidth]{images/Most_important_community/density/msg_vs_most_density}
+	}
+	\hfill
+	\subfloat[Reciprocità di messaggi e scambi delle community più rilevanti.]{%
+		\includegraphics[width=.45\linewidth]{images/Most_important_community/density/msg_vs_most_reciprocity}
+	}
+	\caption{Andamento di densità e reciprocità delle community più rilevanti.}
+	\label{fig:most_imp_dens}
+\end{figure}
 
 \subsection{Evoluzione nel tempo}
 
