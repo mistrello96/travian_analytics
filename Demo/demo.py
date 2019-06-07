@@ -6,6 +6,13 @@ from dash.dependencies import Input, Output, State
 import pandas as pd
 import plotly.graph_objs as go
 
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+from alliance_members import alliance_members
+
+import base64
+wordcloud_path = 'wordcloud.png'
+
 attacks_path = "./../datas_paper/Dataset/attack-gml/"
 messages_path = "./../datas_paper/Dataset/messages-gml/"
 trades_path = "./../datas_paper/Dataset/trade-gml/"
@@ -119,6 +126,18 @@ app.layout = html.Div(children = [
                 ], className = "six columns"),
             ], className = "row"),
         ]),
+
+        dcc.Tab(label = 'sadas', children = [
+            html.Img(id = 'wordcloud'),
+            dcc.Slider(
+                id = 'slider-day',
+                min = 1,
+                max = 30,
+                step = 1,
+                value = 1,
+                marks = {str(v): str(v) for v in range(1, 31)}
+            )
+        ]),
     ])
 ])
 
@@ -192,21 +211,7 @@ def update_aggregate_joinplot(x, y, outliers):
             hovermode = 'closest'
         )
     }
-'''
-@app.callback(
-    Output('outliers', 'values'),
-    [Input('select-all-outliers', 'values')],
-    [State('outliers', 'options'),
-     State('outliers', 'values')])
-def test(selected, options, values):
-    if selected:
-        if selected[0] == 1:
-            return [i['value'] for i in options]
-        else:
-            return values
-    else:
-        return values
-'''
+
 @app.callback(
     Output('outliers', 'values'),
     [Input('select-all-outliers', 'n_clicks')],
@@ -217,6 +222,25 @@ def select_all_outliers(n_clicks, options, values):
         return [i['value'] for i in options]
     else: 
         return values
+
+@app.callback(
+    Output('wordcloud', 'src'),
+    [Input('slider-day', 'value')])
+def update_wordcloud(day):
+    members_of_alliances = {}
+    for a in alliance_members:
+        print(a)
+        length = len(a[day])
+        if length != 0:
+            members_of_alliances[a] = length
+
+    print(members_of_alliances)
+    wc = WordCloud(background_color = "white", width = 1000, height = 1000, relative_scaling = 0.5, normalize_plurals = False).generate_from_frequencies(members_of_alliances)
+    plt.savefig('wordcloud.png')
+
+    print('current image_path = {}'.format(wordcloud_path))
+    encoded_image = base64.b64encode(open(wordcloud_path, 'rb').read())
+    return 'data:image/png;base64,{}'.format(encoded_image.decode())
 
 if __name__ == '__main__':
     app.run_server(debug = True)
