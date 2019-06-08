@@ -10,7 +10,7 @@ def centrality_distribution(centrality):
 	for i in range(len(bins) - 1):
 		if normed_vs[i] != 0:
 			m = (bins[i] + bins[i + 1]) / 2
-			plt.scatter(m, normed_vs[i], marker = '.', color = "black", s = 10)
+			plt.scatter(m, normed_vs[i], marker = '.', color = "black", s = 28)
 	#plt.xlim(left = bins[0] - bins[1] / 2, right = bins[-1] + bins[1] / 2)
 	plt.xticks(fontsize = 12)
 	plt.yticks(fontsize = 12)
