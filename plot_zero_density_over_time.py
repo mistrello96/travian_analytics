@@ -4,8 +4,8 @@ import pandas as pd
 # color mapping: red = attack, mesages = blue, trade = green
 
 def plot_zero_percentage():
-	file_name_trades = "Results/Community_density_reciprocity/Trades/trades_zeroes_percentage.csv"
-	file_name_messages = "Results/Community_density_reciprocity/Messages/messages_zeroes_percentage.csv"
+	file_name_trades = "Results/Community_density_reciprocity/trades/trades_zeroes_percentage.csv"
+	file_name_messages = "Results/Community_density_reciprocity/messages/messages_zeroes_percentage.csv"
 	df_trades = pd.read_csv(file_name_trades)
 	df_messages = pd.read_csv(file_name_messages)
 	plt.figure(figsize = (8, 6), dpi = 300)
