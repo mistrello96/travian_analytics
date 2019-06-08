@@ -59,7 +59,7 @@ In Figura \ref{fig:degree} sono riportate le distribuzioni di in-degree, out-deg
  
 Sono stati inoltre realizzati dei \textit{jointplot}, per mettere in relazione grado in ingresso ed in uscita dei nodi sui differenti layer, e i risultati sono riportati in Figura \ref{fig:join_degree}. Dai grafici emerge come, per quanto concerne le aggressioni, un elevato numero di attacchi compiuti corrisponde ad un basso numero di attacchi subiti, e viceversa.\\
 Per gli scambi la situazione è diametralmente opposta, con un grafico che si distribuisce principalmente sulla diagonale, dove il numero di trade in uscita è pari a quello in entrata.\\
-Il grafico dei messaggi risulta essere più variegato, con tendenze a ricevere più messaggi di quelli inviati, ma non emerge un chiaro comportamento come nei due casi precedenti
+Il grafico dei messaggi risulta essere più variegato, con tendenze a ricevere più messaggi di quelli inviati, ma non emerge un chiaro comportamento come nei due casi precedenti.
 \begin{figure}
 	\subfloat[Jointplot attacchi.]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/attacks_jointplot_no_outliers}
@@ -89,6 +89,7 @@ In ultimo, sono stati generati i \textit{jointplot} che pongono in relazione gli
 	\label{fig:join_mixed}
 \end{figure}
 
+\newpage
 \subsection{Misure di centralità}
 \label{subsec:centrality}
 Per quanto riguarda le misure di centralità, abbiamo deciso di concentrare i nostri approfondimenti esclusivamente sui layer di messaggi e scambi, in quanto sulla rete di attacchi il calcolo di queste misure risulta essere poco sensato (non vi è alcun flusso informativo).\\
@@ -123,7 +124,7 @@ Lo stesso comportamento è mostrato dall'analisi del grafo degli scambi (in Figu
 	\label{fig:trades_centrality}
 \end{figure}
 
-Abbiamo infine generato i jointplot delle due misure analizzate, per individuare possibili correlazioni tra i valori delle due. I risultati, riportati in Figura \ref{fig:joint_centrality}, mostrano come la maggioranza dei nodi si concentri nei pressi dell'origine degli assi, a cui corrispondono bassi valori di entrambe le misure. Sono apprezzabili diversi outliers in entrambi i grafici, che mostrano \todo{indagare su questi outliers}
+Abbiamo infine generato i jointplot delle due misure analizzate, per individuare possibili correlazioni tra i valori delle due. I risultati, riportati in Figura \ref{fig:joint_centrality}, mostrano come la maggioranza dei nodi si concentri nei pressi dell'origine degli assi, a cui corrispondono bassi valori di entrambe le misure. Sono apprezzabili alcuni nodi con valori di una delle due misure oltre la media in entrambi i grafici, ma, al contrario di quanto potremmo aspettarci, maggiori valori di una misura non corrispondono ad alti valori anche per l'altra. \todo[inline]{altre cose da dire?}
 \begin{figure}
 	\subfloat[Jointplot messaggi.]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/messages_jointplot}
@@ -220,7 +221,7 @@ Al fine di effettuare analisi più approfondite su queste community, si è delin
 La maggiore difficoltà riscontrata in questa operazione si è rivelata essere l'assegnazione di un nome univoco a queste community; i file di testo forniti contengono infatti esclusivamente gli identificatori dei nodi appartenenti ad una community, senza però stabilire a quale alleanza appartengano.
 Questo è risultato essere un problema passando da un giorno all'altro, in quanto le alleanze non sono rappresentate nel medesimo ordine, e alcune si potrebbero sciogliere o creare nel frattempo.
 \todo{Papetti's trick}
-\todo{dire che le community rilevanti hanno > 9 membri}
+È stata così prodotta una rappresentazione di ogni singola community in ognuno dei 30 giorni contenente un identificatore univoco per l'alleanza e tutti i suoi membri in ogni istante temporale. Il numero complessivo di community così identificate nei 30 giorni è stato pari a 323: dato un così alto numero di community registrate, abbiamo deciso di considerare rilevanti ai fini degli studi successivi esclusivamente quelle alleanze che vantassero un numero di giocatori pari almeno a 10.
 
 \subsection{Studio della densità e della reciprocità delle community}
 \label{sec:density}
@@ -277,7 +278,7 @@ Emerge quindi una gestione piramidale della community, con pochi membri ai verti
 	\label{fig:comm_nodes}
 \end{figure}
 
-Abbiamo poi analizzato i valori di densità e di reciprocità di questa community e li abbiamo confrontati con i valori medi ottenuti nella Sezione \ref{sec:density}, cercando di stabilire se vi fossero differenze rilevanti. Le Figure \ref{fig:most_imp_mess} e \ref{fig:most_imp_trade} mostrano valori di densità e reciprocità dei trade nettamente maggiori all'interno di questa alleanza rispetto alla media delle altre community. Lo stesso vale per la densità dei messaggi, mentre per quanto riguarda la reciprocità troviamo valori lievemente inferiori rispetto alla media, con picchi di positivi in alcuni giorni. Questo tipo di dato può essere causato, come già affermato precedentemente, dalla mancanza nel dataset dei messaggi di \textit{broadcast}, utilizzati per le comunicazioni da parte dei membri di alto grado dell'alleanza. L'immagine che emerge da questa analisi è quella di una community più coesa della media, con una discreta attività di scambi e commerci interni alla community che va oltre la media delle community concorrenti.
+Abbiamo poi analizzato i valori di densità e di reciprocità di questa community e li abbiamo confrontati con i valori medi ottenuti nella Sezione \ref{sec:density}, cercando di stabilire se vi fossero differenze rilevanti. Le Figure \ref{fig:most_imp_mess} e \ref{fig:most_imp_trade} mostrano valori di densità e reciprocità dei trade nettamente maggiori all'interno di questa alleanza rispetto alla media delle altre community. Lo stesso vale per la densità dei messaggi, mentre per quanto riguarda la reciprocità troviamo valori lievemente inferiori rispetto alla media, con picchi di positivi in alcuni giorni. Questo tipo di dato può essere causato, come già affermato precedentemente, dalla mancanza nel dataset dei messaggi di \textit{broadcast}, utilizzati per le comunicazioni da parte dei membri di alto grado dell'alleanza. L'immagine che emerge da questa analisi è quella di una community più coesa della media, con una discreta attività di scambi e commerci interni alla community che va oltre la media delle altre alleanze.
 \begin{figure}
 	\subfloat[Confronto tra densità di messaggi della community analizzata rispetto alla media.]{%
 		\includegraphics[width=.45\linewidth]{images/Most_important_community/density/msg_vs_most_density}
@@ -313,5 +314,33 @@ Data la presenza ricorrente in questi grafici di un picco negativo al giorno 5, 
 	\label{fig:allianceseachday}
 \end{figure}
 
-
+\newpage
 \subsection{Interazioni tra le alleanze}
+Al fine di visualizzare i meccanismi di interazione tra le principali alleanze, sono state prodotte delle rappresentazioni dei sottografi contenenti i nodi delle 4 community più grandi e delle relative interazioni. Per produrre i sottografi di ogni layer è stato utilizzato il multi-grafo ottenuto dall'aggregazione dei 30 giorni di attività; il risultato è stato poi trasformato in grafo pesato, in modo da ridurre il numero di archi e far emergere solo i contatti tra i giocatori.\\
+Il grafo degli attacchi, rappresentati in Figura \ref{suba:inter}, vediamo come la community più aggressiva (e la più aggredita a sua volta) sia quella denotata dal colore grigio. Il numero di attacchi è complessivamente molto contenuto, e sono rarissimi casi di attacchi tra membri della stessa comunità. La tendenza che emerge è quindi quella di non aggressione tra le alleanze più grandi, che tendono a concentrare i propri attacchi su villaggi isolati o facenti parti di comunità dalla ridotta dimensione.\\
+La rappresentazione del grafo degli scambi, riportata in Figura \ref{subb:inter}, conferma l'idea di un mercato “globale”, con la formazione di una fitta rete di scambi anche tra membri di comunità diverse.\\
+Per quanti riguarda il layer dei messaggi, è stata condotta un'analisi sotto due punti di vista differenti. In primo luogo sono state rappresentate tutte le interazioni avvenute all'interno e all'esterno delle community, producendo la rappresentazione in Figura \ref{subc:inter}. Da questa rappresentazione si nota come le comunicazioni intra-community siano fortemente predominanti rispetto a quelle inter-community; caso a parte sono però le due alleanze rosse blu, che sembrano essere fuse e interconnesse da una fitta rete di comunicazione. Notiamo inoltre la presenza di alcuni giocatori (rappresentati in giallo) che hanno effettuato un cambio di community nei 30 giorni, passando da quella blu a quella rossa. L'ipotesi avanzata in questo caso è una delle due alleanze (la blu in questo caso) sia una sorta di accademia, un'alleanza satellite della comunità rossa nella quali i giocatori vengono messi alla prova e da cui, nel caso si liberi un posto, i giocatori siano spostati nell'alleanza madre. Questo meccanismo, non essendo vietato, si è molto diffuso in giochi come Travian e permette alla community principale di rimarsene stabile e ben protetta, formando di fatto una macro-alleanza con community satellite.\\
+Indagando poi sui contratti inter-comunità, abbiamo prodotto il grafo in Figura \ref{subd:inter}, dove sono rappresentati solo i contatti tra giocatori di comunità diverse. Escludendo la forte connessione tra i giocatori rossi e quelli blu, vediamo come il numero di nodi di altri colori sia estremamente limitato: ciò indica che i contatti tra due community avvengono solo attraverso poche figure prestabilite. Analizzando il comportamento di questi nodi nel tempo, è possibile intuire se essi svolgano la funzione di reclutatori, ambasciatori o se possano essere spie che passano informazioni alle comunità rivali. 
+\begin{figure}
+	\subfloat[Aggresioni tra i giocatori delle 4 più grandi community.\label{suba:inter}]{%
+		\includegraphics[width=.45\linewidth]{images/Interaction/attacks}
+	}
+	\hfill
+	\subfloat[Scambi tra i giocatori delle 4 più grandi community.\label{subb:inter}]{%
+		\includegraphics[width=.45\linewidth]{images/Interaction/trades}
+	}
+	\caption{Attacchi e scambi tra i giocatori delle 4 più grandi alleanze.}
+	\label{fig:inter_att_tra}
+\end{figure}
+
+\begin{figure}
+	\subfloat[Messaggi tra i giocatori delle 4 più grandi community.\label{subc:inter}]{%
+		\includegraphics[width=.45\linewidth]{images/Interaction/messages}
+	}
+	\hfill
+	\subfloat[Contatti tra i giocatori di community differenti rispetto alle 4 più grandi community.\label{subd:inter}]{%
+		\includegraphics[width=.45\linewidth]{images/Interaction/communities_contact}
+	}
+	\caption{Messaggi inter ed intra community relativamente alle 4 più grandi alleanze.}
+	\label{fig:inter_messages}
+\end{figure}
