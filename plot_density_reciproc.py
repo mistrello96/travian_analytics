@@ -146,6 +146,41 @@ def plot_mean_vs_mean():
 	plt.savefig("Results/Community_density_reciprocity/images/pdf/msg_vs_most_reciprocity.pdf")
 	plt.close()
 
+	# trades - most relevant community
+	df_most = pd.read_csv("Results/Most_relevant_community_analysis/trades/trades_most_relevant_community_density_reciprocity.csv")
+	# most relevant community analysis - density
+	plt.figure(figsize = (8, 6), dpi = 300)
+	plt.plot(range(1, 31), density_means["trades"], color = "green", label = "Average of all relevant alliances")
+	plt.plot(df_most["day"], df_most["density"], '--', color = "black", label = "Most releval community")
+	plt.xlim(0.8, 30.5)
+	plt.xticks(range(1, 31), fontsize = 12)
+	plt.yticks(fontsize = 12)
+	plt.xlabel("Day", fontsize = 15)
+	plt.ylabel("Density", fontsize = 15)
+	plt.title("Density of trades' average vs density of most relevant community")
+	plt.legend()
+	plt.tight_layout()
+	plt.savefig("Results/Community_density_reciprocity/images/png/trades_vs_most_density.png")
+	plt.savefig("Results/Community_density_reciprocity/images/pdf/trades_vs_most_density.pdf")
+	plt.close()
+
+	# most relevant community analysis - reciprocity
+	plt.figure(figsize = (8, 6), dpi = 300)
+	plt.plot(range(1, 31), reciprocity_means["trades"], color = "green", label = "Average of all relevant alliances")
+	plt.plot(df_most["day"], df_most["reciprocity"], '--', color = "black", label = "Most releval community")
+	plt.xlim(0.8, 30.5)
+	plt.xticks(range(1, 31), fontsize = 12)
+	plt.yticks(fontsize = 12)
+	plt.xlabel("Day", fontsize = 15)
+	plt.ylabel("Reciprocity", fontsize = 15)
+	plt.title("Reciprocity of trades' average vs reciprocity of most relevant community")
+	plt.legend()
+	plt.tight_layout()
+	plt.savefig("Results/Community_density_reciprocity/images/png/trades_vs_most_reciprocity.png")
+	plt.savefig("Results/Community_density_reciprocity/images/pdf/trades_vs_most_reciprocity.pdf")
+	plt.close()
+
+
 if __name__ == "__main__":
 	print("print messages density and reciprocity over time")
 	plot_mean_std_density_reciprocity("messages", "blue")

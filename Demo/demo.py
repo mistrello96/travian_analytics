@@ -13,6 +13,13 @@ from alliance_members import alliance_members
 import base64
 wordcloud_path = 'wordcloud.png'
 
+large_alliances = {}
+for a in alliance_members:
+    for s in alliance_members[a]:
+        if len(s) > 49:
+            large_alliances[a] = [len(x) for x in alliance_members[a]]
+            break
+
 attacks_path = "./../datas_paper/Dataset/attack-gml/"
 messages_path = "./../datas_paper/Dataset/messages-gml/"
 trades_path = "./../datas_paper/Dataset/trade-gml/"
@@ -69,7 +76,6 @@ app.layout = html.Div(children = [
         ]),
 
         dcc.Tab(label = 'Centralities jointplot in the aggregate graph', children = [
-            #html.Div([dcc.Graph(id = 'jointplot-aggregate')]),
             html.Div([
                 html.Div([dcc.Graph(id = 'jointplot-aggregate')], className="six columns"),
                 html.Div([
@@ -127,9 +133,22 @@ app.layout = html.Div(children = [
             ], className = "row"),
         ]),
 
-        dcc.Tab(label = 'sadas', children = [
-            html.Img(id = 'wordcloud'),
-            # a lato grafico su giorni e numero di membri community che per un giorno membri >= 50
+        dcc.Tab(label = "Number of alliances' members", children = [
+            html.Div([
+                html.Div([html.Img(id = 'wordcloud')], className = "four columns"),
+                html.Div([
+                    html.Label('Select communities:'),
+                    dcc.Dropdown(
+                        id = 'dropdown-communities',
+                        options = [{'label': a, 'value': a} for a in large_alliances],
+                        value = ['alliance43'],
+                        style = {'width': 1250},
+                        multi = True
+                    ),
+                    dcc.Graph(id = 'communities-evolution-graph'),
+                ], className = "six columns"),
+            ], className = "row"),
+            html.Label('Select a day:'),
             dcc.Slider(
                 id = 'slider-day',
                 min = 1,
@@ -239,6 +258,31 @@ def update_wordcloud(day):
 
     encoded_image = base64.b64encode(open(wordcloud_path, 'rb').read())
     return 'data:image/png;base64,{}'.format(encoded_image.decode())
+
+@app.callback(
+    Output('communities-evolution-graph', 'figure'),
+    [Input('dropdown-communities', 'value')])
+def update_relevant_communities_graph(alliances_of_interest):
+    traces = []
+    for a in alliances_of_interest:
+        traces.append(go.Scatter(x = [d for d in range(1, 31)], y = large_alliances[a],
+            text = ["Day {}".format(d) for d in range(1, 31)], mode ='lines+markers',
+            opacity = 0.7, marker = {'size': 15, 'line': {'width': 0.5}}, name = a))
+
+    return {
+        'data': traces,
+        'layout': go.Layout(
+            title = "Number of members over the days",
+            font = {'size': 14},
+            autosize = False,
+            width = 1250,
+            height = 550,
+            xaxis = {'title': "Day", 'showgrid': True, 'showline': True},
+            yaxis = {'title': "Number", 'showgrid': True},
+            margin={'l': 80, 'b': 40, 't': 45, 'r': 10},
+            legend={'x': 0.95, 'y': 0.95},
+        )
+    }
 
 if __name__ == '__main__':
     app.run_server(debug = True)
