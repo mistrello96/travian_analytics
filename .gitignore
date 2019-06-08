@@ -16,7 +16,6 @@ Results/Most_relevant_community_analysis/images/
 Results/Community_draw/
 Demo/*.png
 
-/datas_paper
 # report
 *.log
 *.aux
