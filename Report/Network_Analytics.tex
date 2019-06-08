@@ -136,7 +136,7 @@ Abbiamo infine generato i jointplot delle due misure analizzate, per individuare
 	\label{fig:joint_centrality}
 \end{figure}
 
-
+\newpage
 \subsection{Coefficiente di clustering medio}
 Un'ulteriore misura analizzata è stata il coefficiente medio di clustering, ovvero la misura della tendenza di un nodo a formare un cricca (i.e. grafo completo). Questo comportamento è solito rilevarsi nelle reti sociali, dove i nodi tendono a formare delle community dense e coese rispetto al resto del grafo. Essendo questa una misura media, bisogna considerare il fatto che la maggior parte dei nodi non facciano parte di alcuna community, e questo influenzi molto il valore medio ottenuto: useremo i risultati di questa analisi come metro di paragone per i successivi studi sulle alleanze. 
 I risultati ottenuti sono riportati in Figura \ref{fig:clustering}: vediamo come nel layer dei messaggi, che possiamo considerare una rete sociale, i valori medi sono decisamente maggiori rispetto alla rete degli scambi, dove i vicini di un nodo non necessariamente sono soliti commerciare tra loro. Ci possiamo altresì aspettare che i nodi del vicinato di x siano più propensi a conoscersi e a comunicare tra loro.
@@ -169,7 +169,7 @@ Come mostrato in Figura \ref{fig:activity_each_day}, complessivamente il numero 
 		\includegraphics[width=.45\linewidth]{images/Activity/n_each_activity_each_day}
 	}
 	\hfill
-	\subfloat[Somma del numero di archi presente nei tre layer ad un dato giorno.]{%
+	\subfloat[Somma del numero di archi presenti nei tre layer ad un dato giorno.]{%
 		\includegraphics[width=.45\linewidth]{images/Activity/total_activities_each_day}
 	}
 	\caption{Le linee rosse verticali nel grafico di destra rappresentano l'inizio di una nuova settimana. Si può apprezzare un andamento complessivamente decrescente, soprattutto in corrispondenza del week-end e di festività.}
@@ -251,8 +251,8 @@ Un'ulteriore analisi compiuta sulle community è il numero di esse che risulta a
 
 
 \subsection{Analisi della community principale}
-Per determinare quale fosse l'alleanza principale (la più rilevante) contenuta nel dataset, abbiamo deciso di utilizzare come metrica la dimensione e la stabilità della community sui 30 giorni. Abbiamo così scelto l'alleanza di dimensione massima e con minore deviazione standard, che si è rivelata essere quella con identificatore 43. Riportiamo inoltre che per le 4 community più grandi la dimensione media e la relativa deviazione standard non mostrano differenze statisticamente significative.\\
-Per l'analisi della community è stato analizzato il layer delle comunicazioni, in quanto abbiamo ritenuto che fosse quello maggiormente significativo per estrarre analisi interessanti dal punto di vista della rete sociale.
+Per determinare quale fosse l'alleanza principale (la più rilevante) contenuta nel dataset, abbiamo deciso di utilizzare come metrica la dimensione e la stabilità della community sui 30 giorni. Abbiamo così scelto l'alleanza di dimensione massima e con minore deviazione standard, che si è rivelata essere quella con identificatore 43. Riportiamo inoltre che per le prime 4 community in ordine di grandezza, la dimensione media e la relativa deviazione standard non mostrano differenze statisticamente significative. rispetto alla community scelta. Possiamo quindi immaginare che all'interno del server vi sia un piccolo sottoinsieme di alleanze principali, considerabili molto numerose e stabili, affiancate ad un ben più alto numero di community meno rilevanti e molto più dinamiche, che crescono di dimensione, si scindono o addirittura scompaiono.\\
+Per l'analisi della community è stato analizzato il layer delle comunicazioni, in quanto abbiamo ritenuto che fosse quello maggiormente significativo per estrarre analisi interessanti dal punto di vista sociale e del flusso informativo.
 Sono state ripetute le misure di centralità trattate nelle Sezioni \ref{subsec:grado} e \ref{subsec:centrality}, con l'aggiunta del calcolo della closeness, ovvero una misura di quanto un nodo sia vicino al flusso informativo presente nella rete. I risultati sono riportati nelle Figure \ref{fig:comm_mean}  e \ref{fig:comm_nodes}, dove sono riportate le distruzioni delle medie delle misure e i valori per ogni nodo nei 30 giorni. Dalle distribuzioni riportare risulta evidente come vi sia una grande maggioranza di membri all'interno dell'alleanza che risultano essere poco influenti, mentre ad una parte minoritaria dei nodi sono associati valori più elevati.\\
 Un'analisi approfondita mostra come i valori di centralità sopra la media siano associati in modo ricorrente agli stessi nodi: essi corrispondono probabilmente alle figure più rilevanti all'interno dell'alleanza, quali il leader, i suoi diretti sottoposti e figure come il reclutatore.
 Emerge quindi una gestione piramidale della community, con pochi membri ai vertici ed una moltitudine di componenti poco rilevanti.
@@ -273,24 +273,45 @@ Emerge quindi una gestione piramidale della community, con pochi membri ai verti
 		\subfloat[Closeness]{\includegraphics[width = .5\textwidth]{images/Most_important_community/each_node/closeness_each_node}} &
 		\subfloat[PageRank]{\includegraphics[width = .5\textwidth]{images/Most_important_community/each_node/pagerank_each_node}}
 	\end{tabular}
-	\caption{Out-degree, Betweenness, Closeness e PageRank di ogni nodo per ognuno dei 30 giorni.}
+	\caption{Out-degree, Betweenness, Closeness e PageRank di ogni nodo dell'alleanza principale per ognuno dei 30 giorni.}
 	\label{fig:comm_nodes}
 \end{figure}
 
-Abbiamo poi analizzato i valori di densità e di reciprocità di questa community e li abbiamo confrontati con i valori medi ottenuti nella Sezione \ref{sec:density}, cercando di stabilire se vi fossero differenze rilevanti.
-\todo{aggiungere i grafici anche con layer trades e parlare di cosa si deduce}
+Abbiamo poi analizzato i valori di densità e di reciprocità di questa community e li abbiamo confrontati con i valori medi ottenuti nella Sezione \ref{sec:density}, cercando di stabilire se vi fossero differenze rilevanti. Le Figure \ref{fig:most_imp_mess} e \ref{fig:most_imp_trade} mostrano valori di densità e reciprocità dei trade nettamente maggiori all'interno di questa alleanza rispetto alla media delle altre community. Lo stesso vale per la densità dei messaggi, mentre per quanto riguarda la reciprocità troviamo valori lievemente inferiori rispetto alla media, con picchi di positivi in alcuni giorni. Questo tipo di dato può essere causato, come già affermato precedentemente, dalla mancanza nel dataset dei messaggi di \textit{broadcast}, utilizzati per le comunicazioni da parte dei membri di alto grado dell'alleanza. L'immagine che emerge da questa analisi è quella di una community più coesa della media, con una discreta attività di scambi e commerci interni alla community che va oltre la media delle community concorrenti.
 \begin{figure}
-	\subfloat[Densità di messaggi e scambi delle community più rilevanti.]{%
+	\subfloat[Confronto tra densità di messaggi della community analizzata rispetto alla media.]{%
 		\includegraphics[width=.45\linewidth]{images/Most_important_community/density/msg_vs_most_density}
 	}
 	\hfill
-	\subfloat[Reciprocità di messaggi e scambi delle community più rilevanti.]{%
+	\subfloat[Confronto tra reciprocità dei messaggi della community analizzata rispetto alla media.]{%
 		\includegraphics[width=.45\linewidth]{images/Most_important_community/density/msg_vs_most_reciprocity}
 	}
-	\caption{Andamento di densità e reciprocità delle community più rilevanti.}
-	\label{fig:most_imp_dens}
+	\caption{Andamento di densità e reciprocità dei messaggi della community a confronto con le medie della rete.}
+	\label{fig:most_imp_mess}
+\end{figure}
+\begin{figure}
+	\subfloat[Confronto tra densità di trade della community analizzata rispetto alla media.]{%
+		\includegraphics[width=.45\linewidth]{images/Most_important_community/density/trades_vs_most_density}
+	}
+	\hfill
+	\subfloat[Confronto tra reciprocità dei trade della community analizzata rispetto alla media.]{%
+		\includegraphics[width=.45\linewidth]{images/Most_important_community/density/trades_vs_most_reciprocity}
+	}
+	\caption{Andamento di densità e reciprocità dei trade della community a confronto con i valori medi delle community.}
+	\label{fig:most_imp_trade}
 \end{figure}
 
+\newpage
 \subsection{Evoluzione nel tempo}
+Come affermato nella Sezione precedente, il server è costituito da un grande numero di alleanze registrate, ma quante di queste sono davvero da considerarsi come influenti? Abbiamo quindi indagato come il numero di alleanze registrate variasse nel tempo, cercando di identificare se vi fosse un chiaro trand di accorpamento delle community o di disaggregazione di esse. I risultati ottenuto, mostrati in Figura \ref{fig:allianceseachday}, mostrano una progressiva diminuzione sia del numero di alleanze totale, sia del numero di alleanze considerabili rilevanti (si ricorda che come metrica di rilevanza è stata utilizzato il numero minimo di membri pari a 10). La percentuale di community rilevanti sul totale si mantiene pressochè stabile, oscillando tra il $25\%$ e il $35\%$.\\
+L'andamento decrescente mostrato in Figura \ref{fig:allianceseachday} sembra confermare il trand presente anche nelle Figure \ref{fig:activity_each_day} e \ref{fig:playereachday}, che mostra un progressivo spopolamento del server, con conseguente diminuzione del numero di attività totali eseguite ogni giorno.\\
+Data la presenza ricorrente in questi grafici di un picco negativo al giorno 5, abbiamo deciso di indagare più approfonditamente questo fenomeno, sospettando che un qualche intervento esterno potesse aver alterato il numero di giocatori presenti. Analizzando gli insiemi dei giocatori presenti prima e dopo il quinto giorno, abbiamo rilevato che ben 715 giocatori che erano presenti in almeno uno dei layer della rete nei gironi precedenti al crollo, non hanno compiuto alcun tipo di attività nei successivi 25 giorni! Questo tipo di riscontro sembrerebbe essere compatibile con un evento esterno che abbia rimosso i giocatori (\textit{e.g.}, ban) o che li abbia portati ad andarsene (\textit{e.g.}, apertura di un nuovo server). Sfortunatamente non siamo riusciti a trovare conferme di queste ipotesi, in quanto non siamo riusciti a trovare alcuna prova online che confermasse o smentisse la nostra tesi.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.85\linewidth]{images/alliances_each_day}
+	\caption{Andamento del numero di community registrate nel tempo.}
+	\label{fig:allianceseachday}
+\end{figure}
+
 
 \subsection{Interazioni tra le alleanze}
