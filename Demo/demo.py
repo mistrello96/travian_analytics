@@ -43,14 +43,42 @@ app.layout = html.Div(children = [
     html.H1(children = 'Travian Network'),
     dcc.Tabs(id = 'tabs', children = [
         dcc.Tab(label = 'Activities over the days', children = [
-            html.Div(
+            html.Div([
+                dcc.Graph(
+                    id = 'players_over_days',
+                    figure = {
+                        'data': [
+                            go.Scatter(
+                                x = activities[k]['day'],
+                                y = activities[k]['nodes'],
+                                text = ["Day {}".format(d) for d in activities[k]['day']],
+                                mode ='lines+markers',
+                                opacity = 0.7,
+                                marker = {
+                                    'color': "red" if k == 'Attacks' else "blue" if k == "Messages" else "green",
+                                    'size': 15,
+                                    'line': {'width': 0.5, 'color': "red" if k == 'Attacks' else "blue" if k == "Messages" else "green"}
+                                },
+                                name = k
+                            ) for k in activities
+                        ],
+                        'layout': go.Layout(
+                            title = "Players over the days",
+                            font = {'size': 14},
+                            xaxis = {'title': "Day", 'showgrid': True, 'showline': True},
+                            yaxis = {'title': "Number", 'showgrid': True},
+                            margin={'l': 80, 'b': 40, 't': 45, 'r': 10},
+                            legend={'x': 0.95, 'y': 0.95},
+                        )
+                    }
+                ),
                 dcc.Graph(
                     id = 'actvs_over_days',
                     figure = {
                         'data': [
                             go.Scatter(
                                 x = activities[k]['day'],
-                                y = activities[k]['nodes'],
+                                y = activities[k]['edges'],
                                 text = ["Day {}".format(d) for d in activities[k]['day']],
                                 mode ='lines+markers',
                                 opacity = 0.7,
@@ -71,8 +99,22 @@ app.layout = html.Div(children = [
                             legend={'x': 0.95, 'y': 0.95},
                         )
                     }
-                )
-            ),
+               )
+            ]),
+            html.Div([
+                html.Div([
+                    html.Label('Select a day:'),
+                    dcc.Dropdown(
+                        id = 'dropdown-day-players',
+                        options = [{'label': d, 'value': d} for d in range(1, 31)],
+                        value = 1,
+                        #style = {'width': 1250},
+                    ),
+                ]),
+                html.Div([
+                    dcc.Graph(id = 'pie-activities')
+                ])
+            ])
         ]),
 
         dcc.Tab(label = 'Centralities jointplot in the aggregate graph', children = [
@@ -230,6 +272,23 @@ def update_aggregate_joinplot(x, y, outliers):
             margin = {'l': 80, 'b': 40, 't': 10, 'r': 10},
             hovermode = 'closest'
         )
+    }
+
+@app.callback(
+    Output('pie-activities', 'figure'),
+    [Input('dropdown-day-players', 'value')])
+def update_pie_activities(day):
+    labels = []
+    values = []
+    for activity in activities:
+        labels.append(activity)
+        values.append(activities[activity]['nodes'][day - 1])
+    colors = ['red', 'blue', 'green']
+    trace = go.Pie(labels = labels, values = values, hoverinfo = 'label+percent',
+                   textinfo = 'value', textfont = dict(size = 20), marker = dict(colors = colors, line = dict(color = '#000000', width = 2)))
+    return{
+        'data': [trace],
+        'layout': {'height': 250, 'margin': {'l': 20, 'b': 30, 'r': 10, 't': 10}}
     }
 
 @app.callback(
