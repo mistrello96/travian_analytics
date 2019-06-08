@@ -103,18 +103,35 @@ app.layout = html.Div(children = [
             ]),
             html.Div([
                 html.Div([
-                    html.Label('Select a day:'),
-                    dcc.Dropdown(
-                        id = 'dropdown-day-players',
-                        options = [{'label': d, 'value': d} for d in range(1, 31)],
-                        value = 1,
-                        #style = {'width': 1250},
-                    ),
-                ]),
+                    html.Div([
+                        html.Label('Select a day to see the respective distribution of the players performing an activity:'),
+                        dcc.Dropdown(
+                            id = 'dropdown-day-players',
+                            options = [{'label': d, 'value': d} for d in range(1, 31)],
+                            value = 1,
+                            #style = {'width': 1250},
+                        ),
+                    ]),
+                    html.Div([
+                        dcc.Graph(id = 'pie-activities-players')
+                    ]),
+                ], className = "six columns"),
+
                 html.Div([
-                    dcc.Graph(id = 'pie-activities')
-                ])
-            ])
+                    html.Div([
+                        html.Label('Select a day to see the respective distribution of the activities:'),
+                        dcc.Dropdown(
+                            id = 'dropdown-day-actions',
+                            options = [{'label': d, 'value': d} for d in range(1, 31)],
+                            value = 1,
+                            #style = {'width': 1250},
+                        ),
+                    ]),
+                    html.Div([
+                        dcc.Graph(id = 'pie-activities-actions')
+                    ])
+                ], className = "six columns")
+            ], className = "row")
         ]),
 
         dcc.Tab(label = 'Centralities jointplot in the aggregate graph', children = [
@@ -275,14 +292,31 @@ def update_aggregate_joinplot(x, y, outliers):
     }
 
 @app.callback(
-    Output('pie-activities', 'figure'),
+    Output('pie-activities-players', 'figure'),
     [Input('dropdown-day-players', 'value')])
-def update_pie_activities(day):
+def update_pie_activities_players(day):
     labels = []
     values = []
     for activity in activities:
         labels.append(activity)
         values.append(activities[activity]['nodes'][day - 1])
+    colors = ['red', 'blue', 'green']
+    trace = go.Pie(labels = labels, values = values, hoverinfo = 'label+percent',
+                   textinfo = 'value', textfont = dict(size = 20), marker = dict(colors = colors, line = dict(color = '#000000', width = 2)))
+    return{
+        'data': [trace],
+        'layout': {'height': 250, 'margin': {'l': 20, 'b': 30, 'r': 10, 't': 10}}
+    }
+
+@app.callback(
+    Output('pie-activities-actions', 'figure'),
+    [Input('dropdown-day-actions', 'value')])
+def update_pie_activities_actions(day):
+    labels = []
+    values = []
+    for activity in activities:
+        labels.append(activity)
+        values.append(activities[activity]['edges'][day - 1])
     colors = ['red', 'blue', 'green']
     trace = go.Pie(labels = labels, values = values, hoverinfo = 'label+percent',
                    textinfo = 'value', textfont = dict(size = 20), marker = dict(colors = colors, line = dict(color = '#000000', width = 2)))
