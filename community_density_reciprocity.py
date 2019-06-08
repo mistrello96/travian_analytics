@@ -7,6 +7,7 @@ from MG_to_SG_function import MG_to_SG
 
 path = sys.argv[1]
 save_path = sys.argv[2]
+# number of community with denisty = 0
 zeros = pd.DataFrame(columns=["day", "zero_percentage"])
 # iterate over days
 for time in range (0, 30):
@@ -37,6 +38,7 @@ for time in range (0, 30):
 				if n not in SG.nodes:
 					SG.add_node(n)
 			# compute measures
+			# if one of the measures fail, put it at 0
 			density = 0
 			try:
 				density = nx.density(SG)
@@ -47,9 +49,9 @@ for time in range (0, 30):
 				reciprocity = nx.overall_reciprocity(SG)
 			except:
 				pass
-
 			res.loc[len(res)] = [alliance, density, reciprocity]
 			if density == 0:
+				# count +1 of community with 0 density
 				counter_density += 1
 	zeros.loc[len(zeros)] = [time+1, counter_density / counter_community]
 	res.to_csv(save_path + "/messages_community_density_reciprocity" + str(time + 1) + ".csv", index=False)

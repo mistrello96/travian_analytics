@@ -25,6 +25,3 @@ alliance73
 alliance5
 
 Nei plot delle community, i 4 nodi gialli sono passati dalla community 38 alla 43. Probabilmente la 38 è l'accademia della 43
-
-
-Determinare quando le community si sono rotte nella relazione?

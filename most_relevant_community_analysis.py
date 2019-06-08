@@ -46,11 +46,12 @@ for day in range(0,30):
 		if n not in SG.nodes:
 			SG.add_node(n)
 
-	# compute measuers on the sub-graph
+	# compute aggregate measuers on the sub-graph
 	density = nx.density(SG)
 	reciprocity = nx.overall_reciprocity(SG)
 	measures.loc[len(measures)] = [day+1, density, reciprocity]
 
+	# compute degreee and centralities
 	indegree = SG.in_degree(weight = "weight")
 	outdegree = SG.out_degree(weight = "weight")
 	edgecount = SG.degree(weight = "weight")
@@ -58,22 +59,29 @@ for day in range(0,30):
 	betweenness = nx.betweenness_centrality(SG, normalized=True, weight="weight")
 	pagerank = nx.pagerank(SG, weight = "weight")
 
+	# iterate over community node
 	for node in community_members:
+		# save the info
 		node_measure.loc[len(node_measure)] = [node, indegree[node], outdegree[node], edgecount[node], closeness[node], betweenness[node], pagerank[node]]
+		# store the info fot the mean and std measures
 		ncov[node]["indegree"].append(indegree[node])
 		ncov[node]["outdegree"].append(outdegree[node])
 		ncov[node]["edgecount"].append(edgecount[node])
 		ncov[node]["closeness"].append(closeness[node])
 		ncov[node]["betweenness"].append(betweenness[node])
 		ncov[node]["pagerank"].append(pagerank[node])
+	# save to file the centrality info
 	#node_measure.to_csv(save_path + "/messages_most_relevant_community_centrality" + str(day + 1) + ".csv", index=False)
 	node_measure.to_csv(save_path + "/trades_most_relevant_community_centrality" + str(day + 1) + ".csv", index=False)
 
+# save to file density and reciprocity
 #measures.to_csv(save_path + "/messages_most_relevant_community_density_reciprocity.csv", index=False)
 measures.to_csv(save_path + "/trades_most_relevant_community_density_reciprocity.csv", index=False)
 
+# crreate the dataframe for mean and std measures
 aggregate_measure = pd.DataFrame(columns=["node", "in-degree-mean", "in-degree-std", "out-degree-mean", "out-degree-std", "edge-count-mean", "edge-count-std",  "closeness-mean", "closeness-std", "betweenness-mean", "betweenness-std", "pagerank-mean", "pagerank-std"])
 
+# compute mean and std for the stored data
 for node in community_set:
 	aggregate_measure.loc[len(aggregate_measure)] = [node, np.mean(ncov[node]["indegree"]), np.std(ncov[node]["indegree"]), np.mean(ncov[node]["outdegree"]), np.std(ncov[node]["outdegree"]),
 	np.mean(ncov[node]["edgecount"]), np.std(ncov[node]["edgecount"]), np.mean(ncov[node]["closeness"]), np.std(ncov[node]["closeness"]), 

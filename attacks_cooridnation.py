@@ -8,12 +8,15 @@ import matplotlib.pyplot as plt
 
 path = sys.argv[1]
 
+# read the community member for each day
 community_members_over_time = alliance_members['alliance43']
 
+# iterate over days
 for day in range(0,30):
+	# extract the comminity nodes of that day
 	community_members = community_members_over_time[day]
 	M = nx.read_graphml(path + "attacks-timestamped-2009-12-" + str(day+1) + ".graphml")
-	
+	# pass to a graph
 	G = MG_to_SG(M)
 	attack_edges = set()
 	active_community_members = set()
@@ -23,23 +26,15 @@ for day in range(0,30):
 			if G.has_edge(cn, n):
 				attack_edges.add((cn, n))
 				active_community_members.add(cn)
+	# induce a subgraph of the attackers-attacked ndes
 	tmp = G.edge_subgraph(attack_edges)
 	# create a copy (otherwise G cannot be modified)
 	SG = nx.DiGraph(tmp)
 
-	targets = set()
-	for n in SG.nodes:
-		if n not in active_community_members:
-			targets.add(n)
-
-	nodelist = [item for sublist in [list(active_community_members), list(targets)] for item in sublist]
-	community_color = ["#ff0000"] * len(active_community_members)
-	targets_color = ["#0a7e28"] * len(targets)
-	colorlist = [item for sublist in [list(community_color), list(targets_color)] for item in sublist]
-
-	# count number of different attackers
-	deg = dict(SG.in_degree(weight = "weight"))
-	#print(deg)
+	# count number of different attackers for each node
+	# we don't want to use the weight because we just want to count how many different attackers was
+	deg = dict(SG.in_degree())
+	# find the most attacked node and print its info
 	sorteddegree = [(k,v) for k, v in zip(deg.keys(), deg.values())]
 	sorteddegree.sort(key = lambda x: x[1], reverse = True)
 	print(sorteddegree[0])

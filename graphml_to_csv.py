@@ -2,6 +2,8 @@ import networkx as nx
 import sys
 from os import walk
 
+# since csv were not consistent, we decide to made our own csv of each file, so it is easier to produce a 30-days view of the layer
+
 path = sys.argv[1]
 save_path = sys.argv[2]
 

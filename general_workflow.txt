@@ -51,8 +51,6 @@ distribuzione di attività oraria aggregata
 
 analisi di natale
 
-analisi giorno pochi attacchi
-
 ### FUTURE
 
 Evolution over time (using GT):

@@ -7,11 +7,14 @@ from itertools import groupby
 from collections import Counter
 import pandas as pd
 
+# import path to the 30-days folder
 attacks = sys.argv[1]
 messages = sys.argv[2]
 trades = sys.argv[3]
+# set day treshold to identify number of player unactive after that day
 treshold = sys.argv[4]
 
+# set of active player before that day
 before_treshold = set()
 for day in range(0, int(treshold) - 1):
 
@@ -22,6 +25,7 @@ for day in range(0, int(treshold) - 1):
 	before_treshold = before_treshold.union(M.nodes())
 	before_treshold = before_treshold.union(T.nodes())
 
+# set of active player after that day
 after_treshold = set()
 for day in range (int(treshold) - 1 , 30):
 	A = nx.read_graphml(attacks + "attacks-timestamped-2009-12-" + str(day+1) + ".graphml")
@@ -31,8 +35,11 @@ for day in range (int(treshold) - 1 , 30):
 	after_treshold = after_treshold.union(M.nodes())
 	after_treshold = after_treshold.union(T.nodes())
 
+# set difference
 print("People delta " + str(len(before_treshold - after_treshold)))
 
+# activity per hour distribution of the selected day
+# see activity_per_hour file for further info
 res_att= list()
 res_mes = list()
 res_tra = list()

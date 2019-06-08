@@ -1,3 +1,5 @@
+### see comments of draw_communities.py
+
 import networkx as nx
 import sys
 import pandas as pd
@@ -111,10 +113,7 @@ colorlist = [item for sublist in [list(cc1), list(cc2), list(cc3), list(cc4)] fo
 
 tmp = G.subgraph(nodelist)
 SG = nx.DiGraph(tmp)
-# iterate over members
 for n in nodelist:
-	# add node if not present in the original graph
-	# this could happen if in that day the player was offline
 	if n not in SG.nodes:
 		SG.add_node(n)
 
