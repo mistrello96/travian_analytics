@@ -129,6 +129,7 @@ app.layout = html.Div(children = [
 
         dcc.Tab(label = 'sadas', children = [
             html.Img(id = 'wordcloud'),
+            # a lato grafico su giorni e numero di membri community che per un giorno membri >= 50
             dcc.Slider(
                 id = 'slider-day',
                 min = 1,
@@ -229,16 +230,13 @@ def select_all_outliers(n_clicks, options, values):
 def update_wordcloud(day):
     members_of_alliances = {}
     for a in alliance_members:
-        print(a)
-        length = len(a[day])
+        length = len(alliance_members[a][day])
         if length != 0:
             members_of_alliances[a] = length
 
-    print(members_of_alliances)
-    wc = WordCloud(background_color = "white", width = 1000, height = 1000, relative_scaling = 0.5, normalize_plurals = False).generate_from_frequencies(members_of_alliances)
-    plt.savefig('wordcloud.png')
+    wc = WordCloud(background_color = "white", width = 600, height = 600, relative_scaling = 0.5, normalize_plurals = False).generate_from_frequencies(members_of_alliances)
+    wc.to_file("wordcloud.png")
 
-    print('current image_path = {}'.format(wordcloud_path))
     encoded_image = base64.b64encode(open(wordcloud_path, 'rb').read())
     return 'data:image/png;base64,{}'.format(encoded_image.decode())
 
