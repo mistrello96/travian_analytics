@@ -5,9 +5,13 @@ import pandas as pd
 
 if __name__ == "__main__":
 	df = pd.read_csv("Results/Activity/activity_per_hour.csv")
-
+	#df2 = pd.read_csv(("Results/Activity/day4_activity_per_hour.csv"))
+	#df3 = pd.read_csv(("Results/Activity/day5_activity_per_hour.csv"))
 	plt.figure(figsize = (8, 6), dpi = 300)
+	#df['total'] = df['total'].apply(lambda x : x / 30 )
 	plt.plot(df["hour"], df["total"], '-o', color = "black")
+	#plt.plot(df2["hour"], df2["total"], '-o', color = "green")
+	#plt.plot(df3["hour"], df3["total"], '-o', color = "red")
 	plt.xlim(left = -0.2, right = 23.3)
 	plt.xticks(range(0, 25), fontsize = 12)
 	plt.yticks(fontsize = 12)
