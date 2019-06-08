@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 def centrality_distribution(centrality):
-	df = pd.read_csv("Results/Most_relevant_community_analysis/messages_most_relevant_community_node_centrality.csv")
+	df = pd.read_csv("Results/Most_relevant_community_analysis/messages/messages_most_relevant_community_node_centrality.csv")
 	plt.figure(figsize = (8, 6), dpi = 300)
 	(vs, bins) = np.histogram(df["{}-mean".format(centrality)], bins = 'fd', density = False)
 	normed_vs = [v / len(df["{}-mean".format(centrality)]) for v in vs]
@@ -24,14 +24,14 @@ def centrality_distribution(centrality):
 	else:
 		plt.title("Average 30-day {} distribution".format(centrality))
 	plt.tight_layout()
-	plt.savefig("Results/Most_relevant_community_analysis/images/png/distribution/{}_distribution.png".format(centrality))
-	plt.savefig("Results/Most_relevant_community_analysis/images/pdf/distribution/{}_distribution.pdf".format(centrality))
+	plt.savefig("Results/Most_relevant_community_analysis/messages/images/png/distribution/{}_distribution.png".format(centrality))
+	plt.savefig("Results/Most_relevant_community_analysis/messages/images/pdf/distribution/{}_distribution.pdf".format(centrality))
 	plt.close()
 
 def centraly_of_each_node_each_day(centrality):
 	plt.figure(figsize = (8, 6), dpi = 300)
 	for i in range(1, 31):
-		df = pd.read_csv("Results/Most_relevant_community_analysis/messages_most_relevant_community_centrality{}.csv".format(i))
+		df = pd.read_csv("Results/Most_relevant_community_analysis/messages/messages_most_relevant_community_centrality{}.csv".format(i))
 		plt.scatter([str(x) for x in df["node"]], df[centrality], marker = '.', color = "black", s = 5)
 	plt.xticks(fontsize = 12)
 	plt.tick_params(axis = 'x', labelbottom = False)
@@ -46,8 +46,8 @@ def centraly_of_each_node_each_day(centrality):
 	else:
 		plt.title("{} of each node over 30 days".format(centrality[0].upper() + centrality[1:]), fontsize = 15)
 	plt.tight_layout()
-	plt.savefig("Results/Most_relevant_community_analysis/images/png/each_node/{}_each_node.png".format(centrality))
-	plt.savefig("Results/Most_relevant_community_analysis/images/pdf/each_node/{}_each_node.pdf".format(centrality))
+	plt.savefig("Results/Most_relevant_community_analysis/messages/images/png/each_node/{}_each_node.png".format(centrality))
+	plt.savefig("Results/Most_relevant_community_analysis/messages/images/pdf/each_node/{}_each_node.pdf".format(centrality))
 
 if __name__ == "__main__":
 	print("in-degree")

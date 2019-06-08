@@ -45,9 +45,13 @@ Isolare comunicazioni inter comunity
 
 Are attacks coordinate over time? Did they strike a single objective or different ones?
 
+distribuzione di attività oraria aggregata
+
 ### TODO
 
-distribuzione di attività oraria aggregata
+analisi di natale
+
+analisi giorno pochi attacchi
 
 ### FUTURE
 

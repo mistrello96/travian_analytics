@@ -98,7 +98,7 @@ def plot_mean_vs_mean():
 	plt.savefig("Results/Community_density_reciprocity/images/pdf/msg_vs_trades_density.pdf")
 	plt.close()
 
-	df_most = pd.read_csv("Results/Most_relevant_community_analysis/messages_most_relevant_community_density_reciprocity.csv")
+	df_most = pd.read_csv("Results/Most_relevant_community_analysis/messages/messages_most_relevant_community_density_reciprocity.csv")
 	# most relevant community analysis - density
 	plt.figure(figsize = (8, 6), dpi = 300)
 	plt.plot(range(1, 31), density_means["messages"], color = "blue", label = "Average of all relevant alliances")
