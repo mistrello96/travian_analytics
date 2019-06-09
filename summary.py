@@ -6,6 +6,6 @@ file = sys.argv[1]
 
 G = nx.read_graphml(file)
 # print some aggregate measures
-print(nx.density(G))
-print(nx.overall_reciprocity(G))
-print(np.mean(list(nx.average_neighbor_degree(G, weight= "weight").values())))
+print("Density " + str(nx.density(G)))
+print("Reciprocity " + str(nx.overall_reciprocity(G)))
+print("Mean neighbor degree " + str(np.mean(list(nx.average_neighbor_degree(G, weight= "weight").values()))))

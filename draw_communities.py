@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from alliances.alliance_members import alliance_members
 import matplotlib.patches as mpatch
 
+# uses SG representation
 file = sys.argv[1]
 
 # import community members over time

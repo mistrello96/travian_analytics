@@ -10,7 +10,7 @@ path = sys.argv[1]
 
 # read the community member for each day
 community_members_over_time = alliance_members['alliance43']
-
+print("Most attacked node, number of attackers")
 # iterate over days
 for day in range(0,30):
 	# extract the comminity nodes of that day

@@ -3,7 +3,7 @@ import sys
 import networkx as nx
 import pandas as pd
 
-# import path
+# import path, uses SG representation
 attacks = sys.argv[1]
 messages = sys.argv[2]
 trades = sys.argv[3]

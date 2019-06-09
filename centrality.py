@@ -2,6 +2,7 @@ import networkx as nx
 import sys
 import pandas as pd
 
+# uses SG representation
 file = sys.argv[1]
 
 G = nx.read_graphml(file)

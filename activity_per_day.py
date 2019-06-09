@@ -5,7 +5,10 @@ from MG_to_SG_function import MG_to_SG
 import pandas as pd
 import numpy as np
 
-path = sys.argv[1]
+# read path to 30-days folder
+path_att = sys.argv[1]
+path_mes = sys.argv[2]
+path_tra = sys.argv[3]
 
 # generate dataframes for attacks, messages, trades and sumof them
 activity1 = pd.DataFrame(columns=["day", "nodes", "edges"])
@@ -16,9 +19,9 @@ activity_nodes = pd.DataFrame(columns=["day", "nnodes"])
 # iterate over days
 for day in range(0,30):
 	# read the 3 activity graph
-	M1 = nx.read_graphml(path + "attack-gml/attacks-timestamped-2009-12-" + str(day + 1) + ".graphml")
-	M2 = nx.read_graphml(path + "messages-gml/messages-timestamped-2009-12-" + str(day + 1) + ".graphml")
-	M3 = nx.read_graphml(path + "trade-gml/trades-timestamped-2009-12-" + str(day + 1) + ".graphml")
+	M1 = nx.read_graphml(path_att + "attacks-timestamped-2009-12-" + str(day + 1) + ".graphml")
+	M2 = nx.read_graphml(path_mes + "messages-timestamped-2009-12-" + str(day + 1) + ".graphml")
+	M3 = nx.read_graphml(path_tra + "trades-timestamped-2009-12-" + str(day + 1) + ".graphml")
 
 	# find wich node were present that day
 	active_nodes_set = set()
@@ -36,4 +39,4 @@ for day in range(0,30):
 activity1.to_csv("attacks_activity.csv", index=False)
 activity2.to_csv("messages_activity.csv", index=False)
 activity3.to_csv("trades_activity.csv", index=False)
-activity_nodes.to_csv("nodes_activity.csc",index=False)
+activity_nodes.to_csv("nodes_activity.csv",index=False)

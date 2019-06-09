@@ -12,7 +12,7 @@ def plot_mean_std_density_reciprocity(edge_type, color):
 	reciprocity_mean = []
 	reciprocity_std = []
 	for i in range(1, 31):
-		df = pd.read_csv(file_name.format(edge_type[0].upper() + edge_type[1:], edge_type, i))
+		df = pd.read_csv(file_name.format(edge_type, edge_type, i))
 		most_relevant_communities = ["alliance43", "alliance103", "alliance38", "alliance44"]
 		df = df[df["alliance_name"].isin(most_relevant_communities)]
 		density_mean.append(np.mean(df["density"]))
@@ -36,8 +36,8 @@ def plot_mean_std_density_reciprocity(edge_type, color):
 	plt.tick_params(labelsize = 12)
 	plt.legend()
 	plt.title("Average density over time")
-	plt.savefig("Results/Community_density_reciprocity/{}/images/png/density.png".format(edge_type[0].upper() + edge_type[1:]))
-	plt.savefig("Results/Community_density_reciprocity/{}/images/pdf/density.pdf".format(edge_type[0].upper() + edge_type[1:]))
+	plt.savefig("Results/Community_density_reciprocity/images/png/{}_density.png".format(edge_type))
+	plt.savefig("Results/Community_density_reciprocity/images/pdf/{}_density.pdf".format(edge_type))
 	plt.close()
 
 	plt.figure(figsize = (8, 6), dpi = 300)
@@ -57,13 +57,13 @@ def plot_mean_std_density_reciprocity(edge_type, color):
 	plt.tick_params(labelsize = 12)
 	plt.legend()
 	plt.title("Average reciprocity over time")
-	plt.savefig("Results/Community_density_reciprocity/{}/images/png/reciprocity.png".format(edge_type[0].upper() + edge_type[1:]))
-	plt.savefig("Results/Community_density_reciprocity/{}/images/pdf/reciprocity.pdf".format(edge_type[0].upper() + edge_type[1:]))
+	plt.savefig("Results/Community_density_reciprocity/images/png/{}_reciprocity.png".format(edge_type))
+	plt.savefig("Results/Community_density_reciprocity/images/pdf/{}_reciprocity.pdf".format(edge_type))
 	plt.close()
 
 def plot_mean_vs_mean():
-	file_name_messages = "Results/Community_density_reciprocity/Messages/messages_community_density_reciprocity{}.csv"
-	file_name_trades = "Results/Community_density_reciprocity/Trades/trades_community_density_reciprocity{}.csv"
+	file_name_messages = "Results/Community_density_reciprocity/messages/messages_community_density_reciprocity{}.csv"
+	file_name_trades = "Results/Community_density_reciprocity/trades/trades_community_density_reciprocity{}.csv"
 	density_means = {"messages": [], "trades": []}
 	density_stds = {"messages": [], "trades": []}
 	reciprocity_means = {"messages": [], "trades": []}

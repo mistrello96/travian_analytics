@@ -117,8 +117,8 @@ for n in nodelist:
 	if n not in SG.nodes:
 		SG.add_node(n)
 
-plt.figure(figsize = (7, 7), dpi = 500)
-plt.title("Messages", fontsize = 30)
+plt.figure(figsize = (9, 7), dpi = 500)
+plt.title("Messages between different communities", fontsize = 30)
 nx.draw_kamada_kawai(SG, arrowsize=2, arrowstyle= mpatch.ArrowStyle("-|>", head_length=1, head_width=1), with_labels=False, node_size=50, nodelist = nodelist, node_color = colorlist, edgelist=list(es))
 plt.tight_layout()
 plt.savefig("communities_contact.png", dpi=500)

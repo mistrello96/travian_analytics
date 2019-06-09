@@ -21,10 +21,8 @@ for alliance in alliance_count:
 # sort the community for the mean of the members over 30 days
 sorted_by_mean = sorted(alliance_measures.values(), key=lambda tup: tup[0])
 
-# extract mean and sd of the most relevant community
-print(sorted_by_mean[-1])
-
 # extract the name of the most relevant community
+print("Most relevant communities")
 print([k for k,v in alliance_measures.items() if v == sorted_by_mean[-1]][0])
 print([k for k,v in alliance_measures.items() if v == sorted_by_mean[-2]][0])
 print([k for k,v in alliance_measures.items() if v == sorted_by_mean[-3]][0])
