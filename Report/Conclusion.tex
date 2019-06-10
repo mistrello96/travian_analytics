@@ -19,8 +19,32 @@ Di seguito proponiamo alcuni possibili sviluppi futuri durante lo svolgimento di
 \end{itemize}
 
 \begin{appendices}
-\section{Prova}
-In questo appendice sono riportate alcune immagine extra ottenute durante il nostro lavoro di analisi ma che non ci sono sembrate sufficientemente rilevanti da essere inserite nella relazione
+\section*{Appendice A}
+In questo appendice sono riportate alcune immagine extra ottenute durante il nostro lavoro di analisi ma che non ci sono sembrate sufficientemente rilevanti da essere inserite nella relazione.
+\begin{figure}[b!]
+	\centering
+	\subfloat[Distribuzone degli \textit{outlier} nel grafo aggregato dei 30 giorni per la misura \textit{out-degree} nel layer degli attacchi.]{%
+		\includegraphics[width=.55\linewidth]{images/Outliers/attacks_out_degree_outliers}
+	}%
+	\subfloat[Distribuzone degli \textit{outlier} nel grafo aggregato dei 30 giorni per la misura di grado complessivo nel layer degli attacchi.]{%
+		\includegraphics[width=.55\linewidth]{images/Outliers/attacks_total_degree_outliers}
+	}\\
+	\subfloat[Distribuzone degli \textit{outlier} nel grafo aggregato dei 30 giorni per la misura \textit{out-degree} nel layer dei messaggi.]{%
+		\includegraphics[width=.55\linewidth]{images/Outliers/messages_out_degree_outliers}
+	}%
+	\caption{Distribuzioni degli \textit{outlier} per alcuni layer del grafo aggregato sui 30 giorni.}
+\end{figure}
+
+\begin{figure}
+	\subfloat[Distribuzione dell'\textit{in-degree} medio sui 30 giorni dei nodi dell'alleanza principale.]{%
+		\includegraphics[width=.48\linewidth]{images/Outliers/in-degree_distribution_mrc_mean}
+	}
+	\hfill
+	\subfloat[Distribuzione di \textit{in-degree} di ogni nodo sui 30 giorni dei nodi dell'alleanza principale.]{%
+		\includegraphics[width=.48\linewidth]{images/Outliers/in-degree_distribution_mrc_30}
+	}
+	\caption{Analisi dell'\textit{in-degree} medio e di ogni nodo sui 30 giorni per i nodi dell'alleanza principale.}
+\end{figure}
 
 
 \end{appendices}

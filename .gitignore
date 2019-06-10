@@ -8,7 +8,7 @@ Demo/__pycache__/
 # images
 *.png
 *.pdf
-!Report/images/
+!Report/images/*
 Demo/*.png
 
 # report
