@@ -221,7 +221,28 @@ Il dataset presenta, in aggiunta ai file \texttt{graphml}, un file di testo cont
 Al fine di effettuare analisi più approfondite su queste community, si è delineata la necessità di identificare le alleanze nel tempo e tenere traccia dei relativi membri.
 La maggiore difficoltà riscontrata in questa operazione si è rivelata essere l'assegnazione di un nome univoco a queste community; i file di testo forniti contengono, infatti, esclusivamente gli identificatori dei nodi appartenenti ad una community, senza però stabilire a quale alleanza appartengano.
 Questo è risultato essere un problema passando da un giorno all'altro, in quanto le alleanze non sono rappresentate nel medesimo ordine, e alcune si potrebbero sciogliere o creare nel frattempo.
-\todo{Papetti's trick}
+
+Le informazioni rilevanti che abbiamo estrapolato sono due:
+\begin{itemize}
+	\item per ogni nodo, il nome delle alleanze di cui ha fatto parte in ogni giorno;
+	\item per ogni alleanza: i relativi membri in ogni giorno. 
+\end{itemize}
+Per ottenere ciò, è stato implementato un algoritmo \textit{ad hoc}; tale algoritmo si divide principalmente in due fasi:
+\begin{enumerate}
+	\item analisi delle community al primo giorno;
+	\item analisi dell'evoluzione delle community.
+\end{enumerate}
+Per quanto concerne il primo giorno, ogni riga del file è stato considerato un'alleanza: a tale alleanza è stato assegnato un nome caratterizzato da un identificatore incrementale, in modo da garantire l'unicità dei nomi. 
+È stato quindi sufficiente leggere il file riga per riga, aggiornando le relative strutture dati (quelle contenenti le informazioni sopracitate).
+Una volta stabilite le alleanze del primo giorno, il problema presentatosi per i giorni successivi è stato quello di stabilire se un'alleanza si fosse disgregata oppure solo alcuni membri al suo interno fossero cambiati.
+Abbiamo deciso di affrontare il problema in maniera \textit{naive}, riducendo il problema a stabilire il nome delle alleanze giorno per giorno; per far ciò si è adottato un approccio di votazione dei membri di ogni alleanza.
+Per ogni file, viene leggo riga per riga il contenuto e viene fatto votare ogni membro rispetto al nome che vorrebbe dare all'alleanza: ogni giocatore vorrà votare con il nome della community di cui faceva parte al giorno precedente, se ne faceva parte (assumiamo che ogni giocatore voglia rimanere nella stessa alleanza).
+Tale approccio ci garantisce che le alleanze in cui sono cambiati pochi membri mantengano lo stesso nome, mentre quelle che hanno subito cambiamenti significativi nella composizione tenderanno a smettere di esistere.
+Questa soluzione presenta un problema nel momento in cui due alleanza siano candidate ad avere lo stesso nome, evento possibile nel caso una community si spezzi in due sotto-community di pari cardinalità, oppure semplicemente quando più alleanze hanno al loro interno un numero maggiore di giocatori provenienti dalla stessa alleanza del giorno precedente.
+Per risolvere tale problema, si è deciso di utilizzare una politica \textit{lazy} sull'assegnamento del nome: si sceglie di assegnare lo stesso nome alla community avente la cardinalità dell'intersezione tra l'alleanza al giorno precedente con l'insieme di membri al giorno di interesse massima; se due intersezioni hanno la stessa cardinalità massima, si sceglie casualmente la community tra quelle candidate.
+Tutte le community che non hanno “vinto” nella risoluzione di tali conflitti, vedranno assegnato loro un nuovo nome, sempre mediante un \textit{id} univoco incrementale.
+Una volta risolta l'assegnazione dei nomi, le struttre dati vengono aggiornate di conseguenza.
+
 È stata così prodotta una rappresentazione di ogni singola community in ognuno dei 30 giorni contenente un identificatore univoco per l'alleanza e tutti i suoi membri in ogni istante temporale. Il numero complessivo di community così identificate nei 30 giorni è stato pari a 323: dato un così alto numero di community registrate, abbiamo deciso di considerare rilevanti ai fini degli studi successivi esclusivamente quelle alleanze che vantassero un numero di giocatori pari almeno a 10.
 
 \subsection{Studio della densità e della reciprocità delle community}
