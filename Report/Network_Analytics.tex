@@ -1,6 +1,6 @@
 \chapter{Analisi della rete}
 \section{Analisi del dataset}
-Il dataset considerato mostra un'evidente distinzione in tre layer:
+Come affermato precedentemente, il dataset considerato mostra un'evidente distinzione in tre layer:
 \begin{itemize}
 	\item attacchi;
 	\item messaggi;
@@ -25,9 +25,9 @@ Il valore della reciprocità media esprime quanto nel grafo siano presenti colle
 		\hline 
 		Misura & Attacchi & Messaggi & Scambi & Complessivo \\ 
 		\hline 
-		\# Nodi & 4418 & 3092 & 2648 & 4612 \\ 
+		$\#$Nodi & 4418 & 3092 & 2648 & 4612 \\ 
 		\hline 
-		\# Archi & 632391 & 380794 & 269483 & 1282668 \\ 
+		$\#$Archi & 632391 & 380794 & 269483 & 1282668 \\ 
 		\hline 
 		Diametro & \textbf{/} & 9 & \textbf{/} & \textbf{/} \\ 
 		\hline 
@@ -39,6 +39,23 @@ Il valore della reciprocità media esprime quanto nel grafo siano presenti colle
 	\label{tab:summary}
 \end{table}
 
+\newpage
+\subsection{Coefficiente di clustering medio}
+Un'ulteriore misura analizzata è stata il coefficiente medio di \textit{clustering}, ovvero la misura della tendenza di un nodo a formare un \textit{Clique} (\textit{i.e.}, grafo completo). Questo comportamento è solito rilevarsi nelle reti sociali, dove i nodi tendono a formare delle community dense e coese rispetto al resto del grafo. Essendo questa una misura media, bisogna considerare il fatto che molti nodi ($\sim40\%$) non facciano parte di alcuna alleanza, e questo influenzi molto il valore medio ottenuto. 
+I risultati ottenuti sono riportati in Figura \ref{fig:clustering}: vediamo come nel layer dei messaggi, che possiamo considerare una rete sociale, i valori medi sono  maggiori rispetto alla rete degli scambi, dove i vicini di un nodo non necessariamente sono soliti commerciare tra loro. In termini di assoluti, troviamo però valori molto bassi di questa misura. Questo è dovuto al fatto che nei 30 giorni, un giocatore contatti non solo i membri della sua alleanze, ma anche altri giocatori che non è detto che comunichino tra loro. Ci possiamo quindi aspettare che i nodi del vicinato di un generico giocatore siano più propensi a conoscersi e a comunicare tra loro, ma che i contatti con giocatori all'esterno della propria cerchia influenzi negativamente il valore di questa misura. Per quanto riguarda gli scambi, i nodi non sembrano essere più propensi a commerciare con nodi vicini più di quanto non lo siano con i nodi lontani, in quanto probabilmente l'unico parametro considerato in questo caso sia il profitto ottenuto dal \textit{trade}.
+\begin{figure}
+	\subfloat[Coefficiente di \textit{clustering} medio per i messaggi.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Clustering/messages}
+	}
+	\hfill
+	\subfloat[Coefficiente di \textit{clustering} medio per i trade.]{%
+		\includegraphics[width=.55\linewidth]{images/Aggregate/Clustering/trades}
+	}
+	\caption{Grafici delle distribuzioni dei coefficienti di \textit{clustering} per i layer dei messaggi e degli scambi.}
+	\label{fig:clustering}
+\end{figure}
+
+\section{Analisi delle centralità}
 \subsection{Analisi del grado}
 \label{subsec:grado}
 In Figura \ref{fig:degree} sono riportate le distribuzioni di \textit{in-degree}, \textit{out-degree} e grado complessivo dei vari layer della rete. Dalle distribuzioni sono stati rimossi quei nodi considerati \textit{outlier}, ovvero quei nodi che si discostano oltre 3 volte dalla deviazione standard del \textit{fitting} dei dati con una distribuzione normale (per le distribuzioni di tali nodi, consultare l'Appendice A). I dati mostrano un andamento attendibile e ragionevole rispetto al dominio, con un elevato numero di nodi con grado contenuto e una percentuale minoritaria di nodi con alto grado.\\
@@ -58,27 +75,25 @@ In Figura \ref{fig:degree} sono riportate le distribuzioni di \textit{in-degree}
 	\label{fig:degree}
 \end{figure}
  
-Sono stati inoltre realizzati dei \textit{jointplot}, per mettere in relazione grado in ingresso ed in uscita dei nodi sui differenti layer, e i risultati sono riportati in Figura \ref{fig:join_degree}. Dai grafici emerge come, per quanto concerne le aggressioni, un elevato numero di attacchi compiuti corrisponde ad un basso numero di attacchi subiti, e viceversa.\\
+Sono stati inoltre realizzati dei \textit{jointplot}, per mettere in relazione grado in ingresso ed in uscita dei nodi sui differenti layer, e i risultati sono riportati in Figura \ref{fig:join_degree}. Dai grafici emerge come, per quanto concerne le aggressioni, un elevato numero di attacchi compiuti corrisponde ad un basso numero di attacchi subiti, e viceversa. Questo dimostra la tendenza dei giocatori di attaccare avversari più deboli ripetutamente, al fine di ottenere tutte le risorse disponibili e privare questi villaggi della possibilità di espandersi. I giocatori più forti e più attivi non cercano il confronto ad armi pari, ma preferiscono attaccare villaggi che sono certi non risponderanno, in quanto militarmente più deboli.\\
 Il grafico dei messaggi risulta essere più variegato, con tendenze a ricevere più messaggi di quelli inviati, ma non emerge un chiaro comportamento come nei due casi precedenti.\\
-Per gli scambi, la situazione è diametralmente opposta, con un grafico che si distribuisce principalmente sulla diagonale, dove il numero di \textit{trade} in uscita è pari a quello in entrata.
-
+Per gli scambi, la situazione è diametralmente opposta, con un grafico che si distribuisce principalmente sulla diagonale, dove il numero di \textit{trade} in uscita è pari a quello in entrata. La maggior parte degli scambi è quindi a fine commerciali: tutti cercano di trarre vantaggio dallo scambio effettuato e solo pochi giocatori sono propensi ad effettuare donazioni.
 \begin{figure}
+	\centering
 	\subfloat[\textit{Jointplot} attacchi.]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/attacks_jointplot_no_outliers}
-	}
-	\hfill
+	}%
 	\subfloat[\textit{Jointplot} messaggi.]{%
 	\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/messages_jointplot_no_outliers}
-	}
-	\hfill
+	}\\
 	\subfloat[\textit{Jointplot} trade.]{%
 	\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/trades_jointplot}
-	}
+	}%
 	\caption{\textit{Jointplot} che pongono in relazione \textit{in-degree} e \textit{out-degree} del relativo layer.}
 	\label{fig:join_degree}
 \end{figure}
 
-Infine, sono stati generati i \textit{jointplot} che pongono in relazione gli \textit{out-degree} di messaggi e attacchi o trade, rispettivamente in Figura \ref{subfig:joint_m_a} e \ref{subfig:joint_m_t}. Dal primo grafico si evince come numero di attacchi e numero di messaggi siano solitamente inversamente proporzionali, mentre non vi sembra essere una stretta relazione tra messaggi e scambi commerciali.
+Infine, sono stati generati i \textit{jointplot} che pongono in relazione gli \textit{out-degree} di messaggi e attacchi o trade, rispettivamente in Figura \ref{subfig:joint_m_a} e \ref{subfig:joint_m_t}. La scelta delle misure da confrontare è ricaduta su messaggi e attacchi per capire se i giocatori militarmente molto attivi lo fossero anche sotto il profilo diplomatico, oppure fossero figure isolate. Similmente, sono stati confrontati messaggi e \textit{trade}, in modo da capire se i nodi fortemente attivi nel commercio, sia anche solito avere una fitta rete di comunicazione associata. Dal primo grafico si evince come numero di attacchi e numero di messaggi siano solitamente inversamente proporzionali, mentre non vi sembra essere una stretta relazione tra messaggi e scambi commerciali. Appare quindi confermata l'idea che i nodi militarmente più impegnati siano soliti avere associato un basso grado di comunicazione con altri giocatori, mentre i “commercianti” sono soliti essere fortemente connessi agli atri nodi da una rete di messaggi.
 \begin{figure}
 	\subfloat[\textit{Jointplot} tra messaggi e attacchi.\label{subfig:joint_m_a}]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Degree/jointplot/messages_out-degree_vs_attacks_out-degree}
@@ -92,16 +107,16 @@ Infine, sono stati generati i \textit{jointplot} che pongono in relazione gli \t
 \end{figure}
 
 \newpage
-\subsection{Misure di centralità}
+\subsection{Misure di betweenness e PageRank}
 \label{subsec:centrality}
 Per quanto riguarda le misure di centralità ulteriori rispetto ai gradi, abbiamo deciso di concentrare i nostri approfondimenti esclusivamente sui layer di messaggi e scambi, in quanto sulla rete di attacchi il calcolo di queste misure risulta essere poco sensato (non vi è alcun flusso informativo).\\
 Le misure analizzate per i due layer considerati sono:
 \begin{itemize}
-	\item betweenness: misura che rappresenta il grado di informazione passante per un dato nodo. Un elevato valore indica un nodo centrale nel flusso informativo / commerciale, con una grande capacità di collegamento tra porzioni della rete;
-	\item PageRank: calcola l'importanza di un nodo grazie al numero di archi entranti e al peso dei nodi che lo referenziano. Fornisce un'informazione pesata e più specifica rispetto al semplice grado in ingresso.
+	\item betweenness: misura che rappresenta la quantità di informazione passante per un dato nodo. Un elevto valore indica un nodo centrale nel flusso informativo/commerciale, con una grande capacità di collegamento tra porzioni della rete poiché in grado di fare da “ponte” tra vari insiemi di nodi poco connessi tra loro;
+	\item PageRank: assegna ad ogni nodo un'importanza basandosi sul numero di archi entranti in quel nodo e sull'importanza dei nodi che si relazionano con esso: se nodi importanti hanno archi verso tale nodo, allora anch'esso è importante. Inoltre più un nodo è in relazione con altri nodi meno importanza “trasmetterà” ai singoli nodi.
 \end{itemize}
 
-Per il layer dei messaggi, i grafici delle due misure analizzate, riportati in Figura \ref{fig:messages_centrality}, mostrano una predominanza del contatto diretto rispetto al passaggio di informazione secondo una scala di gradi. Un distribuzione dei valori di betweenness concentrata in valori molto bassi, indica la presenza di molti collegamenti alternativi tra due nodi: non si presenta quindi la situazione di un passaggio "forzato" per un determinato nodo. PageRank mostra un andamento simile, non individuando chiaramente dei nodi predominanti sugli altri. Si noti che dal dataset sono stati rimossi tutti i messaggi di \textit{broadcast}, ovvero le comunicazioni inviate dai gestori delle alleanze a tutti i membri di essa: questo ha certamente influenzato una compressione di valori delle due misure precedentemente analizzate.\\ 
+Per il layer dei messaggi, i grafici delle due misure analizzate, riportati in Figura \ref{fig:messages_centrality}, mostrano una predominanza del contatto diretto rispetto al passaggio di informazione secondo una scala di gradi. Un distribuzione dei valori di betweenness concentrata in valori molto bassi, indica la presenza di molti collegamenti alternativi tra due nodi: non si presenta quindi la situazione di un passaggio “forzato” per un determinato nodo. Ciò è ragionevole, in quanto in Travian è possibile inviare un messaggio in modo diretto a qualunque nodo e, seppur esista una forma di gerarchia all'interno delle varie alleanze, ciò non impedisce la comunicazione tra tutti i livelli di essa. PageRank mostra un andamento simile, non individuando chiaramente dei nodi predominanti sugli altri. Le considerazioni per questa misura sono le medesime già fatte per i valori della betweenness. Si ricorda che dal dataset sono stati rimossi tutti i messaggi di \textit{broadcast}, ovvero le comunicazioni inviate dai gestori delle alleanze a tutti i membri di essa: questo ha certamente influenzato una compressione di valori delle due misure precedentemente analizzate.\\ 
 \begin{figure}
 	\subfloat[Centralità Betweenness.]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/messages_betweenness}
@@ -115,44 +130,28 @@ Per il layer dei messaggi, i grafici delle due misure analizzate, riportati in F
 \end{figure}
 Lo stesso comportamento è mostrato dall'analisi del grafo degli scambi (in Figura \ref{fig:trades_centrality}), con valori della betweenness ancora più compressi rispetto ai messaggi. Ciò è probabilmente dovuto all'assenza di figure di passaggio delle merci: non vi è un “mercante” che acquista beni da un insieme di giocatori per poi rivendere ad altri, ma i giocatori sono liberi di commerciare direttamente tra loro.
 \begin{figure}
-	\subfloat[Centralità Betweenness.]{%
+	\subfloat[\textit{Scatterplot} della misura di betweenness.]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/trades_betweenness}
 	}
 	\hfill
-	\subfloat[Centralità Pagerank.]{%
+	\subfloat[\textit{Scatterplot} della misura di Pagerank.]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/trades_PageRank}
 	}
 	\caption{Grafici rappresentanti la distribuzione delle misure di centralità calcolate sul layer dei \textit{trade}.}
 	\label{fig:trades_centrality}
 \end{figure}
 
-Abbiamo infine generato i \textit{jointplot} delle due misure analizzate, per individuare possibili correlazioni tra i valori delle due. I risultati, riportati in Figura \ref{fig:joint_centrality}, mostrano come la maggioranza dei nodi si concentri nei pressi dell'origine degli assi, a cui corrispondono bassi valori di entrambe le misure. Sono apprezzabili alcuni nodi con valori di una delle due misure oltre la media in entrambi i grafici, ma, al contrario di quanto potremmo aspettarci, maggiori valori di una misura non corrispondono ad alti valori anche per l'altra. \todo[inline]{altre cose da dire?}
+Abbiamo infine generato i \textit{jointplot} delle due misure analizzate, per individuare possibili correlazioni tra i valori delle due. I risultati, riportati in Figura \ref{fig:joint_centrality}, mostrano come la maggioranza dei nodi si concentri nei pressi dell'origine degli assi, a cui corrispondono bassi valori di entrambe le misure. Sono apprezzabili alcuni nodi un comportamento differente dalla moda in entrambi i grafici; in generale, i nodi che fungono da collegamento per le comunicazioni tendono a comunicare con nodi poco rilevanti. Viceversa, vi sono alcuni nodi che ricevono messaggi da nodi importanti, senza però connettere i nodi circostanti.
 \begin{figure}
-	\subfloat[\textit{Jointplot} messaggi.]{%
+	\subfloat[\textit{Jointplot} che mette in relazione le misure di betweenness e PageRank per il layer dei messaggi.]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/messages_jointplot}
 	}
 	\hfill
-	\subfloat[\textit{Jointplot} trade.]{%
+	\subfloat[\textit{Jointplot} che mette in relazione le misure di betweenness e PageRank per il layer dei \textit{trade}.]{%
 		\includegraphics[width=.55\linewidth]{images/Aggregate/Centrality/trades_jointplot}
 	}
-	\caption{\textit{Jointplot} delle misure di centralità calcolate rispettivamente sui messaggi e sugli scambi.}
+	\caption{\textit{Jointplot} delle misure di centralità betweenness e PageRank calcolate rispettivamente sui messaggi e sugli scambi.}
 	\label{fig:joint_centrality}
-\end{figure}
-
-\newpage
-\subsection{Coefficiente di clustering medio}
-Un'ulteriore misura analizzata è stata il coefficiente medio di \textit{clustering}, ovvero la misura della tendenza di un nodo a formare un cricca (\textit{i.e.}, grafo completo). Questo comportamento è solito rilevarsi nelle reti sociali, dove i nodi tendono a formare delle community dense e coese rispetto al resto del grafo. Essendo questa una misura media, bisogna considerare il fatto che la maggior parte dei nodi non facciano parte di alcuna community, e questo influenzi molto il valore medio ottenuto: useremo i risultati di questa analisi come metro di paragone per i successivi studi sulle alleanze. 
-I risultati ottenuti sono riportati in Figura \ref{fig:clustering}: vediamo come nel layer dei messaggi, che possiamo considerare una rete sociale, i valori medi sono decisamente maggiori rispetto alla rete degli scambi, dove i vicini di un nodo non necessariamente sono soliti commerciare tra loro. Ci possiamo altresì aspettare che i nodi del vicinato di x siano più propensi a conoscersi e a comunicare tra loro.
-\begin{figure}
-	\subfloat[Coefficiente di \textit{clustering} medio per i messaggi.]{%
-		\includegraphics[width=.55\linewidth]{images/Aggregate/Clustering/messages}
-	}
-	\hfill
-	\subfloat[Coefficiente di \textit{clustering} medio per i trade.]{%
-		\includegraphics[width=.55\linewidth]{images/Aggregate/Clustering/trades}
-	}
-	\caption{Grafici delle distribuzioni dei coefficienti di \textit{clustering} per i layer dei messaggi e degli scambi.}
-	\label{fig:clustering}
 \end{figure}
 
 \newpage 
@@ -165,7 +164,7 @@ Il numero di giocatori attivi sul server in almeno uno dei tre layer è rapprese
 	\caption{Numero di giocatori attivi in un dato giorno. Le linee rosse verticali rappresentano l'inizio di una nuova settimana.}
 	\label{fig:playereachday}
 \end{figure}
-Come mostrato in Figura \ref{fig:activity_each_day}, complessivamente il numero di azioni eseguite dai giocatori decresce lungo il periodo analizzato, con picchi negativi durante i week-end e le festività. 
+In Figura \ref{fig:activity_each_day}, dove troviamo rappresentato il numero di attività compiute in ognuno dei 30 giorni, emerge come complessivamente il numero di azioni eseguite dai giocatori decresca lungo il periodo analizzato, con picchi negativi durante i week-end e le festività. 
 \begin{figure}
 	\subfloat[Numero di archi presenti nei vari layer ad un dato giorno.]{%
 		\includegraphics[width=.45\linewidth]{images/Activity/n_each_activity_each_day}
@@ -189,8 +188,9 @@ In Figura \ref{fig:activity_players} è possibile osservare la relazione tra num
 	\caption{L'andamento conferma il trend decrescente evidenziato anche in precedenza.}
 	\label{fig:activity_players}
 \end{figure}
+La brusca decrescita rilevabile sia nel grafico delle attività, sia nel numero di giocatori attivi tra il giorno 3 ed il giorno 5 sarà descritta successivamente, nella Sezione \ref{subsec:eot}.
 
-In ultima battuta, abbiamo analizzato quali fossero gli orari dove si concentrasse il maggior numero di attività: in Figura \ref{fig:activity_layers} sono riportati i risultati ottenuti. Notiamo come la maggioranza delle azioni sia eseguita tra le ore 14 e le 22, con un picco introno alle ore 18. L'andamento degli attacchi risulta essere più “liscio”, probabilmente per l'elevata attività mattutina dovuta al tentativo di appropriarsi delle risorse accumulate nella notte dagli altri villaggi.\\
+In ultima battuta, abbiamo analizzato quali fossero gli orari dove si concentrasse il maggior numero di attività: in Figura \ref{fig:activity_layers} sono riportati i risultati ottenuti (si consideri il fatto che, con il valore 18 sono intese tutte le azioni compiute tra le 18:00 e le 18:59). Notiamo come la maggioranza delle azioni sia eseguita tra le ore 14 e le 22, con un picco introno alle ore 18. L'andamento degli attacchi risulta essere più “liscio”, probabilmente per l'elevata attività mattutina dovuta al tentativo di appropriarsi delle risorse accumulate nella notte dagli altri villaggi. L'andamento crescente rilevato nella fascia oraria sopracitata è probabilmente dovuto alla concomitanza con la fine degli orari scolastici e lavorativi; i giocatori, avendo a disposizione più tempo libero, intensificano le attività online.\\
 \begin{figure}
 	\subfloat[Numero di attività per layer effettuate nei 30 giorni in una specifica fascia oraria.]{%
 		\includegraphics[width=.45\linewidth]{images/Activity/different_over_hours}
@@ -205,14 +205,14 @@ In ultima battuta, abbiamo analizzato quali fossero gli orari dove si concentras
 
 
 \section{Ricerca di comportamenti sospetti}
-Travian sostiene di aver implementato nel suo strumento di chat un metodo per impedire lo spam di messaggi verso altri utenti: se viene rilevata un grande numero di messaggi in uscita con il medesimo timestamp, il sistema blocca l'accesso del giocatore alla chat per periodi crescenti, fino ad un ban permanente.\\
+Travian sostiene di aver implementato nel suo strumento di chat un metodo per impedire lo spam di messaggi verso altri utenti: se viene rilevato un grande numero di messaggi in uscita in un intervallo di tempo ristretto, il sistema blocca l'accesso del giocatore alla chat per periodi crescenti, fino ad un ban permanente.\\
 Abbiamo voluto verificare l'efficacia di questo meccanismo, cercando quei nodi con un grande numero di messaggi in uscita a cui non corrispondessero un equo numero di messaggi in ingresso.
 Non sono stati considerati possibili spammer nodi appartenenti ad alleanze con più di 10 membri, in quanto i moderatori della comunità sono soliti eliminare utenti con un'attività di questo tipo, considerandoli dannosi per la crescita della stessa.
-La nostra analisi ha confermato l'assenza di figure definibili spammer, ovvero con un rapporto messaggi inviati/messaggi ricevuti superiore a 10$\times$, e con un numero minimo di messaggi in uscita pari a 100.
+La nostra analisi ha confermato l'assenza di figure definibili spammer, ovvero con un rapporto messaggi inviati/messaggi ricevuti superiore a $10\times$, e con un numero minimo di messaggi in uscita pari a 100.
 
 \section{Ricerca di \textit{side-villages}}
-Una pratica comune, seppur vietata dal regolamento di Travian, è quella del cosiddetto \textit{side-village} ovvero un secondo profilo, parallelo al principale, sfruttato per la produzione di risorse che vengono poi inviate al profilo principale sotto forma di donazione.\\
-Abbiamo basato la rilevazione di questo comportamento sul rapporto tra \textit{trade} in uscita e \textit{trade} in ingresso: un valore superiore a 5$\times$ ci ha fatto ritenere il comportamento come sospetto, e degno di più attente analisi da parte degli amministratori.\\
+Una pratica comune, seppur vietata dal regolamento di Travian, è quella del cosiddetto \textit{side-village} ovvero un secondo profilo, parallelo al principale, sfruttato per la produzione di risorse che vengono poi inviate al profilo principale sotto forma di donazione. Tale meccanismo è promosso dalla politica di Travian di fornire ai nuovi villaggi uno scudo per gli attacchi di 30 giorni, terminato il quale è possibile effettuare commerci e donazioni.\\
+Abbiamo basato la rilevazione di questo comportamento sul rapporto tra \textit{trade} in uscita e \textit{trade} in ingresso: un valore superiore a $5\times$ ci ha fatto ritenere il comportamento come sospetto, e degno di più attente analisi da parte degli amministratori.\\
 Dall'analisi sono emersi un totale di 10 account sospetti, in particolare i giocatori con ID: 1439, 12362, 9444, 11407, 3004, 10785, 12069, 10029, 7568, 1346.\\
 Abbiamo altresì notato come a questi nodi sia associato un bassissimo grado di messaggi in entrata ed in uscita, accrescendo ulteriormente il nostro sospetto della presenza di un comportamento illecito.
 
@@ -229,7 +229,7 @@ Questo è risultato essere un problema passando da un giorno all'altro, in quant
 Un parametro indice della coesione sociale presente tra i membri di una comunità è quello della densità, ovvero il numero totale di interazioni instaurate tra i nodi rispetto al massimo valore di interazioni possibili. Associato a questa misura troviamo spesso la reciprocità, vale a dire il numero di legami bidirezionali rispetto al numero di legami totali. \\
 Le due misure sono state calcolate sui layer di messaggi e scambi, in modo da verificare quanto stabile fosse la rete di comunicazione e commerci all'interno delle alleanze più rilevanti.
 I risultati, riportati in Figura \ref{fig:density_reciprocity}, mostrano come il valore di reciprocità di messaggi e \textit{trade} sia molto inferiore a quelli mostrati dall'analisi dei dati aggregati, riportati in Tabella \ref{tab:summary}. Si tenga però a mente che il grafo analizzato in quella tabella è il risultato della somma dei 30 giorni, mentre l'analisi qui condotta mostra il valore della rete per ogni giorno, senza considerare gli archi precedenti o successivi.\\
-I bassi valori di densità per quanto riguarda i \textit{trade} all'interno della rete evidenziano una tendenza dei membri di una community a commerciare con giocatori esterni, probabilmente per evitare di farsi concorrenza a vicenda. Il valore relativamente basso della reciprocità per questo layer si concretizza in un elevato numero di donazioni, pratica molto diffusa all'interno delle alleanze e che garantisce bonus ai giocatori che superano una certa soglia di beni donati.\\
+I bassi valori di densità per quanto riguarda i \textit{trade} all'interno della rete evidenziano una tendenza dei membri di una community a commerciare con giocatori esterni, probabilmente per evitare di farsi concorrenza a vicenda. Il valore relativamente basso della reciprocità per questo layer si concretizza in un elevato numero di donazioni, pratica molto diffusa all'interno delle alleanze e che garantisce bonus ai giocatori che superano una certa soglia di beni donati. Inoltre, in caso di attacchi ripetuti, i giocatori sono soliti inviare ai membri dell'alleanza le proprie risorse, in modo da risultare bersagli meno appetibili.\\
 Per quanto riguarda i messaggi, conosciamo dai pubblicatori del dataset che non sono presenti i messaggi di \textit{broadcast} all'interno del dataset.  Ciononostante, la densità media del layer dei messaggi è approssimativamente 10$\times$ superiore rispetto all'intera rete, mostrando una più fitta rete di comunicazione tra i vari membri della community.\\
 \begin{figure}
 	\subfloat[Densità di messaggi e scambi delle alleanze più rilevanti.]{%
@@ -253,8 +253,8 @@ Un'ulteriore analisi compiuta sulle community è il numero di esse che siano ris
 
 
 \subsection{Analisi della community principale}
-Per determinare quale fosse l'alleanza principale (la più rilevante) contenuta nel dataset, abbiamo deciso di utilizzare come metrica la dimensione e la stabilità della community sui 30 giorni. Abbiamo così scelto l'alleanza di cardinalità massima e con minore deviazione standard rispetto alla sua dimensione, che si è rivelata essere quella con identificatore 43. Riportiamo inoltre che per le prime 4 community in ordine di grandezza, la dimensione media e la relativa deviazione standard non mostrano differenze significative rispetto alla community scelta. Possiamo quindi immaginare che all'interno del server vi sia un piccolo sottoinsieme di alleanze principali, considerabili molto numerose e stabili, affiancate ad un ben più alto numero di community meno rilevanti e molto più dinamiche, che crescono di dimensione, si scindono o addirittura scompaiono.\\
-Per l'analisi della community è stato analizzato il layer delle comunicazioni, in quanto abbiamo ritenuto che fosse quello maggiormente significativo per estrarre analisi interessanti dal punto di vista sociale e del flusso informativo.
+Per determinare quale fosse l'alleanza principale (la più rilevante) contenuta nel dataset, abbiamo deciso di utilizzare come metrica la dimensione e la stabilità della community sui 30 giorni. Abbiamo così scelto l'alleanza di cardinalità massima e con minore deviazione standard rispetto alla sua dimensione, che si è rivelata essere quella con identificatore 43. Le analisi realizzate in seguito sono replicabili per ogni alleanza presente nel server: per questioni di tempo, in questo lavoro è stata effettuata solo sulla comunità principale. Riportiamo inoltre che per le prime 4 community in ordine di grandezza, la dimensione media e la relativa deviazione standard non mostrano differenze significative rispetto alla community scelta. Possiamo quindi immaginare che all'interno del server vi sia un piccolo sottoinsieme di alleanze principali, considerabili molto numerose e stabili, affiancate ad un ben più alto numero di community meno rilevanti e molto più dinamiche, che crescono di dimensione, si scindono o addirittura scompaiono.\\
+Per l'analisi della community è stato analizzato il layer delle comunicazioni, in quanto abbiamo ritenuto che fosse quello maggiormente significativo per estrarre analisi interessanti dal punto di vista sociale e del flusso informativo. Abbiamo infatti rilevato che gli scambi sono eseguiti in maniera indiscriminata con tutti i giocatori del server, mentre non è ragionevole analizzare il layer degli attacchi all'interno della stessa community.
 Sono state ripetute le misure di centralità trattate nelle Sezioni \ref{subsec:grado} e \ref{subsec:centrality}, con l'aggiunta del calcolo della \textit{closeness}, ovvero una misura di quanto un nodo sia vicino al flusso informativo presente nella rete. I risultati sono riportati nelle Figure \ref{fig:comm_mean}  e \ref{fig:comm_nodes}, dove sono riportate le distribuzioni delle medie delle misure e i valori per ogni nodo nei 30 giorni. Dalle distribuzioni riportare risulta evidente come vi sia una grande maggioranza di membri all'interno dell'alleanza che risultano essere poco influenti, mentre ad una parte minoritaria dei nodi sono associati valori più elevati.\\
 Un'analisi approfondita mostra come i valori di centralità sopra la media siano associati in modo ricorrente agli stessi nodi: essi corrispondono probabilmente alle figure più rilevanti all'interno dell'alleanza, quali il leader, i suoi diretti sottoposti e figure come il reclutatore.
 Emerge quindi una gestione piramidale della community, con pochi membri ai vertici ed una moltitudine di componenti poco rilevanti.
@@ -309,6 +309,7 @@ Crediamo che questo tipo di comportamento possa essere dovuto all'individuazione
 
 \newpage
 \subsection{Evoluzione nel tempo}
+\label{subsec:eot}
 Come affermato nella Sezione precedente, il server è costituito da un grande numero di alleanze registrate, ma quante di queste sono davvero da considerarsi come influenti? Abbiamo quindi indagato come il numero di alleanze registrate variasse nel tempo, cercando di identificare se vi fosse un chiaro trand di accorpamento delle alleanze o di disaggregazione di esse. I risultati ottenuti, mostrati in Figura \ref{fig:allianceseachday}, mostrano una progressiva diminuzione sia del numero di alleanze totali, sia del numero di alleanze considerabili rilevanti (si ricorda che come metrica di rilevanza è stata utilizzato il numero minimo di membri pari a 10). La percentuale di community rilevanti sul totale si mantiene pressochè stabile, oscillando tra il $25\%$ e il $35\%$.\\
 L'andamento decrescente mostrato in Figura \ref{fig:allianceseachday} sembra confermare il trand presente anche nelle Figure \ref{fig:activity_each_day} e \ref{fig:playereachday}, che mostra un progressivo spopolamento del server, con conseguente diminuzione del numero di attività totali eseguite ogni giorno.\\
 
@@ -326,8 +327,8 @@ Data la presenza ricorrente in questi grafici di un picco negativo al giorno 5, 
 Al fine di visualizzare i meccanismi di interazione tra le principali alleanze, sono state prodotte delle rappresentazioni dei sottografi contenenti i nodi delle 4 community più grandi e delle relative interazioni. Per produrre i sottografi di ogni layer è stato utilizzato il multi-grafo ottenuto dall'aggregazione dei 30 giorni di attività; il risultato è stato poi trasformato in grafo pesato, in modo da ridurre il numero di archi e far emergere solo i contatti tra i giocatori.\\
 Dal grafo degli attacchi, rappresentato in Figura \ref{suba:inter}, emerge come la community più aggressiva (e la più aggredita a sua volta) sia quella denotata dal colore grigio. Il numero di attacchi è complessivamente molto contenuto, e sono rarissimi casi di attacchi tra membri della stessa comunità. La tendenza che emerge è quindi quella di non aggressione tra le alleanze più grandi, che tendono a concentrare i propri attacchi su villaggi isolati o facenti parti di comunità dalla ridotta dimensione.\\
 La rappresentazione del grafo degli scambi, riportata in Figura \ref{subb:inter}, conferma l'idea di un mercato “globale”, con la formazione di una fitta rete di scambi anche tra membri di comunità diverse.\\
-Per quanti riguarda il layer dei messaggi, è stata condotta un'analisi sotto due punti di vista differenti. In primo luogo sono state rappresentate tutte le interazioni avvenute all'interno e all'esterno delle community, producendo la rappresentazione in Figura \ref{subc:inter}. Da questa rappresentazione si nota come le comunicazioni intra-community siano fortemente predominanti rispetto a quelle inter-community; caso a parte sono però le due alleanze rosse blu, che sembrano essere fuse e interconnesse da una fitta rete di comunicazione. Notiamo inoltre la presenza di alcuni giocatori (rappresentati in giallo) che hanno effettuato un cambio di community nei 30 giorni, passando da quella blu a quella rossa. L'ipotesi avanzata in questo caso è una delle due alleanze (la blu in questo caso) sia una sorta di accademia, un'alleanza satellite della comunità rossa nella quali i giocatori vengono messi alla prova e da cui, nel caso si liberi un posto, i giocatori siano spostati nell'alleanza madre. Questo meccanismo, non essendo vietato, si è molto diffuso in giochi come Travian e permette alla community principale di rimarsene stabile e ben protetta, formando di fatto una macro-alleanza con community satellite.\\
-Indagando poi sui contratti inter-comunità, abbiamo prodotto il grafo in Figura \ref{subd:inter}, dove sono rappresentati solo i contatti tra giocatori di comunità diverse. Escludendo la forte connessione tra i giocatori rossi e quelli blu, vediamo come il numero di nodi di altri colori sia estremamente limitato: ciò indica che i contatti tra due community avvengono solo attraverso poche figure prestabilite. Analizzando il comportamento di questi nodi nel tempo, è possibile intuire se essi svolgano la funzione di reclutatori, ambasciatori o se possano essere spie che passano informazioni alle comunità rivali. 
+Per quanti riguarda il layer dei messaggi, è stata condotta un'analisi sotto due punti di vista differenti. In primo luogo sono state rappresentate tutte le interazioni avvenute all'interno e all'esterno delle community, producendo la rappresentazione in Figura \ref{subc:inter}. Da questa rappresentazione si nota come le comunicazioni \textit{intra-community} siano fortemente predominanti rispetto a quelle \textit{inter-community}; caso a parte sono però le due alleanze rosse e blu, che sembrano essere fuse e interconnesse da una fitta rete di comunicazione. Notiamo inoltre la presenza di alcuni giocatori (rappresentati in giallo) che hanno effettuato un cambio di community nei 30 giorni, passando da quella blu a quella rossa. L'ipotesi avanzata in questo caso è una delle due alleanze (la blu in questo caso) sia una sorta di accademia, un'alleanza satellite della comunità rossa nella quali i giocatori vengono messi alla prova e da cui, nel caso si liberi un posto, i giocatori siano spostati nell'alleanza madre. Questo meccanismo, non essendo vietato, si è molto diffuso in giochi come Travian e permette alla community principale di rimanere stabile e ben protetta, formando di fatto una macro-alleanza con community satellite.\\
+Indagando poi sui contratti \textit{inter-comunità}, abbiamo prodotto il grafo in Figura \ref{subd:inter}, dove sono rappresentati solo i contatti tra giocatori di comunità diverse. Escludendo la forte connessione tra i giocatori rossi e quelli blu, vediamo come il numero di nodi di altri colori sia estremamente limitato: ciò indica che i contatti tra due community avvengono solo attraverso poche figure prestabilite. Analizzando il comportamento di questi nodi nel tempo, è possibile intuire se essi svolgano la funzione di reclutatori, ambasciatori o se possano essere spie che passano informazioni alle comunità rivali. 
 \begin{figure}
 	\subfloat[Aggresioni tra i giocatori delle 4 più grandi community.\label{suba:inter}]{%
 		\includegraphics[width=.45\linewidth]{images/Interaction/attacks}
