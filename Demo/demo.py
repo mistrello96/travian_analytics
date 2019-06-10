@@ -452,4 +452,4 @@ def update_relevant_communities_graph(alliances_of_interest):
     }
 
 if __name__ == '__main__':
-    app.run_server(debug = True)
+    app.run_server(debug = False)
