@@ -4,16 +4,20 @@ import sys
 from os import walk
 import networkx as nx
 from MG_to_SG_function import MG_to_SG
+import re
 
 path = sys.argv[1]
 save_path = sys.argv[2]
+
+f = path.split('/')
+edge_type = re.search('(\w*)-gml', f[-2], re.IGNORECASE).group(1)
+
 # number of community with denisty = 0
 zeros = pd.DataFrame(columns=["day", "zero_percentage"])
 # iterate over days
 for time in range (0, 30):
 	# read the corrispondent graph
-	#M = nx.read_graphml(path + "trades-timestamped-2009-12-" + str(time+1) + ".graphml")
-	M = nx.read_graphml(path + "messages-timestamped-2009-12-" + str(time+1) + ".graphml")
+	M = nx.read_graphml(path + "{}-timestamped-2009-12-".format(edge_type) + str(time + 1) + ".graphml")
 	G = MG_to_SG(M)
 
 	# create output dataframe
@@ -54,5 +58,5 @@ for time in range (0, 30):
 				# count +1 of community with 0 density
 				counter_density += 1
 	zeros.loc[len(zeros)] = [time+1, counter_density / counter_community]
-	res.to_csv(save_path + "/messages_community_density_reciprocity" + str(time + 1) + ".csv", index=False)
-zeros.to_csv(save_path + "/messages_zeroes_percentage.csv", index=False)
+	res.to_csv(save_path + "/{}_community_density_reciprocity".format(edge_type) + str(time + 1) + ".csv", index=False)
+zeros.to_csv(save_path + "/{}_zeroes_percentage.csv".format(edge_type), index=False)

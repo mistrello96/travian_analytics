@@ -4,9 +4,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from alliances.alliance_members import alliance_members
 import matplotlib.patches as mpatch
+import re
 
 # uses SG representation
 file = sys.argv[1]
+
+f = file.split('/')
+edge_type = re.search('SG_(\w*).graphml', f[-1], re.IGNORECASE).group(1)
 
 # import community members over time
 community1_members_over_time = alliance_members['alliance43']
@@ -64,9 +68,11 @@ for n in nodelist:
 
 # draw the graph
 plt.figure(figsize = (10, 10), dpi = 500)
-plt.title("Messages", fontsize = 30)
-nx.draw_kamada_kawai(SG, arrowsize=2, arrowstyle= mpatch.ArrowStyle("-|>", head_length=1, head_width=1), with_labels=False, node_size=50, nodelist = nodelist, node_color = colorlist)
-#nx.draw_spring(SG, arrowsize=2, arrowstyle= mpatch.ArrowStyle("-|>", head_length=1, head_width=1), with_labels=False, node_size=50, nodelist = nodelist, node_color = colorlist)
+plt.title(edge_type[0].upper() + edge_type[1:], fontsize = 30)
+if edge_type != 'attacks':
+	nx.draw_kamada_kawai(SG, arrowsize = 2, arrowstyle = mpatch.ArrowStyle("-|>", head_length = 1, head_width = 1), with_labels = False, node_size = 50, nodelist = nodelist, node_color = colorlist)
+else:
+	nx.draw_spring(SG, arrowsize = 2, arrowstyle = mpatch.ArrowStyle("-|>", head_length = 1, head_width = 1), with_labels = False, node_size = 50, nodelist = nodelist, node_color = colorlist)
 plt.tight_layout()
-plt.savefig("out.png", dpi=500)
-plt.savefig("out.pdf", dpi=500)
+plt.savefig("out.png", dpi = 500)
+plt.savefig("out.pdf", dpi = 500)

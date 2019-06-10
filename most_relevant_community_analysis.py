@@ -5,9 +5,13 @@ import networkx as nx
 from MG_to_SG_function import MG_to_SG
 import pandas as pd
 import numpy as np
+import re
 
 path = sys.argv[1]
 save_path = sys.argv[2]
+
+f = path.split('/')
+edge_type = re.search('(\w*)-gml', f[-2], re.IGNORECASE).group(1)
 
 # import community dictionary and extract the most relevant community datas
 community_members_over_time = alliance_members['alliance43']
@@ -31,8 +35,7 @@ for day in range(0,30):
 	community_members = community_members_over_time[day]
 
 	# read the multigraph of that day
-	#M = nx.read_graphml(path + "messages-timestamped-2009-12-" + str(day+1) + ".graphml")
-	M = nx.read_graphml(path + "trades-timestamped-2009-12-" + str(day+1) + ".graphml")
+	M = nx.read_graphml(path + "{}-timestamped-2009-12-".format(edge_type) + str(day + 1) + ".graphml")
 	# convert the MG in a SG
 	G = MG_to_SG(M)
 
@@ -49,7 +52,7 @@ for day in range(0,30):
 	# compute aggregate measuers on the sub-graph
 	density = nx.density(SG)
 	reciprocity = nx.overall_reciprocity(SG)
-	measures.loc[len(measures)] = [day+1, density, reciprocity]
+	measures.loc[len(measures)] = [day + 1, density, reciprocity]
 
 	# compute degreee and centralities
 	indegree = SG.in_degree(weight = "weight")
@@ -71,14 +74,12 @@ for day in range(0,30):
 		ncov[node]["betweenness"].append(betweenness[node])
 		ncov[node]["pagerank"].append(pagerank[node])
 	# save to file the centrality info
-	#node_measure.to_csv(save_path + "/messages_most_relevant_community_centrality" + str(day + 1) + ".csv", index=False)
-	node_measure.to_csv(save_path + "/trades_most_relevant_community_centrality" + str(day + 1) + ".csv", index=False)
+	node_measure.to_csv(save_path + "/{}_most_relevant_community_centrality".format(edge_type) + str(day + 1) + ".csv", index = False)
 
 # save to file density and reciprocity
-#measures.to_csv(save_path + "/messages_most_relevant_community_density_reciprocity.csv", index=False)
-measures.to_csv(save_path + "/trades_most_relevant_community_density_reciprocity.csv", index=False)
+measures.to_csv(save_path + "/{}_most_relevant_community_density_reciprocity.csv".format(edge_type, index=False))
 
-# crreate the dataframe for mean and std measures
+# create the dataframe for mean and std measures
 aggregate_measure = pd.DataFrame(columns=["node", "in-degree-mean", "in-degree-std", "out-degree-mean", "out-degree-std", "edge-count-mean", "edge-count-std",  "closeness-mean", "closeness-std", "betweenness-mean", "betweenness-std", "pagerank-mean", "pagerank-std"])
 
 # compute mean and std for the stored data
@@ -87,5 +88,4 @@ for node in community_set:
 	np.mean(ncov[node]["edgecount"]), np.std(ncov[node]["edgecount"]), np.mean(ncov[node]["closeness"]), np.std(ncov[node]["closeness"]), 
 	np.mean(ncov[node]["betweenness"]), np.std(ncov[node]["betweenness"]), np.mean(ncov[node]["pagerank"]), np.std(ncov[node]["pagerank"])]
 
-#aggregate_measure.to_csv(save_path + "/messages_most_relevant_community_node_centrality.csv", index=False)
-aggregate_measure.to_csv(save_path + "/trades_most_relevant_community_node_centrality.csv", index=False)
+aggregate_measure.to_csv(save_path + "/{}_most_relevant_community_node_centrality.csv".format(edge_type), index = False)
