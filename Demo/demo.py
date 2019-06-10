@@ -144,7 +144,6 @@ app.layout = html.Div(children = [
                             {'label': 'attacks received', 'value': 'attacks in-degree'},
                             {'label': 'attacks performed', 'value': 'attacks out-degree'},
                             {'label': 'attacks received and performed', 'value': 'attacks edge-count'},
-                            {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
                             {'label': 'messages received', 'value': 'messages in-degree'},
                             {'label': 'messages sent', 'value': 'messages out-degree'},
                             {'label': 'messages received and sent', 'value': 'messages edge-count'},
@@ -179,7 +178,6 @@ app.layout = html.Div(children = [
                         options = [
                             {'label': 'attacks received', 'value': 'attacks in-degree'},
                             {'label': 'attacks performed', 'value': 'attacks out-degree'},
-                            {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
                             {'label': 'messages received', 'value': 'messages in-degree'},
                             {'label': 'messages sent', 'value': 'messages out-degree'},
                             {'label': 'messages PageRank', 'value': 'messages PageRank'},
@@ -197,7 +195,6 @@ app.layout = html.Div(children = [
                         options = [
                             {'label': 'attacks received', 'value': 'attacks in-degree'},
                             {'label': 'attacks performed', 'value': 'attacks out-degree'},
-                            {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
                             {'label': 'messages received', 'value': 'messages in-degree'},
                             {'label': 'messages sent', 'value': 'messages out-degree'},
                             {'label': 'messages PageRank', 'value': 'messages PageRank'},
@@ -318,7 +315,7 @@ def update_aggregate_joinplot(x, y, outliers):
             font = {'size': 14},
             autosize = False,
             width = 800,
-            height = 800,
+            height = 750,
             xaxis = {'title': xtitle, 'showgrid': True},
             yaxis = {'title': ytitle, 'showgrid': True},
             margin = {'l': 80, 'b': 40, 't': 10, 'r': 10},
