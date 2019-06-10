@@ -21,14 +21,6 @@ for a in alliance_members:
             large_alliances[a] = [len(x) for x in alliance_members[a]]
             break
 
-attacks_path = "./../datas_paper/Dataset/attack-gml/"
-messages_path = "./../datas_paper/Dataset/messages-gml/"
-trades_path = "./../datas_paper/Dataset/trade-gml/"
-
-attacks_file = "./../datas_paper/Dataset/SG_attacks.graphml"
-messages_file = "./../datas_paper/Dataset/SG_messages.graphml"
-trade_file = "./../datas_paper/Dataset/SG_trades.graphml"
-
 df_attacks_activity = pd.read_csv("../Results/Activity/attacks_activity.csv")
 df_messages_activity = pd.read_csv("../Results/Activity/messages_activity.csv")
 df_trades_activity = pd.read_csv("../Results/Activity/trades_activity.csv")
