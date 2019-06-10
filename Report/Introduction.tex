@@ -4,15 +4,17 @@ Travian è un diffuso e amato gioco online facente parte della famiglia dei \tex
 Questa categoria di giochi è solitamente caratterizzata da un grande numero di giocatori presenti contemporaneamente (fino a 20000) nel medesimo server, che concorrono per il medesimo obiettivo.
 Nel caso di Travian, lo scopo del gioco è quello di gestire il proprio villaggio, espandere la propria influenza commerciale e militare, ottenendo il controllo delle risorse condivise tra i giocatori.\\
 In Travian è presente il meccanismo delle alleanze, ovvero federazioni di giocatori (fino a 60) che si riuniscono al fine di ottenere difesa reciproca e bonus per i loro villaggi.\\
-Questo tipo di giochi è in grado di portare alla luce meccaniche di interazione e competizioni tra i vari giocatori, andando ad evidenziare meccanismi sociali ricorrenti.\\
+Questa tipologia di giochi è in grado di portare alla luce meccaniche di interazione e competizione tra i vari giocatori, andando ad evidenziare meccanismi sociali ricorrenti.\\
+
 Il dataset da noi analizzato si divide in tre differenti layer:
 
 \begin{itemize}
-	\item Attacchi: le aggressioni effettuate da un villaggio verso un altro. Gli attacchi vengono solitamente eseguiti per depredare il villaggio bersaglio di parte delle risorse in suo possesso. Un giocatore può attaccare un bersaglio specifico più volte, al fine di massimizzare il profitto in termini di risorse e di imporre il proprio dominio militare;
-	\item Messaggi: comunicazioni effettuate tra i giocatori online. Travian mette a disposizione un sistema di messaggistica interno, che permette a un giocatore di contattarne un secondo; il sistema vanta un avanzato filtro anti-spam, bloccando automaticamente i giocatori sospetti;
-	\item Scambi: baratti effettuati tra i giocatori. Una volta costruito il mercato, i giocatori possono commerciare con gli altri giocatori del server. Solitamente, gli scambi avvengono in maniera bidirezionale, o con altri beni o con denaro, ma vi è anche la possibilità di effettuare doni.
+	\item Attacchi: le aggressioni effettuate da un giocatore verso un altro. Gli attacchi vengono solitamente eseguiti per depredare il villaggio bersaglio di parte delle risorse in suo possesso. Un giocatore può attaccare un bersaglio specifico più volte, al fine di massimizzare il profitto in termini di risorse e di imporre il proprio dominio militare;
+	\item Messaggi: comunicazioni effettuate tra i giocatori online. Travian mette a disposizione un sistema di messaggistica interno, che permette a un giocatore di contattarne un secondo; il sistema vanta un avanzato filtro \textit{anti-spam}, bloccando automaticamente i giocatori sospetti.
+	Nel dataset non sono stati inseriti i messagi di broadcast delle alleanze. Questo tipo di meccanismo, utile per contattare tutti i membri di una alleanza e solitamente usato dai vertici dell'alleanza per comunicazioni importanti, sono stati rimossi in quanto a causa della grande cardinalità rischiavano di introdurre \textit{bias} all'interno del grafo.
+	\item Scambi: baratti effettuati tra i giocatori. Una volta costruito il mercato, i giocatori possono commerciare con gli altri giocatori del server. Solitamente, gli scambi avvengono in maniera bidirezionale, con altri beni o con denaro, ma vi è anche la possibilità di effettuare doni.
 \end{itemize}
-I dati analizzati sono stati prelevati da un server veloce, con una durata del gioco di 144 giorni, in una porzione centrale della fase di gioco: questo garantisce una maggiore stabilità delle reti, in quanto fenomeni tipici della fase iniziale (nuovi giocatori che diventano inattivi) e finale (obiettivi secondari) sono meno probabili.
+I dati analizzati sono stati prelevati da un server veloce, con una durata del gioco di 144 giorni, in una porzione centrale della fase di gioco: questo garantisce una maggiore stabilità delle reti, in quanto fenomeni tipici della fase iniziale (nuovi giocatori che diventano inattivi) e finale (raggiungimento di obiettivi secondari e costruzione di meraviglie) sono meno frequenti.
 
 \section{Obiettivi}
 \todo[inline]{tutto}
