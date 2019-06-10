@@ -8,7 +8,8 @@ Demo/__pycache__/
 # images
 *.png
 *.pdf
-!Report/images/*
+!Report/images/*.pdf
+!Report/images/Outliers/*.pdf
 Demo/*.png
 
 # report
