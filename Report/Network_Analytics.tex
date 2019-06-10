@@ -336,6 +336,9 @@ Come affermato nella Sottosezione \ref{subsec:comm_princ}, il server è costitui
 L'andamento decrescente mostrato in Figura \ref{fig:allianceseachday} sembra confermare il trand presente anche nelle Figure \ref{fig:activity_each_day} e \ref{fig:playereachday}, che mostra un progressivo spopolamento del server, con conseguente diminuzione del numero di attività totali eseguite ogni giorno.
 
 Data la presenza ricorrente in questi grafici di un picco negativo al giorno 5, abbiamo deciso di indagare più approfonditamente questo fenomeno, sospettando che un qualche intervento esterno potesse aver alterato il numero di giocatori presenti. Analizzando gli insiemi dei giocatori presenti prima e dopo il quinto giorno, abbiamo rilevato che ben 715 giocatori che erano presenti in almeno uno dei layer della rete nei gironi precedenti al crollo, non hanno compiuto alcun tipo di attività nei successivi 25 giorni. Questo tipo di riscontro sembrerebbe essere compatibile con un evento esterno che abbia rimosso i giocatori (\textit{e.g.}, ban) o che li abbia portati ad andarsene (\textit{e.g.}, apertura di un nuovo server). Sfortunatamente non siamo riusciti a trovare conferme di queste ipotesi, in quanto non siamo riusciti a trovare alcuna prova online che confermasse o smentisse la nostra tesi.
+
+Abbiamo considerato la possibilità di verificare la dinamica di crescita della rete nei 30 giorni, per verificare fenomeni quale la addensamenti della rete e la riduzione del dimetro.
+Ci siamo però resi conto che la rete utilizzata risulta essere puramente incrementale: i vari giorni risultano privi di relazioni con i giorni precedenti. Inoltre, una rappresentazione che aggiunga gli archi al grafo del giorno precedente avrebbe portato ad un incremento costante delle due misure sopracitate, non essendoci possibilità di rimozione dei collegamenti.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.85\linewidth]{images/alliances_each_day}
