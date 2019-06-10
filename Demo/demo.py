@@ -26,6 +26,14 @@ df_messages_activity = pd.read_csv("../Results/Activity/messages_activity.csv")
 df_trades_activity = pd.read_csv("../Results/Activity/trades_activity.csv")
 activities = {'Attacks': df_attacks_activity, 'Messages': df_messages_activity, 'Trades': df_trades_activity}
 
+df_days = pd.read_csv("../Results/Activity/activity_per_hour.csv")
+df_christmas = pd.read_csv("../Results/Christmas/day25_activity_per_hour.csv")
+df_days.columns = df_days.columns.map(lambda x: str(x) + '_days' if x != "hour" else "hour")
+df_christmas.columns = df_christmas.columns.map(lambda x: str(x) + '_christmas' if x != "hour" else "hour")
+df_day_christmas = df_days.merge(df_christmas, how = "outer", on = "hour")
+df_day_christmas.fillna(0)
+
+
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets = external_stylesheets)
@@ -241,6 +249,39 @@ app.layout = html.Div(children = [
                 marks = {str(v): str(v) for v in range(1, 31)}
             )
         ]),
+
+        dcc.Tab(label = "Analysis of Christmas", children = [
+            dcc.Graph(
+                id = 'christmas-activities',
+                figure = {
+                    'data': [
+                        go.Scatter(
+                            x = df_day_christmas["hour"],
+                            y = [x / 30 for x in df_day_christmas[k]] if k == "attacks_days" or k == "messages_days" or k == "trades_days" else df_day_christmas[k],
+                            text = ["h: {}.00".format(h) for h in df_days["hour"]],
+                            mode ='lines+markers',
+                            opacity = 0.7,
+                            marker = {
+                                'color': "red" if k == 'attacks' else "blue" if k == "messages" else "green",
+                                'size': 15,
+                                'line': {'width': 0.5, 'color': "red" if k == 'attacks' else "blue" if k == "messages" else "green"} if k.split('_')[1] == "days" 
+                                        else {'width': 0.5, 'color': "red" if k == 'attacks' else "blue" if k == "messages" else "green"}
+                            },
+                            name = "{} average".format(k.split('_')[0][0].upper()+ k.split('_')[0][1:]) if k.split('_')[1] == "days" 
+                                        else "{} on Christmas".format(k.split('_')[0][0].upper()+ k.split('_')[0][1:])
+                        ) for k in ["attacks_days", "messages_days", "trades_days", "attacks_christmas", "messages_christmas", "trades_christmas"]
+                    ],
+                    'layout': go.Layout(
+                        title = "Players over the days",
+                        font = {'size': 14},
+                        xaxis = {'title': "Day", 'showgrid': True, 'showline': True},
+                        yaxis = {'title': "Number", 'showgrid': True},
+                        margin={'l': 80, 'b': 40, 't': 45, 'r': 10},
+                        legend={'x': 0.95, 'y': 0.95},
+                    )
+                }
+            ),
+        ])
     ])
 ])
 
