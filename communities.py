@@ -93,7 +93,7 @@ if __name__ == "__main__":
 				nodes_alliance[m].append('')
 		for a in alliance_members:
 			if len(alliance_members[a]) != t:
-				alliance_members[a].append('')
+				alliance_members[a].append(set())
 
 	# Now, we have two dictionaries:
 	

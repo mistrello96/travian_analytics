@@ -2,6 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_daq as daq
 from dash.dependencies import Input, Output, State
 import pandas as pd
 import plotly.graph_objs as go
@@ -109,7 +110,6 @@ app.layout = html.Div(children = [
                             id = 'dropdown-day-players',
                             options = [{'label': d, 'value': d} for d in range(1, 31)],
                             value = 1,
-                            #style = {'width': 1250},
                         ),
                     ]),
                     html.Div([
@@ -124,7 +124,6 @@ app.layout = html.Div(children = [
                             id = 'dropdown-day-actions',
                             options = [{'label': d, 'value': d} for d in range(1, 31)],
                             value = 1,
-                            #style = {'width': 1250},
                         ),
                     ]),
                     html.Div([
@@ -134,7 +133,43 @@ app.layout = html.Div(children = [
             ], className = "row")
         ]),
 
-        dcc.Tab(label = 'Centralities jointplot in the aggregate graph', children = [
+
+        dcc.Tab(label = 'Distribution of centralities - Aggregate graph', children = [
+            html.Div([
+                html.Div([
+                    html.Label('Centralities:'),
+                    dcc.RadioItems(
+                        id = 'centrality-histogram-radio',
+                        options = [
+                            {'label': 'attacks received', 'value': 'attacks in-degree'},
+                            {'label': 'attacks performed', 'value': 'attacks out-degree'},
+                            {'label': 'attacks received and performed', 'value': 'attacks edge-count'},
+                            {'label': 'attacks PageRank', 'value': 'attacks PageRank'},
+                            {'label': 'messages received', 'value': 'messages in-degree'},
+                            {'label': 'messages sent', 'value': 'messages out-degree'},
+                            {'label': 'messages received and sent', 'value': 'messages edge-count'},
+                            {'label': 'messages PageRank', 'value': 'messages PageRank'},
+                            {'label': 'messages betweenness', 'value': 'messages betweenness'},
+                            {'label': 'trades received', 'value': 'trades in-degree'},
+                            {'label': 'trades sent', 'value': 'trades out-degree'},
+                            {'label': 'trades received and sent', 'value': 'trades edge-count'},
+                            {'label': 'trades PageRank', 'value': 'trades PageRank'},
+                            {'label': 'trades betweenness', 'value': 'trades betweenness'}
+                        ],
+                        value = 'attacks in-degree'
+                    ),
+                    daq.ToggleSwitch(
+                        id = 'switch-outliers-histogram',
+                        label = ['Turn on to ignore outliers'],
+                        labelPosition = 'top',
+                        value = False
+                    ),
+                ], className = "two columns"),
+                html.Div([dcc.Graph(id = 'histogram-centralities')], className = "two columns"),
+            ], className = "row"),
+        ]),
+
+        dcc.Tab(label = 'Centralities jointplot - Aggregate graph', children = [
             html.Div([
                 html.Div([dcc.Graph(id = 'jointplot-aggregate')], className="six columns"),
                 html.Div([
@@ -323,6 +358,48 @@ def update_pie_activities_actions(day):
     return{
         'data': [trace],
         'layout': {'height': 250, 'margin': {'l': 20, 'b': 30, 'r': 10, 't': 10}}
+    }
+
+@app.callback(
+    Output('histogram-centralities', 'figure'),
+    [Input('centrality-histogram-radio', 'value'),
+     Input('switch-outliers-histogram', 'value')])
+def update_histogram(centrality, outliers):
+    x = centrality.split()
+    df = pd.read_csv("../Results/Aggregate/{}_{}.csv".format(x[0],
+                     'degree' if x[1] == 'in-degree' or x[1] == 'out-degree' or x[1] == 'edge-count' else 'centrality'))
+
+    outliers_lims = {'attacks in-degree': 950,
+                     'attacks out-degree': 3749,
+                     'attacks edge-count': 3803,
+                     'messages in-degree': 693,
+                     'messages out-degree': 1608,
+                     'messages edge-count': 2246,
+                     'trades in-degree': 732,
+                     'trades out-degree': 693,
+                     'trades edge-count': 1392}
+
+    if outliers:
+        df_tmp = pd.read_csv("../Results/Aggregate/{}_degree.csv".format(x[0]))
+        outliers_nodes = df_tmp[df_tmp["in-degree"] > outliers_lims["{} in-degree".format(x[0])]]["node"]
+        df.drop(df[df["node"].isin(outliers_nodes)].index, inplace = True)         
+        outliers_nodes = df_tmp[df_tmp["out-degree"] > outliers_lims["{} out-degree".format(x[0])]]["node"]
+        df.drop(df[df["node"].isin(outliers_nodes)].index, inplace = True)         
+        outliers_nodes = df_tmp[df_tmp["edge-count"] > outliers_lims["{} edge-count".format(x[0])]]["node"]
+        df.drop(df[df["node"].isin(outliers_nodes)].index, inplace = True)         
+    trace = go.Histogram(x = df[x[1]], histnorm = 'probability', opacity = 0.7,
+                         marker = dict(color = 'red' if x[0] == 'attacks' else 'blue' if x[0] == 'messages' else 'green'))
+    xtitle = "{} {}".format(x[0][0].upper() + x[0][1:], x[1][0].upper() + x[1][1:])
+    
+    return {
+        'data': [trace],
+        'layout': go.Layout(
+            autosize = False,
+            width = 1550,
+            height = 600,
+            xaxis = {'title': xtitle},
+            yaxis = {"type": "log", 'title': "Probability"},
+            margin = {'l': 80, 'b': 40, 't': 10, 'r': 10},)
     }
 
 @app.callback(
