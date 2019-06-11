@@ -8,4 +8,9 @@ G = nx.read_graphml(file)
 # print some aggregate measures
 print("Density " + str(nx.density(G)))
 print("Reciprocity " + str(nx.overall_reciprocity(G)))
-print("Mean neighbor degree " + str(np.mean(list(nx.average_neighbor_degree(G, weight= "weight").values()))))
+
+deg = G.out_degree()
+res = 0
+for n in G.nodes:
+	res += deg[n]
+print("Mean number of neighbor" + str(res / len(G.nodes)))
