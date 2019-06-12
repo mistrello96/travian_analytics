@@ -203,6 +203,25 @@ In ultima battuta, abbiamo analizzato quali fossero gli orari dove si concentras
 	\label{fig:activity_layers}
 \end{figure}
 
+\subsection{Analisi delle Attività nel giorno di Natale}
+Abbiamo deciso di analizzare il livello di attività nel server ora per ora durante il giorno di Natale; tale analisi ha lo scopo di valutare se durante un giorno festivo le attività sarebbero rimaste uguali, intensificate (dato che la maggioranza dei giocatori si trovava sicuramente a casa e libera da impegni lavorativi) oppure diminuite a causa di pranzi e festeggiamenti con i familiari.
+Come mostrato in Figura \ref{fig:christmas_total}, notiamo che vi è un numero nettamente minore di attività durante la giornata.
+Possiamo inoltre apprezzare che i due picchi di attività sono corrispondenti alla mattina e nel pomeriggio tardo (16. 19), ovvero quando, ragionevolmente, i giocatori non erano impegnati in festeggiamente e quindi potevano giocare; nonostante ciò, anche in quegli orari l'attività totale è nettamente inferiore rispetto alla media.\\
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/christmas_total}
+	\caption{In figura è rappresentato il numero di attività medio durante le ore (linea continua) ed il numero totale di attività presenti durante il giorno di Natale all'ora corrispettiva (linea tratteggiata).}
+	\label{fig:christmas_total}
+\end{figure}
+Indagando in maniera più approfondita su quali attività siano state effettuate nelle signole ore rispetto alla media, evidenziamo che i giocatori diano generalmente una preferenza ad effettuare attacchi a discapito di scambi e messaggi i quali sono nettamente in un numero inferiore, come mostrato in Figura \ref{fig:christmas}.
+Possiamo anche supporre che il picco di messaggi sia dato dal fatto che i giocatori avendo più a tempo a disposizione durante quella fase giornaliera, abbiano investito del tempo rispondendo ai vari messaggi (tra cui probabilmente quelli di auguri).\\
+Possiamo concludere che nel giorno di Natale il server abbia sperimentato un momento di “riposo”, questo ha permesso di notare come i giocatori, avendo meno tempo da dedicare al gioco, preferiscano concentrarsi sugli attacchi poiché sono l'azione più remunerativa del gioco, tralasciando ancora di più in secondo piano gli scambi e rispondendo ai messaggi solo quando hanno più tempo da dedicare alla piattaforma.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/christmas}
+	\caption{In figura è rappresentato il numero medio di ogni attività (linee continua) ed il corrispettivo numero nel giorno di Natale (linee tratteggiata).}
+	\label{fig:christmas}
+\end{figure}
 
 \section{Ricerca di comportamenti sospetti}
 Travian sostiene di aver implementato nel suo strumento di chat un metodo per impedire lo spam di messaggi verso altri utenti: se viene rilevato un grande numero di messaggi in uscita in un intervallo di tempo ristretto, il sistema blocca l'accesso del giocatore alla chat per periodi crescenti, fino ad un ban permanente.\\
