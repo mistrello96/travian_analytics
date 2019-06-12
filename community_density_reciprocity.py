@@ -1,7 +1,6 @@
 from alliances.alliance_members import alliance_members
 import pandas as pd
 import sys
-from os import walk
 import networkx as nx
 from MG_to_SG_function import MG_to_SG
 import re
@@ -58,5 +57,5 @@ for time in range (0, 30):
 				# count +1 of community with 0 density
 				counter_density += 1
 	zeros.loc[len(zeros)] = [time+1, counter_density / counter_community]
-	res.to_csv(save_path + "/{}_community_density_reciprocity".format(edge_type) + str(time + 1) + ".csv", index=False)
-zeros.to_csv(save_path + "/{}_zeroes_percentage.csv".format(edge_type), index=False)
+	res.to_csv(save_path + "/{}_community_density_reciprocity".format(edge_type) + str(time + 1) + ".csv", index = False)
+zeros.to_csv(save_path + "/{}_zeroes_percentage.csv".format(edge_type), index = False)

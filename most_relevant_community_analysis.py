@@ -1,6 +1,5 @@
 from alliances.alliance_members import alliance_members
 import sys
-from os import walk
 import networkx as nx
 from MG_to_SG_function import MG_to_SG
 import pandas as pd
@@ -66,7 +65,7 @@ for day in range(0,30):
 	for node in community_members:
 		# save the info
 		node_measure.loc[len(node_measure)] = [node, indegree[node], outdegree[node], edgecount[node], closeness[node], betweenness[node], pagerank[node]]
-		# store the info fot the mean and std measures
+		# store the info of the mean and std measures
 		ncov[node]["indegree"].append(indegree[node])
 		ncov[node]["outdegree"].append(outdegree[node])
 		ncov[node]["edgecount"].append(edgecount[node])

@@ -17,5 +17,5 @@ data = list()
 for n in G.nodes:
 	data.append([n, in_degree[n], out_degree[n], edge_count[n]])
 
-df = pd.DataFrame(data, columns=['node', 'in-degree', 'out-degree', 'edge-count'])
+df = pd.DataFrame(data, columns = ['node', 'in-degree', 'out-degree', 'edge-count'])
 df.to_csv("degree.csv", index = False)

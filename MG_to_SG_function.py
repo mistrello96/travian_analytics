@@ -13,7 +13,7 @@ def MG_to_SG (M):
 	# iterate over edges
 	# this can trow an exception if type attribute is not present
 	try:
-		for u,v,data in M.edges(data=True):
+		for u,v,data in M.edges(data = True):
 			# create attribute weight if not present
 		    w = data['weight'] if 'weight' in data else 1.0
 		    # copy the edge type
@@ -23,14 +23,14 @@ def MG_to_SG (M):
 		    if G.has_edge(u,v):
 		        G[u][v]['weight'] += w
 		    else:
-		        G.add_edge(u, v, weight=w, type = t)
+		        G.add_edge(u, v, weight = w, type = t)
 	except:
-		for u,v,data in M.edges(data=True):
+		for u,v,data in M.edges(data = True):
 			# create attribute weight if not present
 		    w = data['weight'] if 'weight' in data else 1.0
 		    # accumulate the weights if present
 		    if G.has_edge(u,v):
 		        G[u][v]['weight'] += w
 		    else:
-		        G.add_edge(u, v, weight=w)
+		        G.add_edge(u, v, weight = w)
 	return G

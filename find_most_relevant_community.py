@@ -1,5 +1,4 @@
 import numpy as np 
-# import alliance dictionary
 from alliances.alliance_members import alliance_members
 
 # create a dictionary

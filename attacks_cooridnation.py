@@ -1,10 +1,7 @@
 from alliances.alliance_members import alliance_members
 import sys
-from os import walk
 import networkx as nx
 from MG_to_SG_function import MG_to_SG
-import matplotlib.patches as mpatch
-import matplotlib.pyplot as plt
 
 path = sys.argv[1]
 
@@ -15,7 +12,7 @@ print("Most attacked node, number of attackers")
 for day in range(0,30):
 	# extract the comminity nodes of that day
 	community_members = community_members_over_time[day]
-	M = nx.read_graphml(path + "attacks-timestamped-2009-12-" + str(day+1) + ".graphml")
+	M = nx.read_graphml(path + "attacks-timestamped-2009-12-" + str(day + 1) + ".graphml")
 	# pass to a graph
 	G = MG_to_SG(M)
 	attack_edges = set()
@@ -26,7 +23,7 @@ for day in range(0,30):
 			if G.has_edge(cn, n):
 				attack_edges.add((cn, n))
 				active_community_members.add(cn)
-	# induce a subgraph of the attackers-attacked ndes
+	# induce a subgraph of the attackers-attacked nodes
 	tmp = G.edge_subgraph(attack_edges)
 	# create a copy (otherwise G cannot be modified)
 	SG = nx.DiGraph(tmp)

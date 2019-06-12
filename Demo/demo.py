@@ -8,7 +8,6 @@ import pandas as pd
 import plotly.graph_objs as go
 
 from wordcloud import WordCloud
-import matplotlib.pyplot as plt
 from alliance_members import alliance_members
 
 import base64
@@ -33,6 +32,14 @@ df_christmas.columns = df_christmas.columns.map(lambda x: str(x) + '_christmas' 
 df_day_christmas = df_days.merge(df_christmas, how = "outer", on = "hour")
 df_day_christmas.fillna(0)
 
+christmas_colors = {
+    "attacks_days": "#7e2b19",
+    "messages_days": "#0c0f71",
+    "trades_days": "#094906",
+    "attacks_christmas": "red",
+    "messages_christmas": "blue",
+    "trades_christmas": "green"
+}
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -257,16 +264,16 @@ app.layout = html.Div(children = [
                     'data': [
                         go.Scatter(
                             x = df_day_christmas["hour"],
-                            y = [x / 30 for x in df_day_christmas[k]] if k == "attacks_days" or k == "messages_days" or k == "trades_days" else df_day_christmas[k],
+                            y = [round(x / 30, 2) for x in df_day_christmas[k]] if k == "attacks_days" or k == "messages_days" or k == "trades_days" else df_day_christmas[k],
                             text = ["h: {}.00".format(h) for h in df_days["hour"]],
                             mode ='lines+markers',
                             opacity = 0.7,
                             marker = {
-                                'color': "red" if k == 'attacks' else "blue" if k == "messages" else "green",
+                                'color': christmas_colors[k],
                                 'size': 15,
-                                'line': {'width': 0.5, 'color': "red" if k == 'attacks' else "blue" if k == "messages" else "green"} if k.split('_')[1] == "days" 
-                                        else {'width': 0.5, 'color': "red" if k == 'attacks' else "blue" if k == "messages" else "green"}
+                                'line': {'width': 0.5}
                             },
+                            line = {'dash': 'dash'} if k.split('_')[1] == 'christmas' else None,
                             name = "{} average".format(k.split('_')[0][0].upper()+ k.split('_')[0][1:]) if k.split('_')[1] == "days" 
                                         else "{} on Christmas".format(k.split('_')[0][0].upper()+ k.split('_')[0][1:])
                         ) for k in ["attacks_days", "messages_days", "trades_days", "attacks_christmas", "messages_christmas", "trades_christmas"]
@@ -281,6 +288,17 @@ app.layout = html.Div(children = [
                     )
                 }
             ),
+            html.Div([
+                html.Label('Select a hour to see the respective distribution of actvities:'),
+                dcc.Dropdown(
+                    id = 'dropdown-christmas-hour',
+                    options = [{'label': d, 'value': d} for d in range(0, 24)],
+                    value = 0,
+                ),
+            ]),
+            html.Div([
+                dcc.Graph(id = 'pie-christmas-hour')
+            ]),
         ])
     ])
 ])
@@ -482,6 +500,23 @@ def update_relevant_communities_graph(alliances_of_interest):
             margin={'l': 80, 'b': 40, 't': 45, 'r': 10},
             legend={'x': 0.95, 'y': 0.95},
         )
+    }
+
+@app.callback(
+    Output('pie-christmas-hour', 'figure'),
+    [Input('dropdown-christmas-hour', 'value')])
+def update_pie_activities_actions(hour):
+    labels = []
+    values = []
+    for activity in ["attacks", "messages", "trades"]:
+        labels.append(activity)
+        values.append(df_day_christmas["{}_christmas".format(activity)][hour])
+    colors = ['red', 'blue', 'green']
+    trace = go.Pie(labels = labels, values = values, hoverinfo = 'label+percent',
+                   textinfo = 'value', textfont = dict(size = 20), marker = dict(colors = colors, line = dict(color = '#000000', width = 2)))
+    return{
+        'data': [trace],
+        'layout': {'height': 250, 'margin': {'l': 20, 'b': 30, 'r': 10, 't': 10}}
     }
 
 if __name__ == '__main__':

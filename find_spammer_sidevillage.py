@@ -66,7 +66,7 @@ for n in possible_spammer_side:
 			spammer_side.add(n)
 
 # save info of the spammer_side in a csv
-# NOTE: not all of the founfd node are going to be guilty. Still need a human check
+# NOTE: not all of the found nodes are going to be guilty. Still need a human check
 for n in spammer_side:
 	if n in MG_messages.nodes:
 		if n in MG_trades.nodes:

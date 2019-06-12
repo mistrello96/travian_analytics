@@ -1,9 +1,6 @@
 import sys
 import networkx as nx
-from os import walk
-import networkx as nx
 from datetime import datetime
-from itertools import groupby
 from collections import Counter
 import pandas as pd
 
@@ -71,4 +68,4 @@ count_all = Counter([item for sublist in [res_att, res_mes, res_tra] for item in
 for x in range (0, 24):
 	output.loc[len(output)] = [x, count_attacks[x], count_messages[x], count_trades[x], count_all[x]]
 
-output.to_csv("day" + treshold + "_activity_per_hour.csv", index=False)
+output.to_csv("day" + treshold + "_activity_per_hour.csv", index = False)

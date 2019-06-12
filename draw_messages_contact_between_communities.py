@@ -1,5 +1,4 @@
-### see comments of draw_communities.py
-
+# look at comments of draw_communities.py, please
 import networkx as nx
 import sys
 import pandas as pd
@@ -119,7 +118,7 @@ for n in nodelist:
 
 plt.figure(figsize = (9, 7), dpi = 500)
 plt.title("Messages between different communities", fontsize = 30)
-nx.draw_kamada_kawai(SG, arrowsize=2, arrowstyle= mpatch.ArrowStyle("-|>", head_length=1, head_width=1), with_labels=False, node_size=50, nodelist = nodelist, node_color = colorlist, edgelist=list(es))
+nx.draw_kamada_kawai(SG, arrowsize = 2, arrowstyle = mpatch.ArrowStyle("-|>", head_length = 1, head_width = 1), with_labels = False, node_size = 50, nodelist = nodelist, node_color = colorlist, edgelist = list(es))
 plt.tight_layout()
-plt.savefig("communities_contact.png", dpi=500)
-plt.savefig("communities_contact.pdf", dpi=500)
+plt.savefig("communities_contact.png", dpi = 500)
+plt.savefig("communities_contact.pdf", dpi = 500)
