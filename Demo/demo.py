@@ -216,6 +216,7 @@ app.layout = html.Div(children = [
                     html.Label('Outliers to not be considered:'),
                     dcc.Checklist(
                         id = 'outliers',
+                        value = [],
                         options=[
                             {'label': 'attacks received', 'value': 'attacks in-degree'},
                             {'label': 'attacks performed', 'value': 'attacks out-degree'},
@@ -223,8 +224,7 @@ app.layout = html.Div(children = [
                             {'label': 'messages sent', 'value': 'messages out-degree'},
                             {'label': 'trades received', 'value': 'trades in-degree'},
                             {'label': 'trades sent', 'value': 'trades out-degree'}
-                        ],
-                        values = []
+                        ]
                     ),
                     html.Button('Select all', id = 'select-all-outliers')
                 ], className = "six columns"),
@@ -307,7 +307,7 @@ app.layout = html.Div(children = [
     Output('jointplot-aggregate', 'figure'),
     [Input('agg-x', 'value'),
      Input('agg-y', 'value'),
-     Input('outliers', 'values')])
+     Input('outliers', 'value')])
 def update_aggregate_joinplot(x, y, outliers):
     x = x.split()
     y = y.split()
@@ -451,10 +451,10 @@ def update_histogram(centrality, outliers):
     }
 
 @app.callback(
-    Output('outliers', 'values'),
+    Output('outliers', 'value'),
     [Input('select-all-outliers', 'n_clicks')],
     [State('outliers', 'options'),
-     State('outliers', 'values')])
+     State('outliers', 'value')])
 def select_all_outliers(n_clicks, options, values):
     if n_clicks != None:
         return [i['value'] for i in options]
